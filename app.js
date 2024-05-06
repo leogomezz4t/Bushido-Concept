@@ -39,9 +39,9 @@ function draw() {
 
 // Scene setups
 function setupTestScene(scene) { // within preload
-  const anim = new SpriteAnimation("run", "bushido\\idle_anim_with_sword", 125, game);
-  const go = new GameObject(100, 100, 150, 150, anim);
-  scene.addGameObject(go);
+  const player = new Player(100, 100, 200, 200, 10, "bushido", game);
+  scene.addGameObject(player);
+  console.log("Yurrr")
 }
 
 

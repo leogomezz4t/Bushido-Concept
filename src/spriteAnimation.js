@@ -5,8 +5,7 @@ class SpriteAnimation {
     * @param delay: the millisecond delay between frames
     * @param 
     */
-    constructor(id, framesPath, delay, game) {
-      this.id = id;
+    constructor(framesPath, delay, game) {
       this.framesPath = framesPath;
       this.delay = delay;
       this.game = game;
