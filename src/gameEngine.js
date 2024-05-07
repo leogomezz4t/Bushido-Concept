@@ -27,6 +27,7 @@ class GameEngine {
   // Scene methods
 
   addScene(scene) {
+    scene.game = this;
     this.scenes.push(scene);
   }
 

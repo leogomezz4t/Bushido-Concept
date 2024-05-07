@@ -4,3 +4,5 @@ const KBM_CONTROLS = {
     UP: 38,
     DOWN: 40
 }
+
+const SHOW_HITBOXES = true;

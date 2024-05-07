@@ -1,9 +1,12 @@
 class Player extends GameObject {
-    constructor (x, y, width, height, maxHitpoints, playerType, game) {
+    constructor (x, y, width, height, maxHitpoints, playerType, hitbox) {
         super(x, y, width, height);
         // Health variables
         this.maxHitpoints = maxHitpoints;
         this.hitpoints = maxHitpoints;
+
+        // Hitbox variables
+        this.hitbox = hitbox;
         
         // movement variables
         this.speed = 1;
@@ -19,6 +22,11 @@ class Player extends GameObject {
     }
 
     update() { // p5.js func
+        // Colliding
+        for (const go of this.scene.gameObjects) {
+            console.log(this.hitbox.colliding(go.hitbox));
+        } 
+        
         // Animation logic
         this.currentAnim.update();
         // initialize move deltas

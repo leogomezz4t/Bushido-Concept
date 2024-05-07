@@ -5,12 +5,9 @@ const game = new GameEngine();
 // Assets
 
 // SCENE SETUP || BEFORE PRELOAD
-const testScene = new Scene();
+const testScene = new Scene(game);
 setupTestScene(testScene);
 
-game.addScene(
-  testScene
-);
 // end test scene
 game.currentSceneIndex = 0;
 
@@ -39,7 +36,10 @@ function draw() {
 
 // Scene setups
 function setupTestScene(scene) { // within preload
-  const player = new Player(100, 100, 200, 200, 10, "bushido", game);
+  const hitbox = new Hitbox(175, 150, 40, 85);
+  const player = new Player(100, 100, 200, 200, 10, "bushido", hitbox);
+  const enemy = new GameObject(30, 100, 50, 50);
+  scene.addGameObject(enemy)
   scene.addGameObject(player);
   console.log("Yurrr")
 }
