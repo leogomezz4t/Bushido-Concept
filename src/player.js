@@ -6,7 +6,7 @@ class Player extends GameObject {
         this.hitpoints = maxHitpoints;
 
         // Hitbox variables
-        this.hitbox = hitbox;
+        this.hitbox = new Hitbox(85, 50, 20, 80, this);
         
         // movement variables
         this.speed = 1;
@@ -19,16 +19,51 @@ class Player extends GameObject {
 
         // Animation variables
         this.currentAnim = new SpriteAnimation(`${this.playerType}\\run_anim_without_sword`, 75, game);
+        // Orientation variables
+        this._orientation = LEFT_ORIENTATION;
+    }
+    get orientation() {
+        return this._orientation;
     }
 
+    set orientation(x) {
+        this._orientation = x;
+        this.currentAnim.orientation = x;
+    }
+
+    touchingGameObject() {
+        for (const go of this.scene.gameObjects) {
+            if (go === this) {
+                continue;
+            }
+            if (this.hitbox.colliding(go.hitbox)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
     update() { // p5.js func
         // Colliding
-        for (const go of this.scene.gameObjects) {
-            console.log(this.hitbox.colliding(go.hitbox));
+         
+        // flipping orientation logic
+        if (keyIsDown(KBM_CONTROLS.LEFT)) {
+            this.orientation = LEFT_ORIENTATION;
         } 
-        
+        if (keyIsDown(KBM_CONTROLS.RIGHT)) {
+            this.orientation = RIGHT_ORIENTATION;
+        }   
         // Animation logic
         this.currentAnim.update();
+        // movement logic
+        this.movement();
+        
+    }
+
+    flip() {
+        this.orientation *= -1;
+    }
+    movement() {
         // initialize move deltas
         let deltaX = 0;
         let deltaY = 0;
@@ -43,12 +78,18 @@ class Player extends GameObject {
         if (keyIsDown(KBM_CONTROLS.UP)) {
             deltaY -= 1;
         }
+        if (keyIsDown(KBM_CONTROLS.DOWN)) {
+            deltaY += 1;
+        }
 
-        // Move
+        // Move  
         this.x += deltaX * deltaTime * this.speed;
         this.y += deltaY * deltaTime;
+        if (this.touchingGameObject()) {
+            this.x -= deltaX * deltaTime * this.speed;
+            this.y -= deltaY * deltaTime;
+        }
     }
-
     draw() {
         this.currentAnim.drawAnimation(this.x, this.y, this.width, this.height);
     }

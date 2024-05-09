@@ -9,7 +9,7 @@ class GameObject {
       // Scene reference will be assigned on addGameObject
       this.scene = null;
       // default hitbox
-      this.hitbox = new Hitbox(x, y, width, height); 
+      this.hitbox = new Hitbox(0, 0, width, height, this); 
     }
     colliding(go) {
       return (

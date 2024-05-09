@@ -18,6 +18,8 @@ class SpriteAnimation {
   
       // Add reference to required images in GameEngine
       this.game.requireAnimation(framesPath);
+      // Orientation variables
+      this.orientation = LEFT_ORIENTATION;
     }
   
     // Image related methods
@@ -43,7 +45,15 @@ class SpriteAnimation {
     }
   
     drawAnimation(x, y, width, height) { // P5.js function
-      image(this.currentFrame, x, y, width, height);
+      if (this.orientation === LEFT_ORIENTATION) { // Reverse the image
+        push();
+        translate(CANVAS_WIDTH, 0);
+        scale(-1, 1);
+        image(this.currentFrame, x, y, width, height);
+        pop();
+      } else {
+        image(this.currentFrame, x, y, width, height);
+      }
     }
   
     // logic related methods

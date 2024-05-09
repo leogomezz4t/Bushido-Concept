@@ -20,7 +20,7 @@ function preload() {
 
 function setup() {
   console.log("setup")
-  let sketch = createCanvas(300, 300);
+  let sketch = createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
   sketch.parent("mycanvas");
 
   // Game setup
@@ -35,9 +35,8 @@ function draw() {
 }//end draw
 
 // Scene setups
-function setupTestScene(scene) { // within preload
-  const hitbox = new Hitbox(175, 150, 40, 85);
-  const player = new Player(100, 100, 200, 200, 10, "bushido", hitbox);
+function setupTestScene(scene) { // within preload 
+  const player = new Player(100, 100, 200, 200, 10, "bushido");
   const enemy = new GameObject(30, 100, 50, 50);
   scene.addGameObject(enemy)
   scene.addGameObject(player);
