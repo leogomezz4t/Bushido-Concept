@@ -6,10 +6,10 @@ class Player extends GameObject {
         this.hitpoints = maxHitpoints;
 
         // Hitbox variables
-        this.hitbox = new Hitbox(85, 50, 20, 80, this);
+        this.hitbox = new Hitbox(-15, -50, 20, 80, this);
         
         // movement variables
-        this.speed = 1;
+        this.speed = 0.5;
 
         // player type logic and variables
         this.playerType = playerType;
@@ -87,7 +87,7 @@ class Player extends GameObject {
         this.y += deltaY * deltaTime;
         if (this.touchingGameObject()) {
             this.x -= deltaX * deltaTime * this.speed;
-            this.y -= deltaY * deltaTime;
+            this.y -= deltaY * deltaTime * this.speed;
         }
     }
     draw() {

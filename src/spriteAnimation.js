@@ -45,14 +45,25 @@ class SpriteAnimation {
     }
   
     drawAnimation(x, y, width, height) { // P5.js function
+      // Image mode call
+      imageMode(CENTER);
       if (this.orientation === LEFT_ORIENTATION) { // Reverse the image
         push();
         translate(CANVAS_WIDTH, 0);
-        scale(-1, 1);
-        image(this.currentFrame, x, y, width, height);
+        scale(-1, 1); 
+        image(this.currentFrame, CANVAS_WIDTH-x, y, width, height);
+        //draw origin
+        if (SHOW_ORIGINS) {
+          fill('blue');
+          circle(CANVAS_WIDTH-x, y, 5);
+        }
         pop();
-      } else {
+      } else { 
         image(this.currentFrame, x, y, width, height);
+        if (SHOW_ORIGINS) {
+          fill('blue');
+          circle(x, y, 5);
+        }
       }
     }
   
