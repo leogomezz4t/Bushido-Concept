@@ -51,7 +51,7 @@ class GameEngine {
       for (const img of this.requiredImages) {
         this.loadedImages[img] = loadImage(img);
       }
-
+      console.table(this.loadedImages)
       // DEBUGGING
       console.log("IMAGES AND JSON LOADED...");
     });

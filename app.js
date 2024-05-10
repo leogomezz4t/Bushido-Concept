@@ -37,8 +37,8 @@ function draw() {
 // Scene setups
 function setupTestScene(scene) { // within preload 
   const player = new Player(100, 100, 200, 200, 10, "bushido");
-  const enemy = new GameObject(30, 100, 50, 50);
-  scene.addGameObject(enemy)
+  const floor = new GameObject(0, CANVAS_HEIGHT-50, CANVAS_WIDTH, 50);
+  scene.addGameObject(floor)
   scene.addGameObject(player);
   console.log("Yurrr")
 }

@@ -8,7 +8,7 @@ class Hitbox {
     }
 
     get x() {
-        if (this.parentObject.orientation == LEFT_ORIENTATION) {
+        if (this.parentObject.orientation === LEFT_ORIENTATION) {
             return this.parentObject.x - this.xOffset - this.width;
         } else {
             return this.parentObject.x + this.xOffset;

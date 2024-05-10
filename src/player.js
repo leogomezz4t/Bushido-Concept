@@ -10,6 +10,7 @@ class Player extends GameObject {
         
         // movement variables
         this.speed = 0.5;
+        this.allowNoClipping = false;
 
         // player type logic and variables
         this.playerType = playerType;
@@ -44,6 +45,8 @@ class Player extends GameObject {
         return false;
     }
     update() { // p5.js func
+        // Default clipping
+        this.allowNoClipping = false;
         // Colliding
          
         // flipping orientation logic
@@ -55,6 +58,8 @@ class Player extends GameObject {
         }   
         // Animation logic
         this.currentAnim.update();
+        // Fix no clipping
+        this.fixClipping();
         // movement logic
         this.movement();
         
@@ -63,6 +68,20 @@ class Player extends GameObject {
     flip() {
         this.orientation *= -1;
     }
+
+    fixClipping() {
+        // Check if inside object
+        if (this.touchingGameObject()) {
+            this.allowNoClipping = true;
+        }
+    }
+
+    jump() {
+        if (this.touchingGameObject() || true) {
+            this.y -= 10;
+        }
+    }
+
     movement() {
         // initialize move deltas
         let deltaX = 0;
@@ -76,18 +95,26 @@ class Player extends GameObject {
             deltaX += 1;
         }
         if (keyIsDown(KBM_CONTROLS.UP)) {
-            deltaY -= 1;
+            this.jump();
         }
         if (keyIsDown(KBM_CONTROLS.DOWN)) {
             deltaY += 1;
         }
 
+        let horizontalChange = deltaX * deltaTime * this.speed;
+        let verticalChange = deltaY * deltaTime * this.speed + GRAVITY_DELTA;
+
         // Move  
-        this.x += deltaX * deltaTime * this.speed;
-        this.y += deltaY * deltaTime;
-        if (this.touchingGameObject()) {
-            this.x -= deltaX * deltaTime * this.speed;
-            this.y -= deltaY * deltaTime * this.speed;
+        if (deltaX !== 0) {
+            this.x += horizontalChange;
+            if (this.touchingGameObject() && !this.allowNoClipping) {
+                this.x -= horizontalChange;
+            }
+        }
+
+        this.y += verticalChange;
+        if (this.touchingGameObject() && !this.allowNoClipping) {
+            this.y -= verticalChange;
         }
     }
     draw() {
