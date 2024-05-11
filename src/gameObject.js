@@ -29,7 +29,7 @@ class GameObject {
           // Reset the game object
           this.x -= deltaX;
           this.y -= deltaY;
-          return go;
+          return true;
         }
       }
       // Reset the game object

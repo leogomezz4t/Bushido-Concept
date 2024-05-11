@@ -38,7 +38,11 @@ class Player extends GameObject {
     }
 
     touchingFloor() {
-        return this.boxCast(0, 1);
+        if (this.deltaY === 0) {
+            return this.boxCast(0, GRAVITY_DELTA);
+        } else {
+            return this.boxCast(0, this.deltaY);
+        }
     }
 
     overlappingGameObject() {
@@ -90,6 +94,7 @@ class Player extends GameObject {
     }   
 
     movement() {
+        console.log(`Touching floor: ${this.touchingFloor()}`)
         // Reset delta
         this.deltaX = 0;
         if (this.touchingFloor()) {
