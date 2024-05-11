@@ -12,14 +12,31 @@ class GameObject {
       this.hitbox = new Hitbox(0, 0, width, height, this); 
     }
     colliding(go) {
-      return (
-        this.x + this.width > go.x
-        && this.x < go.x + go.width
-        && this.y + this.height > go.y
-        && this.y < go.y + go.height
-      )
+      return this.hitbox.colliding(go.hitbox);
     }
 
+    boxCast(deltaX, deltaY) {
+      // modify the game object
+      this.x += deltaX;
+      this.y += deltaY;
+      // test for overlap
+      for (const go of this.scene.gameObjects) {
+        if (this === go) {
+          continue;
+        }
+
+        if (this.colliding(go)) {
+          // Reset the game object
+          this.x -= deltaX;
+          this.y -= deltaY;
+          return go;
+        }
+      }
+      // Reset the game object
+      this.x -= deltaX;
+      this.y -= deltaY;
+      return false;
+    }
     setup() {
   
     }

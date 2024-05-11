@@ -14,4 +14,4 @@ const RIGHT_ORIENTATION = 1;
 const CANVAS_WIDTH = 600;
 const CANVAS_HEIGHT = 300;
 // Gravity
-const GRAVITY_DELTA = 3;
+const GRAVITY_DELTA = 1;

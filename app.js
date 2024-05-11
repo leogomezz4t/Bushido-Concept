@@ -29,9 +29,16 @@ function setup() {
 
 function draw() {
   background(200, 150, 80);
+  // Set frame rate
+  frameRate(60);
   // Run game
   game.loopPrelude();
   game.drawCurrentScene();
+  // HUD
+  fill("black")
+  strokeWeight(0.5);
+  stroke("black")
+  text(`FPS: ${frameRate().toFixed(2)}`, 10, 15);
 }//end draw
 
 // Scene setups

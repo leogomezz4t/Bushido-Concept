@@ -9,8 +9,13 @@ class Player extends GameObject {
         this.hitbox = new Hitbox(-15, -50, 20, 80, this);
         
         // movement variables
+        this.deltaX = 0;
+        this.deltaY = 0;
         this.speed = 0.5;
         this.allowNoClipping = false;
+
+        // Jumping variables
+        this.jumpForce = 15;
 
         // player type logic and variables
         this.playerType = playerType;
@@ -32,7 +37,11 @@ class Player extends GameObject {
         this.currentAnim.orientation = x;
     }
 
-    touchingGameObject() {
+    touchingFloor() {
+        return this.boxCast(0, 1);
+    }
+
+    overlappingGameObject() {
         for (const go of this.scene.gameObjects) {
             if (go === this) {
                 continue;
@@ -71,50 +80,61 @@ class Player extends GameObject {
 
     fixClipping() {
         // Check if inside object
-        if (this.touchingGameObject()) {
+        if (this.overlappingGameObject()) {
             this.allowNoClipping = true;
         }
     }
 
     jump() {
-        if (this.touchingGameObject() || true) {
-            this.y -= 10;
-        }
-    }
+        this.deltaY = -this.jumpForce;
+    }   
 
     movement() {
+        // Reset delta
+        this.deltaX = 0;
+        if (this.touchingFloor()) {
+            this.deltaY = 0;
+        }
+
         // initialize move deltas
-        let deltaX = 0;
-        let deltaY = 0;
+        let keyDeltaX = 0;
+        let keyDeltaY = 0;
 
         // Listen for player input
         if (keyIsDown(KBM_CONTROLS.LEFT)) {
-            deltaX -= 1;
+            keyDeltaX -= 1;
         }
         if (keyIsDown(KBM_CONTROLS.RIGHT)) {
-            deltaX += 1;
+            keyDeltaX += 1;
         }
-        if (keyIsDown(KBM_CONTROLS.UP)) {
-            this.jump();
+        if (keyIsDown(KBM_CONTROLS.UP)) { // Jump
+            keyDeltaY -= 1; 
         }
         if (keyIsDown(KBM_CONTROLS.DOWN)) {
-            deltaY += 1;
+            keyDeltaY += 1;
         }
 
-        let horizontalChange = deltaX * deltaTime * this.speed;
-        let verticalChange = deltaY * deltaTime * this.speed + GRAVITY_DELTA;
-
-        // Move  
-        if (deltaX !== 0) {
-            this.x += horizontalChange;
-            if (this.touchingGameObject() && !this.allowNoClipping) {
-                this.x -= horizontalChange;
+        let horizontalChange = keyDeltaX * deltaTime * this.speed;
+        
+        // gravity
+        if (!this.touchingFloor()) {
+            this.deltaY += GRAVITY_DELTA;
+        } else { // Jump
+            if (keyDeltaY == -1) {
+                this.jump();
             }
         }
+        // Move  
+        if (!this.overlappingGameObject()) {
+            this.deltaX += horizontalChange;
+        }
 
-        this.y += verticalChange;
-        if (this.touchingGameObject() && !this.allowNoClipping) {
-            this.y -= verticalChange;
+        // Apply
+        if (!this.boxCast(this.deltaX, 0)) {
+            this.x += this.deltaX;
+        }
+        if (!this.boxCast(0, this.deltaY)) {
+            this.y += this.deltaY;
         }
     }
     draw() {
