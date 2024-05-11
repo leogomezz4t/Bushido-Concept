@@ -10,12 +10,17 @@ class GameEngine {
     this.requiredImages = new Set();
     this.requiredAnimations = new Set();
     this.loadedImages = {};
+
+    // instantiate animations
+    this.animations = {} // will be instantiated in preload
   }
 
   // Image loading methods
   requireImages(animationPath) {
-    for (const imgPath of this.animationPaths[animationPath]) {
-      this.requiredImages.add(imgPath);
+    const [sprite, animation] = animationPath.split("\\");
+    for (const ani in this.animationPaths[sprite]) {
+      for (const img in this.animationPaths[sprite][ani])
+        this.requiredImages.add(this.animationPaths[sprite][ani][img]);
     } 
   }
 
@@ -42,6 +47,14 @@ class GameEngine {
     loadJSON("data/animationPaths.json", ap => {
       this.animationPaths = ap;
 
+      // Instantiate all sprite animations
+      for (const sprite in this.animationPaths) {
+        this.animations[sprite] = {}
+        for (const animation in this.animationPaths[sprite]) {
+          this.animations[sprite][animation] = new SpriteAnimation(`${sprite}\\${animation}`, this);
+        }
+      }
+
       // Require all images from the animations
       for (const anim of this.requiredAnimations) {
         this.requireImages(anim);
@@ -51,7 +64,6 @@ class GameEngine {
       for (const img of this.requiredImages) {
         this.loadedImages[img] = loadImage(img);
       }
-      console.table(this.loadedImages)
       // DEBUGGING
       console.log("IMAGES AND JSON LOADED...");
     });

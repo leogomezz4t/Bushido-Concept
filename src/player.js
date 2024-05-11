@@ -1,6 +1,8 @@
 class Player extends GameObject {
-    constructor (x, y, width, height, maxHitpoints, playerType, hitbox) {
-        super(x, y, width, height);
+    constructor (x, y, maxHitpoints, playerType) {
+        const playerWidth = 200;
+        const playerHeight = 200;
+        super(x, y, playerWidth, playerHeight);
         // Health variables
         this.maxHitpoints = maxHitpoints;
         this.hitpoints = maxHitpoints;
@@ -24,7 +26,7 @@ class Player extends GameObject {
         }
 
         // Animation variables
-        this.currentAnim = new SpriteAnimation(`${this.playerType}\\run_anim_without_sword`, 75, game);
+        this.currentAnim = this.game.animations[this.playerType]["idle_anim_without_sword"];
         // Orientation variables
         this._orientation = LEFT_ORIENTATION;
     }

@@ -15,3 +15,5 @@ const CANVAS_WIDTH = 600;
 const CANVAS_HEIGHT = 300;
 // Gravity
 const GRAVITY_DELTA = 1;
+// Animation
+const FRAME_DELAY = 75;

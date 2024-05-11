@@ -13,11 +13,11 @@ sprites = os.listdir(dirpath)
 for s in sprites:
     spritepath = os.path.join(basepath, s)
     animations = os.listdir(spritepath)
+    d[s] = {}
     for a in animations:
         animationpath = os.path.join(spritepath, a)
-        key = os.path.join(s, a)
         frames = os.listdir(animationpath)
-        d[key] = []
+        d[s][a] = []
         for f in frames:
             if f.startswith('.'):
                 continue
@@ -27,7 +27,7 @@ for s in sprites:
                 continue
             
             framespath = os.path.join(animationpath, f)
-            d[key].append(framespath)
+            d[s][a].append(framespath)
             
 
 json_string = json.dumps(d, indent=4)

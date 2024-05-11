@@ -1,13 +1,11 @@
 class SpriteAnimation {
     /*
-    * @param id: a unique string that labels the animation
     * @param framesPath: filepath identifier for the animation directory
-    * @param delay: the millisecond delay between frames
-    * @param 
+    * @param game: GameEngine Instance
     */
-    constructor(framesPath, delay, game) {
+    constructor(framesPath, game) {
       this.framesPath = framesPath;
-      this.delay = delay;
+      [this.spritePath, this.aniPath] = this.framesPath.split("\\"); 
       this.game = game;
   
       // animation drawing properties
@@ -24,7 +22,7 @@ class SpriteAnimation {
   
     // Image related methods
     get imagePaths() {
-      return this.game.animationPaths[this.framesPath];
+      return this.game.animationPaths[this.spritePath][this.aniPath];
     }
   
     get loadedImages() {
@@ -69,7 +67,7 @@ class SpriteAnimation {
     // logic related methods
     update() { // P5.js function
       // delay timing logic starts
-      if (this.deltaFrameChange >= this.delay) {
+      if (this.deltaFrameChange >= FRAME_DELAY) {
         // Move to the next frame and reset delta frame change
         this.nextFrame();
         this.deltaFrameChange = 0;
