@@ -6,6 +6,9 @@ class GameEngine {
     // image paths
     this.animationPaths = {};
 
+    // animation variables
+    this.animationDelays = {};
+
     // image loading references
     this.requiredImages = new Set();
     this.requiredAnimations = new Set();
@@ -17,7 +20,7 @@ class GameEngine {
 
   // Image loading methods
   requireImages(animationPath) {
-    const [sprite, animation] = animationPath.split("\\");
+    const [sprite, animation] = animationPath.split("/");
     for (const ani in this.animationPaths[sprite]) {
       for (const img in this.animationPaths[sprite][ani])
         this.requiredImages.add(this.animationPaths[sprite][ani][img]);
@@ -44,14 +47,17 @@ class GameEngine {
   // P5 js required functions
 
   preload() { // in a p5js function
-    loadJSON("data/animationPaths.json", ap => {
-      this.animationPaths = ap;
+    this.animationDelays = loadJSON("data/animationDelays.json", () => {
+      console.log("animation delays loaded");
+      console.log(this.animationDelays)
+    });
 
+    this.animationPaths = loadJSON("data/animationPaths.json", () => {
       // Instantiate all sprite animations
       for (const sprite in this.animationPaths) {
         this.animations[sprite] = {}
         for (const animation in this.animationPaths[sprite]) {
-          this.animations[sprite][animation] = new SpriteAnimation(`${sprite}\\${animation}`, this);
+          this.animations[sprite][animation] = new SpriteAnimation(`${sprite}/${animation}`, this);
         }
       }
 
@@ -66,6 +72,7 @@ class GameEngine {
       }
       // DEBUGGING
       console.log("IMAGES AND JSON LOADED...");
+      console.log(this.animations);
     });
   }
 

@@ -28,9 +28,11 @@ class Scene {
         go.draw();
       }
       // draw hitboxes
-      if (SHOW_HITBOXES) {
-        for (const go of this.gameObjects) {
-          go.hitbox.drawHitbox();
+      if ((SHOW_OVERLAPPING_HITBOXES || SHOW_COLLIDING_HITBOXES) || SHOW_HITBOXES) {
+        for (const go of this.gameObjects) {  
+          for (const hb of go.hitboxes) {
+            hb.drawHitbox();
+          }
         }
       }
     }

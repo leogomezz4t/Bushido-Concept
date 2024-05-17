@@ -7,7 +7,7 @@ dirpath = "./artwork/sprites/"
 
 d = {}
 
-basepath = "artwork\\sprites\\"
+basepath = "artwork/sprites/"
 sprites = os.listdir(dirpath)
 
 for s in sprites:

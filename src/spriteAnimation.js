@@ -5,7 +5,7 @@ class SpriteAnimation {
     */
     constructor(framesPath, game) {
       this.framesPath = framesPath;
-      [this.spritePath, this.aniPath] = this.framesPath.split("\\"); 
+      [this.spritePath, this.aniPath] = this.framesPath.split("/"); 
       this.game = game;
   
       // animation drawing properties
@@ -18,8 +18,13 @@ class SpriteAnimation {
       this.game.requireAnimation(framesPath);
       // Orientation variables
       this.orientation = LEFT_ORIENTATION;
+      // callbacks
+      this.onLastFrame = () => {};
     }
-  
+    // Delay related methods
+    get frameDelay() {
+      return this.game.animationDelays[this.spritePath][this.aniPath]
+    }
     // Image related methods
     get imagePaths() {
       return this.game.animationPaths[this.spritePath][this.aniPath];
@@ -32,6 +37,7 @@ class SpriteAnimation {
     // display related methods
     nextFrame() {
       if (this.currentFrameIndex >= this.imagePaths.length-1) {
+        this.onLastFrame();
         this.currentFrameIndex = 0;
       } else {
         this.currentFrameIndex++;
@@ -65,9 +71,12 @@ class SpriteAnimation {
     }
   
     // logic related methods
-    update() { // P5.js function
+    update(orientation) { // P5.js function
+      // Set orientation
+      this.orientation = orientation;
       // delay timing logic starts
-      if (this.deltaFrameChange >= FRAME_DELAY) {
+      console.log(this.frameDelay)
+      if (this.deltaFrameChange >= this.frameDelay) {
         // Move to the next frame and reset delta frame change
         this.nextFrame();
         this.deltaFrameChange = 0;

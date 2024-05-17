@@ -1,64 +1,47 @@
 class Player extends GameObject {
-    constructor (x, y, maxHitpoints, playerType) {
-        const playerWidth = 200;
-        const playerHeight = 200;
-        super(x, y, playerWidth, playerHeight);
+    constructor (x, y, maxHitpoints) {
+        // Call parent constructor
+        super(x, y, PLAYER_WIDTH, PLAYER_HEIGHT, false);
         // Health variables
         this.maxHitpoints = maxHitpoints;
         this.hitpoints = maxHitpoints;
 
         // Hitbox variables
-        this.hitbox = new Hitbox(-15, -50, 20, 80, this);
+        this.hitboxes.push(
+            new Hitbox(-13, 50, 30, 80, OVERLAPPING_TYPE, this)
+        );
+        this.hitboxes.push(
+            new Hitbox(-20, 50, 40, 85, COLLIDING_TYPE, this)
+        );
         
         // movement variables
-        this.deltaX = 0;
-        this.deltaY = 0;
         this.speed = 0.5;
         this.allowNoClipping = false;
 
+        // attacking variables
+        this.isAttacking = false;
+
         // Jumping variables
         this.jumpForce = 15;
-
-        // player type logic and variables
-        this.playerType = playerType;
-        if (playerType != "bushido") {
-            console.error("Skin hat oil player type not implemented!");
-        }
+        this.isJumping = false;
 
         // Animation variables
-        this.currentAnim = this.game.animations[this.playerType]["idle_anim_without_sword"];
+        this.currentAnimName = "IDLE"; 
         // Orientation variables
-        this._orientation = LEFT_ORIENTATION;
+        this.orientation = RIGHT_ORIENTATION;
     }
-    get orientation() {
-        return this._orientation;
+    // Animation getters
+    get currentAnimation() {
+        return this.game.animations["samurai_1"][this.currentAnimName];
     }
+    // Animation ends
 
-    set orientation(x) {
-        this._orientation = x;
-        this.currentAnim.orientation = x;
-    }
 
-    touchingFloor() {
-        if (this.deltaY === 0) {
-            return this.boxCast(0, GRAVITY_DELTA);
-        } else {
-            return this.boxCast(0, this.deltaY);
-        }
-    }
 
     overlappingGameObject() {
-        for (const go of this.scene.gameObjects) {
-            if (go === this) {
-                continue;
-            }
-            if (this.hitbox.colliding(go.hitbox)) {
-                return true;
-            }
-        }
-
-        return false;
+ 
     }
+    
     update() { // p5.js func
         // Default clipping
         this.allowNoClipping = false;
@@ -71,18 +54,36 @@ class Player extends GameObject {
         if (keyIsDown(KBM_CONTROLS.RIGHT)) {
             this.orientation = RIGHT_ORIENTATION;
         }   
+        // Attacking logic
+        if (keyIsDown(KBM_CONTROLS.SIDE_ATTACK)) {
+            this.attack();
+        }
         // Animation logic
-        this.currentAnim.update();
+        this.currentAnimation.update(this.orientation);
+        this.determineAnimation();
+        
         // Fix no clipping
         this.fixClipping();
         // movement logic
-        this.movement();
-        
+        this.movement();  
+        // jumping logic
+        if (this.touchingFloor()) {
+            this.isJumping = false;
+        }
     }
 
-    flip() {
-        this.orientation *= -1;
+    determineAnimation() {
+        if (this.isAttacking) {
+            // Dont use any other animations
+        } else if (this.isJumping) {
+            // dont use any other animations
+        } else if (this.deltaX !== 0) { // am moving left or right
+            this.currentAnimName = "RUN";
+        } else {
+            this.currentAnimName = "IDLE";
+        }
     }
+    
 
     fixClipping() {
         // Check if inside object
@@ -93,15 +94,25 @@ class Player extends GameObject {
 
     jump() {
         this.deltaY = -this.jumpForce;
+        this.isJumping = true;
+        this.currentAnimName = "JUMP"
+    }   
+
+    attack() {
+        console.log(this.isAttacking)
+        if (this.isAttacking) { // Don't attack twice
+            return;
+        }
+
+        this.isAttacking = true;
+        this.currentAnimName = "ATTACK_1";
+        this.currentAnimation.onLastFrame = () => {
+            this.isAttacking = false;
+        }
     }   
 
     movement() {
-        console.log(`Touching floor: ${this.touchingFloor()}`)
-        // Reset delta
-        this.deltaX = 0;
-        if (this.touchingFloor()) {
-            this.deltaY = 0;
-        }
+        //console.log(`Touching floor: ${this.touchingFloor()}`)
 
         // initialize move deltas
         let keyDeltaX = 0;
@@ -124,27 +135,15 @@ class Player extends GameObject {
         let horizontalChange = keyDeltaX * deltaTime * this.speed;
         
         // gravity
-        if (!this.touchingFloor()) {
-            this.deltaY += GRAVITY_DELTA;
-        } else { // Jump
-            if (keyDeltaY == -1) {
-                this.jump();
-            }
-        }
-        // Move  
-        if (!this.overlappingGameObject()) {
-            this.deltaX += horizontalChange;
+        if (keyDeltaY == -1 && this.touchingFloor()) {
+            this.jump();
         }
 
-        // Apply
-        if (!this.boxCast(this.deltaX, 0)) {
-            this.x += this.deltaX;
-        }
-        if (!this.boxCast(0, this.deltaY)) {
-            this.y += this.deltaY;
-        }
+        // Move
+        this.move(horizontalChange, 0);
     }
+
     draw() {
-        this.currentAnim.drawAnimation(this.x, this.y, this.width, this.height);
+        this.currentAnimation.drawAnimation(this.x, this.y, this.width, this.height);
     }
 }
