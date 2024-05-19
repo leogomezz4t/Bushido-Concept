@@ -3,7 +3,10 @@ const KBM_CONTROLS = {
     RIGHT: 39,
     UP: 38,
     DOWN: 40,
-    SIDE_ATTACK: 83
+    A_ATTACK: 65,
+    S_ATTACK: 83,
+    D_ATTACK: 68,
+    DEFEND: 87
 }
 // Player values
 const PLAYER_WIDTH = 300;
@@ -23,7 +26,7 @@ const CANVAS_HEIGHT = 300;
 // Gravity
 const GRAVITY_DELTA = 1;
 // Animation
-const FRAME_DELAY = 120;
+const FRAME_DELAY = 100;
 // Hitboxes
 const COLLIDING_TYPE = 0;
 const OVERLAPPING_TYPE = 1;

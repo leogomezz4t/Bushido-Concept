@@ -91,9 +91,7 @@ class GameObject {
             this.deltaY += GRAVITY_DELTA;
       }
       // Move  
-      if (!this.overlappingGameObject()) {
-          this.deltaX += horizontalChange;
-      }
+      this.deltaX += horizontalChange;
 
       // Apply
       if (!this.boxCast(this.deltaX, 0)) {

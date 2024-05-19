@@ -1,8 +1,4 @@
 {
     "samurai_1": {
-        "IDLE": 130,
-        "ATTACK_1": 100,
-        "JUMP": 100,
-        "RUN": 100
     }
 }

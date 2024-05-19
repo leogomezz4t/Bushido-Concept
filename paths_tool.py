@@ -17,6 +17,7 @@ for s in sprites:
     for a in animations:
         animationpath = os.path.join(spritepath, a)
         frames = os.listdir(animationpath)
+        frames.sort()
         d[s][a] = []
         for f in frames:
             if f.startswith('.'):

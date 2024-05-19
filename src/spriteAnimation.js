@@ -10,6 +10,7 @@ class SpriteAnimation {
   
       // animation drawing properties
       this.currentFrameIndex = 0;
+      this.frozen = false;
   
       // delay counting properties
       this.deltaFrameChange = 0;
@@ -23,7 +24,12 @@ class SpriteAnimation {
     }
     // Delay related methods
     get frameDelay() {
-      return this.game.animationDelays[this.spritePath][this.aniPath]
+      const savedDelay = this.game.animationDelays[this.spritePath][this.aniPath];
+      if (typeof savedDelay === 'undefined') {
+        return FRAME_DELAY;
+      } else {
+        return savedDelay;
+      }
     }
     // Image related methods
     get imagePaths() {
@@ -74,8 +80,11 @@ class SpriteAnimation {
     update(orientation) { // P5.js function
       // Set orientation
       this.orientation = orientation;
+      // If frozen do not update
+      if (this.frozen) {
+        return;
+      }
       // delay timing logic starts
-      console.log(this.frameDelay)
       if (this.deltaFrameChange >= this.frameDelay) {
         // Move to the next frame and reset delta frame change
         this.nextFrame();

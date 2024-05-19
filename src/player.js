@@ -20,9 +20,10 @@ class Player extends GameObject {
 
         // attacking variables
         this.isAttacking = false;
+        this.isDefending = false;
 
         // Jumping variables
-        this.jumpForce = 15;
+        this.jumpForce = 10;
         this.isJumping = false;
 
         // Animation variables
@@ -38,9 +39,6 @@ class Player extends GameObject {
 
 
 
-    overlappingGameObject() {
- 
-    }
     
     update() { // p5.js func
         // Default clipping
@@ -54,29 +52,24 @@ class Player extends GameObject {
         if (keyIsDown(KBM_CONTROLS.RIGHT)) {
             this.orientation = RIGHT_ORIENTATION;
         }   
-        // Attacking logic
-        if (keyIsDown(KBM_CONTROLS.SIDE_ATTACK)) {
-            this.attack();
-        }
         // Animation logic
         this.currentAnimation.update(this.orientation);
         this.determineAnimation();
-        
+        // Attacking logic
+        this.attackingLogic();
         // Fix no clipping
         this.fixClipping();
         // movement logic
         this.movement();  
-        // jumping logic
-        if (this.touchingFloor()) {
-            this.isJumping = false;
-        }
     }
 
     determineAnimation() {
-        if (this.isAttacking) {
+        if (this.isDefending) {
+            // Place holder
+        } else if (this.isAttacking) {
             // Dont use any other animations
         } else if (this.isJumping) {
-            // dont use any other animations
+            // place holder
         } else if (this.deltaX !== 0) { // am moving left or right
             this.currentAnimName = "RUN";
         } else {
@@ -87,7 +80,7 @@ class Player extends GameObject {
 
     fixClipping() {
         // Check if inside object
-        if (this.overlappingGameObject()) {
+        if (false) {
             this.allowNoClipping = true;
         }
     }
@@ -95,26 +88,53 @@ class Player extends GameObject {
     jump() {
         this.deltaY = -this.jumpForce;
         this.isJumping = true;
-        this.currentAnimName = "JUMP"
+        this.currentAnimName = "JUMP";
     }   
-
-    attack() {
-        console.log(this.isAttacking)
+    // start attacking methods
+    attack(attackType) {
         if (this.isAttacking) { // Don't attack twice
             return;
         }
 
         this.isAttacking = true;
-        this.currentAnimName = "ATTACK_1";
+        this.currentAnimName = attackType;
         this.currentAnimation.onLastFrame = () => {
             this.isAttacking = false;
         }
-    }   
+    }
 
-    movement() {
-        //console.log(`Touching floor: ${this.touchingFloor()}`)
+    defend() {
+        if (this.isDefending) { // Don't do it twice
+            return;
+        }
 
-        // initialize move deltas
+        this.isDefending = true;
+        this.currentAnimName = "DEFEND";
+        this.currentAnimation.onLastFrame = () => {
+            this.isDefending = false;
+        }
+    }  
+
+    attackingLogic() {
+        // dont initiate anything if already in the middle
+        if (this.isAttacking || this.isDefending) {
+            return;
+        }
+
+        if (keyIsDown(KBM_CONTROLS.A_ATTACK)) {
+            this.attack("ATTACK_1");
+        } else if (keyIsDown(KBM_CONTROLS.S_ATTACK)) {
+            this.attack("ATTACK_2");
+        } else if (keyIsDown(KBM_CONTROLS.D_ATTACK)) {
+            this.attack("ATTACK_3");
+        } else if (keyIsDown(KBM_CONTROLS.DEFEND)) {
+            this.defend();
+        }
+    }
+    // End attacking methods
+    // Start movment logic
+    movementListening() {
+       // initialize move deltas
         let keyDeltaX = 0;
         let keyDeltaY = 0;
 
@@ -125,24 +145,21 @@ class Player extends GameObject {
         if (keyIsDown(KBM_CONTROLS.RIGHT)) {
             keyDeltaX += 1;
         }
-        if (keyIsDown(KBM_CONTROLS.UP)) { // Jump
-            keyDeltaY -= 1; 
-        }
-        if (keyIsDown(KBM_CONTROLS.DOWN)) {
-            keyDeltaY += 1;
-        }
 
-        let horizontalChange = keyDeltaX * deltaTime * this.speed;
-        
-        // gravity
-        if (keyDeltaY == -1 && this.touchingFloor()) {
-            this.jump();
-        }
-
-        // Move
-        this.move(horizontalChange, 0);
+        return [keyDeltaX, keyDeltaY];
     }
 
+    movement() {
+        //console.log(`Touching floor: ${this.touchingFloor()}`)
+        const [keyDeltaX, keyDeltaY] = this.movementListening();
+        let horizontalChange = keyDeltaX * deltaTime * this.speed;
+
+        // Move
+        if (!this.isAttacking && !this.isDefending) { // dont be able to move while attacking
+            this.move(horizontalChange, 0);
+        }
+    }
+    // end movement logic
     draw() {
         this.currentAnimation.drawAnimation(this.x, this.y, this.width, this.height);
     }

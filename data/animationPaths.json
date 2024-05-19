@@ -1,106 +1,106 @@
 {
     "samurai_1": {
         "SPECIAL_ATTACK": [
+            "artwork/sprites/samurai_1/SPECIAL_ATTACK/tile000.png",
+            "artwork/sprites/samurai_1/SPECIAL_ATTACK/tile001.png",
+            "artwork/sprites/samurai_1/SPECIAL_ATTACK/tile002.png",
+            "artwork/sprites/samurai_1/SPECIAL_ATTACK/tile003.png",
+            "artwork/sprites/samurai_1/SPECIAL_ATTACK/tile004.png",
+            "artwork/sprites/samurai_1/SPECIAL_ATTACK/tile005.png",
+            "artwork/sprites/samurai_1/SPECIAL_ATTACK/tile006.png",
+            "artwork/sprites/samurai_1/SPECIAL_ATTACK/tile007.png",
+            "artwork/sprites/samurai_1/SPECIAL_ATTACK/tile008.png",
             "artwork/sprites/samurai_1/SPECIAL_ATTACK/tile009.png",
+            "artwork/sprites/samurai_1/SPECIAL_ATTACK/tile010.png",
             "artwork/sprites/samurai_1/SPECIAL_ATTACK/tile011.png",
             "artwork/sprites/samurai_1/SPECIAL_ATTACK/tile012.png",
-            "artwork/sprites/samurai_1/SPECIAL_ATTACK/tile003.png",
-            "artwork/sprites/samurai_1/SPECIAL_ATTACK/tile001.png",
-            "artwork/sprites/samurai_1/SPECIAL_ATTACK/tile010.png",
-            "artwork/sprites/samurai_1/SPECIAL_ATTACK/tile008.png",
-            "artwork/sprites/samurai_1/SPECIAL_ATTACK/tile002.png",
-            "artwork/sprites/samurai_1/SPECIAL_ATTACK/tile007.png",
-            "artwork/sprites/samurai_1/SPECIAL_ATTACK/tile005.png",
-            "artwork/sprites/samurai_1/SPECIAL_ATTACK/tile013.png",
-            "artwork/sprites/samurai_1/SPECIAL_ATTACK/tile004.png",
-            "artwork/sprites/samurai_1/SPECIAL_ATTACK/tile000.png",
-            "artwork/sprites/samurai_1/SPECIAL_ATTACK/tile006.png"
+            "artwork/sprites/samurai_1/SPECIAL_ATTACK/tile013.png"
         ],
         "DEFEND": [
-            "artwork/sprites/samurai_1/DEFEND/tile003.png",
+            "artwork/sprites/samurai_1/DEFEND/tile000.png",
             "artwork/sprites/samurai_1/DEFEND/tile001.png",
             "artwork/sprites/samurai_1/DEFEND/tile002.png",
-            "artwork/sprites/samurai_1/DEFEND/tile005.png",
+            "artwork/sprites/samurai_1/DEFEND/tile003.png",
             "artwork/sprites/samurai_1/DEFEND/tile004.png",
-            "artwork/sprites/samurai_1/DEFEND/tile000.png"
+            "artwork/sprites/samurai_1/DEFEND/tile005.png"
         ],
         "RUN": [
-            "artwork/sprites/samurai_1/RUN/tile003.png",
+            "artwork/sprites/samurai_1/RUN/tile000.png",
             "artwork/sprites/samurai_1/RUN/tile001.png",
             "artwork/sprites/samurai_1/RUN/tile002.png",
-            "artwork/sprites/samurai_1/RUN/tile007.png",
-            "artwork/sprites/samurai_1/RUN/tile005.png",
+            "artwork/sprites/samurai_1/RUN/tile003.png",
             "artwork/sprites/samurai_1/RUN/tile004.png",
-            "artwork/sprites/samurai_1/RUN/tile000.png",
-            "artwork/sprites/samurai_1/RUN/tile006.png"
+            "artwork/sprites/samurai_1/RUN/tile005.png",
+            "artwork/sprites/samurai_1/RUN/tile006.png",
+            "artwork/sprites/samurai_1/RUN/tile007.png"
         ],
         "HURT": [
+            "artwork/sprites/samurai_1/HURT/tile000.png",
             "artwork/sprites/samurai_1/HURT/tile001.png",
-            "artwork/sprites/samurai_1/HURT/tile002.png",
-            "artwork/sprites/samurai_1/HURT/tile000.png"
+            "artwork/sprites/samurai_1/HURT/tile002.png"
         ],
         "ATTACK_1": [
-            "artwork/sprites/samurai_1/ATTACK_1/tile003.png",
+            "artwork/sprites/samurai_1/ATTACK_1/tile000.png",
             "artwork/sprites/samurai_1/ATTACK_1/tile001.png",
             "artwork/sprites/samurai_1/ATTACK_1/tile002.png",
-            "artwork/sprites/samurai_1/ATTACK_1/tile004.png",
-            "artwork/sprites/samurai_1/ATTACK_1/tile000.png"
+            "artwork/sprites/samurai_1/ATTACK_1/tile003.png",
+            "artwork/sprites/samurai_1/ATTACK_1/tile004.png"
         ],
         "DASH": [
-            "artwork/sprites/samurai_1/DASH/tile003.png",
+            "artwork/sprites/samurai_1/DASH/tile000.png",
             "artwork/sprites/samurai_1/DASH/tile001.png",
             "artwork/sprites/samurai_1/DASH/tile002.png",
-            "artwork/sprites/samurai_1/DASH/tile007.png",
-            "artwork/sprites/samurai_1/DASH/tile005.png",
+            "artwork/sprites/samurai_1/DASH/tile003.png",
             "artwork/sprites/samurai_1/DASH/tile004.png",
-            "artwork/sprites/samurai_1/DASH/tile000.png",
-            "artwork/sprites/samurai_1/DASH/tile006.png"
+            "artwork/sprites/samurai_1/DASH/tile005.png",
+            "artwork/sprites/samurai_1/DASH/tile006.png",
+            "artwork/sprites/samurai_1/DASH/tile007.png"
         ],
         "ATTACK_3": [
-            "artwork/sprites/samurai_1/ATTACK_3/tile003.png",
+            "artwork/sprites/samurai_1/ATTACK_3/tile000.png",
             "artwork/sprites/samurai_1/ATTACK_3/tile001.png",
             "artwork/sprites/samurai_1/ATTACK_3/tile002.png",
-            "artwork/sprites/samurai_1/ATTACK_3/tile004.png",
-            "artwork/sprites/samurai_1/ATTACK_3/tile000.png"
+            "artwork/sprites/samurai_1/ATTACK_3/tile003.png",
+            "artwork/sprites/samurai_1/ATTACK_3/tile004.png"
         ],
         "DEATH": [
-            "artwork/sprites/samurai_1/DEATH/tile009.png",
-            "artwork/sprites/samurai_1/DEATH/tile003.png",
-            "artwork/sprites/samurai_1/DEATH/tile001.png",
-            "artwork/sprites/samurai_1/DEATH/tile008.png",
-            "artwork/sprites/samurai_1/DEATH/tile002.png",
-            "artwork/sprites/samurai_1/DEATH/tile007.png",
-            "artwork/sprites/samurai_1/DEATH/tile005.png",
-            "artwork/sprites/samurai_1/DEATH/tile004.png",
             "artwork/sprites/samurai_1/DEATH/tile000.png",
-            "artwork/sprites/samurai_1/DEATH/tile006.png"
+            "artwork/sprites/samurai_1/DEATH/tile001.png",
+            "artwork/sprites/samurai_1/DEATH/tile002.png",
+            "artwork/sprites/samurai_1/DEATH/tile003.png",
+            "artwork/sprites/samurai_1/DEATH/tile004.png",
+            "artwork/sprites/samurai_1/DEATH/tile005.png",
+            "artwork/sprites/samurai_1/DEATH/tile006.png",
+            "artwork/sprites/samurai_1/DEATH/tile007.png",
+            "artwork/sprites/samurai_1/DEATH/tile008.png",
+            "artwork/sprites/samurai_1/DEATH/tile009.png"
         ],
         "IDLE": [
-            "artwork/sprites/samurai_1/IDLE/tile003.png",
+            "artwork/sprites/samurai_1/IDLE/tile000.png",
             "artwork/sprites/samurai_1/IDLE/tile001.png",
             "artwork/sprites/samurai_1/IDLE/tile002.png",
-            "artwork/sprites/samurai_1/IDLE/tile004.png",
-            "artwork/sprites/samurai_1/IDLE/tile000.png"
+            "artwork/sprites/samurai_1/IDLE/tile003.png",
+            "artwork/sprites/samurai_1/IDLE/tile004.png"
         ],
         "ATTACK_2": [
-            "artwork/sprites/samurai_1/ATTACK_2/tile003.png",
+            "artwork/sprites/samurai_1/ATTACK_2/tile000.png",
             "artwork/sprites/samurai_1/ATTACK_2/tile001.png",
             "artwork/sprites/samurai_1/ATTACK_2/tile002.png",
-            "artwork/sprites/samurai_1/ATTACK_2/tile004.png",
-            "artwork/sprites/samurai_1/ATTACK_2/tile000.png"
+            "artwork/sprites/samurai_1/ATTACK_2/tile003.png",
+            "artwork/sprites/samurai_1/ATTACK_2/tile004.png"
         ],
         "JUMP": [
+            "artwork/sprites/samurai_1/JUMP/tile000.png",
             "artwork/sprites/samurai_1/JUMP/tile001.png",
-            "artwork/sprites/samurai_1/JUMP/tile002.png",
-            "artwork/sprites/samurai_1/JUMP/tile000.png"
+            "artwork/sprites/samurai_1/JUMP/tile002.png"
         ],
         "THROW": [
-            "artwork/sprites/samurai_1/THROW/tile003.png",
+            "artwork/sprites/samurai_1/THROW/tile000.png",
             "artwork/sprites/samurai_1/THROW/tile001.png",
             "artwork/sprites/samurai_1/THROW/tile002.png",
-            "artwork/sprites/samurai_1/THROW/tile005.png",
+            "artwork/sprites/samurai_1/THROW/tile003.png",
             "artwork/sprites/samurai_1/THROW/tile004.png",
-            "artwork/sprites/samurai_1/THROW/tile000.png",
+            "artwork/sprites/samurai_1/THROW/tile005.png",
             "artwork/sprites/samurai_1/THROW/tile006.png"
         ]
     },
@@ -110,46 +110,46 @@
             "artwork/sprites/bushido/defend_horizontal_anim/defending_horizontal_animation2.png"
         ],
         "jump_anim_without_sword": [
-            "artwork/sprites/bushido/jump_anim_without_sword/Jump_animation6.png",
-            "artwork/sprites/bushido/jump_anim_without_sword/Jump_animation9.png",
-            "artwork/sprites/bushido/jump_anim_without_sword/Jump_animation5.png",
+            "artwork/sprites/bushido/jump_anim_without_sword/Jump_animation1.png",
+            "artwork/sprites/bushido/jump_anim_without_sword/Jump_animation2.png",
             "artwork/sprites/bushido/jump_anim_without_sword/Jump_animation3.png",
             "artwork/sprites/bushido/jump_anim_without_sword/Jump_animation4.png",
+            "artwork/sprites/bushido/jump_anim_without_sword/Jump_animation5.png",
+            "artwork/sprites/bushido/jump_anim_without_sword/Jump_animation6.png",
             "artwork/sprites/bushido/jump_anim_without_sword/Jump_animation7.png",
-            "artwork/sprites/bushido/jump_anim_without_sword/Jump_animation2.png",
-            "artwork/sprites/bushido/jump_anim_without_sword/Jump_animation1.png",
-            "artwork/sprites/bushido/jump_anim_without_sword/Jump_animation8.png"
+            "artwork/sprites/bushido/jump_anim_without_sword/Jump_animation8.png",
+            "artwork/sprites/bushido/jump_anim_without_sword/Jump_animation9.png"
         ],
         "up_slash_attack": [
-            "artwork/sprites/bushido/up_slash_attack/up_slash_animation3.png",
-            "artwork/sprites/bushido/up_slash_attack/up_slash_animation6.png",
-            "artwork/sprites/bushido/up_slash_attack/up_slash_animation5.png",
-            "artwork/sprites/bushido/up_slash_attack/up_slash_animation2.png",
-            "artwork/sprites/bushido/up_slash_attack/up_slash_animation7.png",
             "artwork/sprites/bushido/up_slash_attack/up_slash_animation1.png",
-            "artwork/sprites/bushido/up_slash_attack/up_slash_animation4.png"
+            "artwork/sprites/bushido/up_slash_attack/up_slash_animation2.png",
+            "artwork/sprites/bushido/up_slash_attack/up_slash_animation3.png",
+            "artwork/sprites/bushido/up_slash_attack/up_slash_animation4.png",
+            "artwork/sprites/bushido/up_slash_attack/up_slash_animation5.png",
+            "artwork/sprites/bushido/up_slash_attack/up_slash_animation6.png",
+            "artwork/sprites/bushido/up_slash_attack/up_slash_animation7.png"
         ],
         "roll_anim": [
             "artwork/sprites/bushido/roll_anim/roll_animation1.png",
-            "artwork/sprites/bushido/roll_anim/roll_animation5.png",
-            "artwork/sprites/bushido/roll_anim/roll_animation6.png",
             "artwork/sprites/bushido/roll_anim/roll_animation2.png",
             "artwork/sprites/bushido/roll_anim/roll_animation3.png",
-            "artwork/sprites/bushido/roll_anim/roll_animation4.png"
+            "artwork/sprites/bushido/roll_anim/roll_animation4.png",
+            "artwork/sprites/bushido/roll_anim/roll_animation5.png",
+            "artwork/sprites/bushido/roll_anim/roll_animation6.png"
         ],
         "side_slash_attack": [
-            "artwork/sprites/bushido/side_slash_attack/side_attack_animation5.png",
-            "artwork/sprites/bushido/side_slash_attack/side_attack_animation4.png",
-            "artwork/sprites/bushido/side_slash_attack/side_attack_animation3.png",
             "artwork/sprites/bushido/side_slash_attack/side_attack_animation1.png",
             "artwork/sprites/bushido/side_slash_attack/side_attack_animation2.png",
+            "artwork/sprites/bushido/side_slash_attack/side_attack_animation3.png",
+            "artwork/sprites/bushido/side_slash_attack/side_attack_animation4.png",
+            "artwork/sprites/bushido/side_slash_attack/side_attack_animation5.png",
             "artwork/sprites/bushido/side_slash_attack/side_attack_animation6.png"
         ],
         "die_anim": [
-            "artwork/sprites/bushido/die_anim/die_animation4.png",
-            "artwork/sprites/bushido/die_anim/die_animation2.png",
             "artwork/sprites/bushido/die_anim/die_animation1.png",
-            "artwork/sprites/bushido/die_anim/die_animation3.png"
+            "artwork/sprites/bushido/die_anim/die_animation2.png",
+            "artwork/sprites/bushido/die_anim/die_animation3.png",
+            "artwork/sprites/bushido/die_anim/die_animation4.png"
         ],
         "idle_anim_without_sword": [
             "artwork/sprites/bushido/idle_anim_without_sword/idle_animation1.png",
@@ -166,98 +166,98 @@
             "artwork/sprites/bushido/idle_anim_with_sword/idle_animation3.png"
         ],
         "take_hit_anim_without_sword": [
-            "artwork/sprites/bushido/take_hit_anim_without_sword/taking_hit_animation2.png",
-            "artwork/sprites/bushido/take_hit_anim_without_sword/taking_hit_animation1.png"
+            "artwork/sprites/bushido/take_hit_anim_without_sword/taking_hit_animation1.png",
+            "artwork/sprites/bushido/take_hit_anim_without_sword/taking_hit_animation2.png"
         ],
         "crouch_anim_without_sword": [
-            "artwork/sprites/bushido/crouch_anim_without_sword/crouch_animation2.png",
-            "artwork/sprites/bushido/crouch_anim_without_sword/crouch_animation1.png"
+            "artwork/sprites/bushido/crouch_anim_without_sword/crouch_animation1.png",
+            "artwork/sprites/bushido/crouch_anim_without_sword/crouch_animation2.png"
         ],
         "deflect_horizontal_anim_without_effects": [
-            "artwork/sprites/bushido/deflect_horizontal_anim_without_effects/deflect_horizontal_animation2.png",
-            "artwork/sprites/bushido/deflect_horizontal_anim_without_effects/deflect_horizontal_animation4.png",
-            "artwork/sprites/bushido/deflect_horizontal_anim_without_effects/deflect_horizontal_animation6.png",
             "artwork/sprites/bushido/deflect_horizontal_anim_without_effects/deflect_horizontal_animation1.png",
+            "artwork/sprites/bushido/deflect_horizontal_anim_without_effects/deflect_horizontal_animation2.png",
+            "artwork/sprites/bushido/deflect_horizontal_anim_without_effects/deflect_horizontal_animation3.png",
+            "artwork/sprites/bushido/deflect_horizontal_anim_without_effects/deflect_horizontal_animation4.png",
             "artwork/sprites/bushido/deflect_horizontal_anim_without_effects/deflect_horizontal_animation5.png",
-            "artwork/sprites/bushido/deflect_horizontal_anim_without_effects/deflect_horizontal_animation3.png"
+            "artwork/sprites/bushido/deflect_horizontal_anim_without_effects/deflect_horizontal_animation6.png"
         ],
         "take_hit_anim_with_sword": [
-            "artwork/sprites/bushido/take_hit_anim_with_sword/taking_hit_animation2.png",
-            "artwork/sprites/bushido/take_hit_anim_with_sword/taking_hit_animation1.png"
+            "artwork/sprites/bushido/take_hit_anim_with_sword/taking_hit_animation1.png",
+            "artwork/sprites/bushido/take_hit_anim_with_sword/taking_hit_animation2.png"
         ],
         "down_slash_attack": [
-            "artwork/sprites/bushido/down_slash_attack/down_slash_animation5.png",
             "artwork/sprites/bushido/down_slash_attack/down_slash_animation1.png",
-            "artwork/sprites/bushido/down_slash_attack/down_slash_animation3.png",
             "artwork/sprites/bushido/down_slash_attack/down_slash_animation2.png",
-            "artwork/sprites/bushido/down_slash_attack/down_slash_animation4.png"
+            "artwork/sprites/bushido/down_slash_attack/down_slash_animation3.png",
+            "artwork/sprites/bushido/down_slash_attack/down_slash_animation4.png",
+            "artwork/sprites/bushido/down_slash_attack/down_slash_animation5.png"
         ],
         "run_anim_with_sword": [
+            "artwork/sprites/bushido/run_anim_with_sword/walking_animation1.png",
+            "artwork/sprites/bushido/run_anim_with_sword/walking_animation2.png",
+            "artwork/sprites/bushido/run_anim_with_sword/walking_animation3.png",
+            "artwork/sprites/bushido/run_anim_with_sword/walking_animation4.png",
+            "artwork/sprites/bushido/run_anim_with_sword/walking_animation5.png",
             "artwork/sprites/bushido/run_anim_with_sword/walking_animation6.png",
             "artwork/sprites/bushido/run_anim_with_sword/walking_animation7.png",
-            "artwork/sprites/bushido/run_anim_with_sword/walking_animation1.png",
-            "artwork/sprites/bushido/run_anim_with_sword/walking_animation3.png",
-            "artwork/sprites/bushido/run_anim_with_sword/walking_animation8.png",
-            "artwork/sprites/bushido/run_anim_with_sword/walking_animation2.png",
-            "artwork/sprites/bushido/run_anim_with_sword/walking_animation5.png",
-            "artwork/sprites/bushido/run_anim_with_sword/walking_animation4.png"
+            "artwork/sprites/bushido/run_anim_with_sword/walking_animation8.png"
         ],
         "run_anim_without_sword": [
+            "artwork/sprites/bushido/run_anim_without_sword/walking_animation1.png",
+            "artwork/sprites/bushido/run_anim_without_sword/walking_animation2.png",
+            "artwork/sprites/bushido/run_anim_without_sword/walking_animation3.png",
+            "artwork/sprites/bushido/run_anim_without_sword/walking_animation4.png",
+            "artwork/sprites/bushido/run_anim_without_sword/walking_animation5.png",
             "artwork/sprites/bushido/run_anim_without_sword/walking_animation6.png",
             "artwork/sprites/bushido/run_anim_without_sword/walking_animation7.png",
-            "artwork/sprites/bushido/run_anim_without_sword/walking_animation1.png",
-            "artwork/sprites/bushido/run_anim_without_sword/walking_animation3.png",
-            "artwork/sprites/bushido/run_anim_without_sword/walking_animation8.png",
-            "artwork/sprites/bushido/run_anim_without_sword/walking_animation2.png",
-            "artwork/sprites/bushido/run_anim_without_sword/walking_animation5.png",
-            "artwork/sprites/bushido/run_anim_without_sword/walking_animation4.png"
+            "artwork/sprites/bushido/run_anim_without_sword/walking_animation8.png"
         ],
         "climb_anim": [
+            "artwork/sprites/bushido/climb_anim/climb_animation1.png",
             "artwork/sprites/bushido/climb_anim/climb_animation2.png",
             "artwork/sprites/bushido/climb_anim/climb_animation3.png",
-            "artwork/sprites/bushido/climb_anim/climb_animation4.png",
-            "artwork/sprites/bushido/climb_anim/climb_animation1.png"
+            "artwork/sprites/bushido/climb_anim/climb_animation4.png"
         ],
         "deflect_horizontal_anim_with_effects": [
-            "artwork/sprites/bushido/deflect_horizontal_anim_with_effects/deflect_horizontal_animation2.png",
-            "artwork/sprites/bushido/deflect_horizontal_anim_with_effects/deflect_horizontal_animation4.png",
-            "artwork/sprites/bushido/deflect_horizontal_anim_with_effects/deflect_horizontal_animation6.png",
             "artwork/sprites/bushido/deflect_horizontal_anim_with_effects/deflect_horizontal_animation1.png",
+            "artwork/sprites/bushido/deflect_horizontal_anim_with_effects/deflect_horizontal_animation2.png",
+            "artwork/sprites/bushido/deflect_horizontal_anim_with_effects/deflect_horizontal_animation3.png",
+            "artwork/sprites/bushido/deflect_horizontal_anim_with_effects/deflect_horizontal_animation4.png",
             "artwork/sprites/bushido/deflect_horizontal_anim_with_effects/deflect_horizontal_animation5.png",
-            "artwork/sprites/bushido/deflect_horizontal_anim_with_effects/deflect_horizontal_animation3.png"
+            "artwork/sprites/bushido/deflect_horizontal_anim_with_effects/deflect_horizontal_animation6.png"
         ],
         "crouch_anim_with_sword": [
-            "artwork/sprites/bushido/crouch_anim_with_sword/crouch_animation2.png",
-            "artwork/sprites/bushido/crouch_anim_with_sword/crouch_animation1.png"
+            "artwork/sprites/bushido/crouch_anim_with_sword/crouch_animation1.png",
+            "artwork/sprites/bushido/crouch_anim_with_sword/crouch_animation2.png"
         ],
         "deflect_vertical_anim_without_effects": [
-            "artwork/sprites/bushido/deflect_vertical_anim_without_effects/deflect_vertical_animation7.png",
-            "artwork/sprites/bushido/deflect_vertical_anim_without_effects/deflect_vertical_animation2.png",
-            "artwork/sprites/bushido/deflect_vertical_anim_without_effects/deflect_vertical_animation6.png",
-            "artwork/sprites/bushido/deflect_vertical_anim_without_effects/deflect_vertical_animation5.png",
-            "artwork/sprites/bushido/deflect_vertical_anim_without_effects/deflect_vertical_animation4.png",
             "artwork/sprites/bushido/deflect_vertical_anim_without_effects/deflect_vertical_animation1.png",
-            "artwork/sprites/bushido/deflect_vertical_anim_without_effects/deflect_vertical_animation3.png"
+            "artwork/sprites/bushido/deflect_vertical_anim_without_effects/deflect_vertical_animation2.png",
+            "artwork/sprites/bushido/deflect_vertical_anim_without_effects/deflect_vertical_animation3.png",
+            "artwork/sprites/bushido/deflect_vertical_anim_without_effects/deflect_vertical_animation4.png",
+            "artwork/sprites/bushido/deflect_vertical_anim_without_effects/deflect_vertical_animation5.png",
+            "artwork/sprites/bushido/deflect_vertical_anim_without_effects/deflect_vertical_animation6.png",
+            "artwork/sprites/bushido/deflect_vertical_anim_without_effects/deflect_vertical_animation7.png"
         ],
         "jump_anim_with_sword": [
-            "artwork/sprites/bushido/jump_anim_with_sword/Jump_animation6.png",
-            "artwork/sprites/bushido/jump_anim_with_sword/Jump_animation9.png",
-            "artwork/sprites/bushido/jump_anim_with_sword/Jump_animation5.png",
+            "artwork/sprites/bushido/jump_anim_with_sword/Jump_animation1.png",
+            "artwork/sprites/bushido/jump_anim_with_sword/Jump_animation2.png",
             "artwork/sprites/bushido/jump_anim_with_sword/Jump_animation3.png",
             "artwork/sprites/bushido/jump_anim_with_sword/Jump_animation4.png",
+            "artwork/sprites/bushido/jump_anim_with_sword/Jump_animation5.png",
+            "artwork/sprites/bushido/jump_anim_with_sword/Jump_animation6.png",
             "artwork/sprites/bushido/jump_anim_with_sword/Jump_animation7.png",
-            "artwork/sprites/bushido/jump_anim_with_sword/Jump_animation2.png",
-            "artwork/sprites/bushido/jump_anim_with_sword/Jump_animation1.png",
-            "artwork/sprites/bushido/jump_anim_with_sword/Jump_animation8.png"
+            "artwork/sprites/bushido/jump_anim_with_sword/Jump_animation8.png",
+            "artwork/sprites/bushido/jump_anim_with_sword/Jump_animation9.png"
         ],
         "deflect_vertical_anim_with_effects": [
-            "artwork/sprites/bushido/deflect_vertical_anim_with_effects/deflect_vertical_animation7.png",
-            "artwork/sprites/bushido/deflect_vertical_anim_with_effects/deflect_vertical_animation2.png",
-            "artwork/sprites/bushido/deflect_vertical_anim_with_effects/deflect_vertical_animation6.png",
-            "artwork/sprites/bushido/deflect_vertical_anim_with_effects/deflect_vertical_animation5.png",
-            "artwork/sprites/bushido/deflect_vertical_anim_with_effects/deflect_vertical_animation4.png",
             "artwork/sprites/bushido/deflect_vertical_anim_with_effects/deflect_vertical_animation1.png",
-            "artwork/sprites/bushido/deflect_vertical_anim_with_effects/deflect_vertical_animation3.png"
+            "artwork/sprites/bushido/deflect_vertical_anim_with_effects/deflect_vertical_animation2.png",
+            "artwork/sprites/bushido/deflect_vertical_anim_with_effects/deflect_vertical_animation3.png",
+            "artwork/sprites/bushido/deflect_vertical_anim_with_effects/deflect_vertical_animation4.png",
+            "artwork/sprites/bushido/deflect_vertical_anim_with_effects/deflect_vertical_animation5.png",
+            "artwork/sprites/bushido/deflect_vertical_anim_with_effects/deflect_vertical_animation6.png",
+            "artwork/sprites/bushido/deflect_vertical_anim_with_effects/deflect_vertical_animation7.png"
         ]
     }
 }
