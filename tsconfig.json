@@ -1,0 +1,11 @@
+{
+    "include": [
+        "src/*.ts",
+        "node_modules/@types/p5/global.d.ts"
+    ],
+    "compilerOptions": {
+        "target": "ESNext",
+        "outDir": "lib/",
+        "verbatimModuleSyntax": true
+    }
+}
