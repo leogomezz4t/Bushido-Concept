@@ -16,7 +16,7 @@ const SHOW_HITBOXES = false;
 const SHOW_OVERLAPPING_HITBOXES = false || SHOW_HITBOXES;
 const SHOW_COLLIDING_HITBOXES = false || SHOW_HITBOXES;
 
-const SHOW_ORIGINS = false;
+const SHOW_ORIGINS = true;
 // Orientation
 enum Orientation {
     Left = -1,

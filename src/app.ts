@@ -1,9 +1,14 @@
+// Optimizations for p5
+// @ts-ignore
+p5.disableFriendlyErrors = true;
+
 // Game manager stuff
-const game = new GameEngine();
+const game: GameEngine = new GameEngine();
 // Assets
+let currentFrame: string;
 
 // SCENE SETUP || BEFORE PRELOAD
-const testScene = new Scene(game);
+const testScene: Scene = new Scene(game);
 setupTestScene(testScene);
 
 // end test scene
@@ -12,12 +17,10 @@ game.currentSceneIndex = 0;
 // END SCENE SETUP
 
 function preload() {
-  console.log("preload")
   game.preload();
 }
 
 function setup() {
-  console.log("setup")
   let sketch = createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
   sketch.parent("mycanvas");
 
@@ -32,21 +35,28 @@ function draw() {
   // Run game
   game.loopPrelude();
   game.drawCurrentScene();
-  // HUD
-  fill("black")
-  strokeWeight(0.5);
-  stroke("black")
-  text(`FPS: ${frameRate().toFixed(0)}`, 10, 15);
+ 
+    // HUD
+    fill("black")
+    strokeWeight(0.5);
+    stroke("black")
+    text(`FPS: ${frameRate().toFixed(2)}`, 10, 15);
+
 }//end draw
 
 // Scene setups
 function setupTestScene(scene) { // within preload 
-  const player = new Player(100, 100, 10);
-  const floor = new GameObject(0, CANVAS_HEIGHT-50, CANVAS_WIDTH, 50);
+  const player = new Player(CANVAS_WIDTH/2, 100, 10);
+  const floor = new GameObject(-1000, CANVAS_HEIGHT-50, CANVAS_WIDTH*5, 50);
+  const marker = new GameObject(0, 100, 75, 75, false);
+  const otherMarker = new GameObject(CANVAS_WIDTH, 100, 75, 75, false);
   scene.addGameObject(floor)
   scene.addGameObject(player);
-  console.log("Yurrr")
+  scene.addGameObject(marker);
+  scene.addGameObject(otherMarker)
 }
 
-
+function mousePressed() {
+  console.log(`X: ${mouseX} Y: ${mouseY}`);
+}
 // classes
