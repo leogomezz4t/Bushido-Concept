@@ -4,6 +4,11 @@ class Player extends GameObject {
     // movement
     public speed: number = 0.5;
     public allowNoClipping: boolean = false;
+    // dashing
+    public isDashing: boolean = false;
+    public isDashAnimating: boolean = false;
+    public dashSpeed: number = 1;
+    private canDash: boolean = true;
     // attacking
     public isAttacking: boolean = false;
     public isDefending: boolean = false;
@@ -29,7 +34,7 @@ class Player extends GameObject {
         );
     }
     // Animation getters
-    get currentAnimation() {
+    get currentAnimation(): SpriteAnimation {
         return this.game.animations["samurai_1"][this.currentAnimName];
     }
     // Animation ends
@@ -41,7 +46,7 @@ class Player extends GameObject {
         // Default clipping
         this.allowNoClipping = false;
         // Colliding
-        fill
+
         // flipping orientation logic
         if (keyIsDown(KBM_CONTROLS.LEFT)) {
             this.orientation = Orientation.Left;
@@ -60,7 +65,6 @@ class Player extends GameObject {
         this.movement();  
         // Camera logic
         const [cameraX, cameraY] = this.scene.currentCamera.toCameraCoordinates(this.x, this.y);
-        console.log(`cameraX: ${cameraX} cameraY: ${cameraY}\nfactor: ${this.scene.currentCamera.scale}`)
         if (cameraX < 200) {
             this.scene.currentCamera.worldX -= Math.abs(this.deltaX);
         }
@@ -70,7 +74,9 @@ class Player extends GameObject {
     }
 
     determineAnimation() {
-        if (this.isDefending) {
+        if (this.isDashAnimating) {
+            // place holder
+        } else if (this.isDefending) {
             // Place holder
         } else if (this.isAttacking) {
             // Dont use any other animations
@@ -91,11 +97,6 @@ class Player extends GameObject {
         }
     }
 
-    jump() {
-        this.deltaY = -this.jumpForce;
-        this.isJumping = true;
-        this.currentAnimName = "JUMP";
-    }   
     // start attacking methods
     attack(attackType) {
         if (this.isAttacking) { // Don't attack twice
@@ -127,11 +128,11 @@ class Player extends GameObject {
             return;
         }
 
-        if (keyIsDown(KBM_CONTROLS.A_ATTACK)) {
+        if (keyIsDown(KBM_CONTROLS.SIDE_ATTACK)) {
             this.attack("ATTACK_1");
-        } else if (keyIsDown(KBM_CONTROLS.S_ATTACK)) {
+        } else if (keyIsDown(KBM_CONTROLS.DOWN_ATTACK)) {
             this.attack("ATTACK_2");
-        } else if (keyIsDown(KBM_CONTROLS.D_ATTACK)) {
+        } else if (keyIsDown(KBM_CONTROLS.UP_ATTACK)) {
             this.attack("ATTACK_3");
         } else if (keyIsDown(KBM_CONTROLS.DEFEND)) {
             this.defend();
@@ -151,6 +152,9 @@ class Player extends GameObject {
         if (keyIsDown(KBM_CONTROLS.RIGHT)) {
             keyDeltaX += 1;
         }
+        if (keyIsDown(KBM_CONTROLS.DASH)) { // dashing logic
+            this.dash();
+        }
 
         return [keyDeltaX, keyDeltaY];
     }
@@ -160,11 +164,54 @@ class Player extends GameObject {
         const [keyDeltaX, keyDeltaY] = this.movementListening();
         let horizontalChange = keyDeltaX * deltaTime * this.speed;
 
+        // Dashing
+        if (this.isDashing) {
+            // calculate speed
+            const dashAmount: number = this.dashSpeed * deltaTime * this.orientation;
+            // apply dash
+            this.move(dashAmount, 0);
+            return;
+        }
+
         // Move
-        if (!this.isAttacking && !this.isDefending) { // dont be able to move while attacking
-            this.move(horizontalChange, 0);
+        if ((this.isAttacking || this.isDefending) || (this.isDashing)) { // dont be able to move while attacking
+            return;
+        }
+       
+        this.move(horizontalChange, 0);
+
+    }
+
+    jump() {
+        this.deltaY = -this.jumpForce;
+        this.isJumping = true;
+        this.currentAnimName = "JUMP";
+    }   
+
+    dash() {
+        // Check if already dashing
+        if (!this.canDash) {
+            return;
+        }
+
+        // Finsihing logic
+        this.currentAnimName = "DASH";
+        this.isDashAnimating = true;
+        this.canDash = false;
+        this.currentAnimation.onLastFrame = () => {
+            this.isDashAnimating = false;
+            this.canDash = true;
+        }
+        this.currentAnimation.onNewFrame = frameIndex => {
+            if (frameIndex === 1) {
+                this.isDashing = true;
+            }
+            if (frameIndex === 4) {
+                this.isDashing = false;
+            }
         }
     }
+    
     // end movement logic
     draw(cameraX, cameraY) {
         this.currentAnimation.drawAnimation(cameraX, cameraY, this.width, this.height);

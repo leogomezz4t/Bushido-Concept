@@ -5,7 +5,7 @@
 * @param game: GameEngine Instance
 */
 class SpriteAnimation {
-    // properties
+    // propertiesJ
     public framesPath: string;
     public spritePath: string;
     public aniPath: string;
@@ -18,7 +18,8 @@ class SpriteAnimation {
     // orientation
     public orientation: Orientation = Orientation.Left;
     // callbacks
-    public onLastFrame: () => void;
+    public onLastFrame: () => void = () => {};
+    public onNewFrame: (frameIndex: number) => void = () => {};
 
     constructor(framesPath, game) {
       this.framesPath = framesPath;
@@ -27,8 +28,6 @@ class SpriteAnimation {
   
       // Add reference to required images in GameEngine
       this.game.requireAnimation(framesPath);
-      // callbacks
-      this.onLastFrame = () => {};
     }
     // Delay related methods
     get frameDelay() {
@@ -56,6 +55,8 @@ class SpriteAnimation {
       } else {
         this.currentFrameIndex++;
       }
+      // callback
+      this.onNewFrame(this.currentFrameIndex);
     }
   
     get currentFrame() {

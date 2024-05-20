@@ -1,12 +1,25 @@
-const KBM_CONTROLS = {
+type Controls = {
+    LEFT: number,
+    RIGHT: number,
+    UP: number,
+    DOWN: number,
+    SIDE_ATTACK: number,
+    DOWN_ATTACK: number,
+    UP_ATTACK: number,
+    DEFEND: number,
+    DASH: number
+}
+
+const KBM_CONTROLS: Controls = {
     LEFT: 37,
     RIGHT: 39,
     UP: 38,
     DOWN: 40,
-    A_ATTACK: 65,
-    S_ATTACK: 83,
-    D_ATTACK: 68,
-    DEFEND: 87
+    SIDE_ATTACK: 65,
+    DOWN_ATTACK: 83,
+    UP_ATTACK: 68,
+    DEFEND: 87,
+    DASH: 16
 }
 // Player values
 const PLAYER_WIDTH = 300;
