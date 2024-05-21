@@ -1,40 +1,47 @@
 
 /*
 * Camera represents a viewport to the game world that can be observed by the player
-* It's coordinates are the top left corner of a rectangular view
+* It's coordinates are the the center of the rectangular view
 */
 class Camera {
     // properties
-    public worldX: number;
-    public worldY: number;
+    public worldPosition: Vector2;
     public scale: number;
-    public id: string;
 
-    constructor (worldX: number, worldY: number, scale: number, id: string) {
-        this.worldX = worldX;
-        this.worldY = worldY;
+    constructor (worldX: number, worldY: number, scale: number) {
+        this.worldPosition = new Vector2(worldX, worldY);
         this.scale = scale;
-        this.id = id;
 
     }
+
+    get width(): number {
+        return CANVAS_WIDTH * this.scale;
+    }
+
+    get height(): number {
+        return CANVAS_HEIGHT * this.scale;
+    }
     
-    toCameraCoordinates(x, y) {
-        const cameraX = (x - this.worldX)*this.scale;
-        const cameraY = (y - this.worldY)*this.scale;
-        return [cameraX, cameraY];
+    toCameraCoordinates(position: Vector2) {
+        const cameraX = (position.x - (this.worldPosition.x- this.width/2))*this.scale;
+        const cameraY = (position.y - (this.worldPosition.y - this.height/2))*this.scale;
+        return new Vector2(cameraX, cameraY);
     }
     // end static methods
 
-    renderGameObject(go) {
+    render(go: GameObject | Hitbox) {
         push();
         scale(this.scale, this.scale);
-        const [x, y] = this.toCameraCoordinates(go.x, go.y);
+        const {x, y} = this.toCameraCoordinates(go.position);
         go.draw(x/this.scale, y/this.scale);
         pop();
     }
 
-
     toWorldCoordinates(x, y) {
 
+    }
+
+    update() {
+        
     }
 }

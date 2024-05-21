@@ -1,15 +1,3 @@
-type Controls = {
-    LEFT: number,
-    RIGHT: number,
-    UP: number,
-    DOWN: number,
-    SIDE_ATTACK: number,
-    DOWN_ATTACK: number,
-    UP_ATTACK: number,
-    DEFEND: number,
-    DASH: number
-}
-
 const KBM_CONTROLS: Controls = {
     LEFT: 37,
     RIGHT: 39,
@@ -30,6 +18,8 @@ const SHOW_OVERLAPPING_HITBOXES = false || SHOW_HITBOXES;
 const SHOW_COLLIDING_HITBOXES = false || SHOW_HITBOXES;
 
 const SHOW_ORIGINS = true;
+
+const SHOW_CAMERA_TRACKER = true;
 // Orientation
 enum Orientation {
     Left = -1,

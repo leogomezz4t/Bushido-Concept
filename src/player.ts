@@ -1,6 +1,4 @@
-class Player extends GameObject {
-    public maxHitpoints: number;
-    public hitpoints: number;
+class Player extends Entity {
     // movement
     public speed: number = 0.5;
     public allowNoClipping: boolean = false;
@@ -9,6 +7,7 @@ class Player extends GameObject {
     public isDashAnimating: boolean = false;
     public dashSpeed: number = 1;
     private canDash: boolean = true;
+    private dashOrientation: Orientation;
     // attacking
     public isAttacking: boolean = false;
     public isDefending: boolean = false;
@@ -17,13 +16,11 @@ class Player extends GameObject {
     public isJumping: boolean = false;
     // animation
     public currentAnimName: string = "IDLE";
+    public animations: {};
     
     constructor (x, y, maxHitpoints) {
         // Call parent constructor
-        super(x, y, PLAYER_WIDTH, PLAYER_HEIGHT, false);
-        // Health variables
-        this.maxHitpoints = maxHitpoints;
-        this.hitpoints = maxHitpoints;
+        super(x, y, PLAYER_WIDTH, PLAYER_HEIGHT, maxHitpoints, false);
 
         // Hitbox variables
         this.hitboxes.push(
@@ -35,14 +32,19 @@ class Player extends GameObject {
     }
     // Animation getters
     get currentAnimation(): SpriteAnimation {
-        return this.game.animations["samurai_1"][this.currentAnimName];
+        return this.animations[this.currentAnimName];
     }
     // Animation ends
 
 
-
+    public onGameEngineDefined() {
+        // request animations
+        this.game.requestSprite("samurai_1", (s: {}) => {
+            this.animations = s;
+        })
+    }
     
-    update() { // p5.js func
+    public update() { // p5.js func
         // Default clipping
         this.allowNoClipping = false;
         // Colliding
@@ -55,7 +57,8 @@ class Player extends GameObject {
             this.orientation = Orientation.Right;
         }   
         // Animation logic
-        this.currentAnimation.update(this.orientation);
+        const animationOrientation: Orientation = (this.isDashAnimating) ? this.dashOrientation : this.orientation;
+        this.currentAnimation.update(animationOrientation);
         this.determineAnimation();
         // Attacking logic
         this.attackingLogic();
@@ -63,14 +66,6 @@ class Player extends GameObject {
         this.fixClipping();
         // movement logic
         this.movement();  
-        // Camera logic
-        const [cameraX, cameraY] = this.scene.currentCamera.toCameraCoordinates(this.x, this.y);
-        if (cameraX < 200) {
-            this.scene.currentCamera.worldX -= Math.abs(this.deltaX);
-        }
-        if (cameraX > 400) {
-            this.scene.currentCamera.worldX += Math.abs(this.deltaX);
-        }
     }
 
     determineAnimation() {
@@ -167,7 +162,7 @@ class Player extends GameObject {
         // Dashing
         if (this.isDashing) {
             // calculate speed
-            const dashAmount: number = this.dashSpeed * deltaTime * this.orientation;
+            const dashAmount: number = this.dashSpeed * deltaTime * this.dashOrientation;
             // apply dash
             this.move(dashAmount, 0);
             return;
@@ -193,7 +188,8 @@ class Player extends GameObject {
         if (!this.canDash) {
             return;
         }
-
+        // Define the original orientation
+        this.dashOrientation = this.orientation;
         // Finsihing logic
         this.currentAnimName = "DASH";
         this.isDashAnimating = true;

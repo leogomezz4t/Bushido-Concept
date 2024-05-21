@@ -3,23 +3,43 @@ class Scene {
     public game: GameEngine;
     // camera
     public currentCamera: Camera;
+    public cameras: Camera[] = [];
 
     constructor(gameEngine) {
       this.game = gameEngine;
 
       // Call add scene on self
       this.game.addScene(this);
-      // camera variables
-      this.currentCamera = new Camera(0, 0, 1, "Main Camera");
     }
   
+    // Camera methods
+    addCamera(c: Camera) {
+      this.cameras.push(c);
+    }
+
+    setCurrentCamera(c: Camera) {
+      // Check if camera exists
+      if (!this.cameras.includes(c)) {
+        throw new Error("Tried to set non existent camera");
+      }
+
+      this.currentCamera = c;
+    }
+    // End camera methods
     // Game Object methods
-    addGameObject(go) {
+    addGameObject(go: GameObject) {
       go.game = this.game;
       go.scene = this;
+      go.onGameEngineDefined();
       this.gameObjects.push(go);
     }
-  
+    
+    preload() {
+      for (const go of this.gameObjects) {
+        go.preload();
+      }
+    }
+
     setup() { // p5js function
       for (const go of this.gameObjects) {
         go.setup();
@@ -34,18 +54,23 @@ class Scene {
       if (keyIsDown(80)) {
         this.currentCamera.scale += 0.01
       }
+
+      // Update all cameras
+      for (const c of this.cameras) {
+        c.update();
+      }
+
       // update all game objects
       for (const go of this.gameObjects) {
         go.update();
-        this.currentCamera.renderGameObject(go);
+        this.currentCamera.render(go);
       }
       // draw hitboxes
-      if ((SHOW_OVERLAPPING_HITBOXES || SHOW_COLLIDING_HITBOXES) || SHOW_HITBOXES) {
-        for (const go of this.gameObjects) {  
-          for (const hb of go.hitboxes) {
-            this.currentCamera.renderGameObject(hb);
-          }
+      for (const go of this.gameObjects) {  
+        for (const hb of go.hitboxes) {
+          this.currentCamera.render(hb);
         }
       }
+    
     }
   }

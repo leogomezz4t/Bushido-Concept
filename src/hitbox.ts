@@ -1,6 +1,5 @@
 class Hitbox {
-    public xOffset: number;
-    public yOffset: number;
+    public offset: Vector2;
     public width: number;
     public height: number;
     public parentObject: GameObject;
@@ -10,8 +9,8 @@ class Hitbox {
     public debug: boolean;
     
     constructor(xOffset, yOffset, width, height, type, parentObject, debug=false) {
-        this.xOffset = xOffset;
-        this.yOffset = yOffset;
+        this.offset = new Vector2(xOffset, yOffset);
+
         this.width = width;
         this.height = height;
         this.parentObject = parentObject;
@@ -21,19 +20,24 @@ class Hitbox {
         this.debug = debug;
     }
 
-    get x() {
+    private get x() {
         if (this.parentObject.orientation === Orientation.Left) {
-            return this.parentObject.x - this.xOffset - this.width;
+            return this.parentObject.position.x - this.offset.x - this.width;
         } else {
-            return this.parentObject.x + this.xOffset;
+            return this.parentObject.position.x + this.offset.x;
         }
         
     }
 
-    get y() {
-        return this.parentObject.y + this.yOffset;
+    private get y() {
+        return this.parentObject.position.y + this.offset.y;
     }  
-    get debugColor() {
+
+    public get position() {
+        return new Vector2(this.x, this.y);
+    }
+
+    public get debugColor() {
         if (this.type === CollisionType.Colliding) {
             return "green";
         } else if (this.type === CollisionType.Overlapping) {

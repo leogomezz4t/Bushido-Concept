@@ -25,26 +25,15 @@ class SpriteAnimation {
       this.framesPath = framesPath;
       [this.spritePath, this.aniPath] = this.framesPath.split("/"); 
       this.game = game;
-  
-      // Add reference to required images in GameEngine
-      this.game.requireAnimation(framesPath);
     }
-    // Delay related methods
-    get frameDelay() {
-      const savedDelay = this.game.animationDelays[this.spritePath][this.aniPath];
-      if (typeof savedDelay === 'undefined') {
-        return FRAME_DELAY;
-      } else {
-        return savedDelay;
-      }
-    }
+
     // Image related methods
     get imagePaths() {
       return this.game.animationPaths[this.spritePath][this.aniPath];
     }
   
     get loadedImages() {
-      return this.imagePaths.map(e => this.game.loadedImages[e]);
+      return this.imagePaths.map(e => this.game.loadedImages[this.spritePath][this.aniPath][e]);
     }
   
     // display related methods
@@ -94,7 +83,7 @@ class SpriteAnimation {
         return;
       }
       // delay timing logic starts
-      if (this.deltaFrameChange >= this.frameDelay) {
+      if (this.deltaFrameChange >= FRAME_DELAY) {
         // Move to the next frame and reset delta frame change
         this.nextFrame();
         this.deltaFrameChange = 0;

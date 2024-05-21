@@ -1,32 +1,26 @@
 class GameEngine {
   // Define properties
   // Scene variables
-  scenes: Scene[] = [];
-  currentSceneIndex: number = 0;
+  public scenes: Scene[] = [];
+  public currentSceneIndex: number = 0;
   // image paths
-  animationPaths: {} = {};
-  // animation properties
-  animationDelays: {} = {};
+  public animationPaths: {} = {};
   // image loading references;
-  requiredImages: Set<string> = new Set();
-  requiredAnimations: Set<string> = new Set();
-  loadedImages: {} = {};
+  public requestedSprites: Array<{ sprite: string, callback: (animations: {}) => void }> = [];
+  public loadedImages: {} = {};
   // instantiate animations
-  animations: {} = {};
+  public animations: {} = {};
+  // preload callbacks
 
-  // Image loading methods
-  requireImages(animationPath) {
-    const [sprite, animation] = animationPath.split("/");
-    for (const ani in this.animationPaths[sprite]) {
-      for (const img in this.animationPaths[sprite][ani])
-        this.requiredImages.add(this.animationPaths[sprite][ani][img]);
-    } 
+  // animation methods
+  public requestSprite(sprite: string, callback: (animations: {}) => void) {
+    this.requestedSprites.push(
+      {
+        sprite: sprite,
+        callback: callback
+      }
+    )
   }
-
-  requireAnimation(animationPath) {
-    this.requiredAnimations.add(animationPath);
-  }
-  // End loading methods
 
   // Scene methods
 
@@ -43,29 +37,42 @@ class GameEngine {
   // P5 js required functions
 
   preload() { // in a p5js function
-    this.animationDelays = loadJSON("data/animationDelays.json");
+    this.currentScene.preload();
 
     this.animationPaths = loadJSON("data/animationPaths.json", () => {
-      // Instantiate all sprite animations
+      // Iterate through all images and load them
       for (const sprite in this.animationPaths) {
-        this.animations[sprite] = {}
-        for (const animation in this.animationPaths[sprite]) {
-          this.animations[sprite][animation] = new SpriteAnimation(`${sprite}/${animation}`, this);
+        this.loadedImages[sprite] = {};
+        this.animations[sprite] = {};
+        // iterate through the animations
+        for (const ani in this.animationPaths[sprite]) {
+          this.loadedImages[sprite][ani] = {}
+          // iterate through the images
+          for (const img of this.animationPaths[sprite][ani]) {
+            this.loadedImages[sprite][ani][img] = loadImage(img);
+          }
+
+          // Add this animation
+          this.animations[sprite][ani] = {
+            framesPath: `${sprite}/${ani}`,
+            game: this
+          }
         }
       }
 
-      // Require all images from the animations
-      for (const anim of this.requiredAnimations) {
-        this.requireImages(anim);
+      // Iterate through requested animations
+      for (const req of this.requestedSprites) {
+        const anis: {} = {};
+
+        // iterate through the animations of that sprite
+        for (const ani in this.animationPaths[req.sprite]) {
+          anis[ani] = new SpriteAnimation(`${req.sprite}/${ani}`, this)
+        }
+
+        req.callback(anis);
       }
 
-      // Load images logic
-      for (const img of this.requiredImages) {
-        this.loadedImages[img] = loadImage(img);
-      }
-      // DEBUGGING
-      console.log("IMAGES AND JSON LOADED...");
-      console.log(this.animations);
+      console.log(this.loadedImages);
     });
   }
 

@@ -1,6 +1,5 @@
 class GameObject {
-    public x: number;
-    public y: number;
+    public position: Vector2;
     public width: number;
     public height: number;
     // references
@@ -14,9 +13,8 @@ class GameObject {
     // orientation
     public orientation: Orientation = Orientation.Right;
 
-    constructor(x, y, width, height, useDefaultHitbox=true) {
-      this.x = x;
-      this.y = y;
+    constructor(x, y, width, height, useDefaultHitbox=false) {
+      this.position = new Vector2(x, y);
       this.width = width;
       this.height = height;
 
@@ -57,8 +55,8 @@ class GameObject {
 
     boxCast(deltaX, deltaY) {
       // modify the game object
-      this.x += deltaX;
-      this.y += deltaY;
+      this.position.x += deltaX;
+      this.position.y += deltaY;
       // test for overlap
       for (const go of this.scene.gameObjects) {
         if (this === go) {
@@ -67,14 +65,14 @@ class GameObject {
 
         if (this.colliding(go)) {
           // Reset the game object
-          this.x -= deltaX;
-          this.y -= deltaY;
+          this.position.x -= deltaX;
+          this.position.y -= deltaY;
           return true;
         }
       }
       // Reset the game object
-      this.x -= deltaX;
-      this.y -= deltaY;
+      this.position.x -= deltaX;
+      this.position.y -= deltaY;
       return false;
     }
 
@@ -103,22 +101,30 @@ class GameObject {
 
       // Apply
       if (!this.boxCast(this.deltaX, 0)) {
-          this.x += this.deltaX;
+          this.position.x += this.deltaX;
       }
       if (!this.boxCast(0, this.deltaY)) {
-          this.y += this.deltaY;
+          this.position.y += this.deltaY;
       }
     }
 
-    setup() {
+    public onGameEngineDefined() {
+      
+    }
+
+    public preload() {
+
+    }
+
+    public setup() {
   
     }
   
-    update() {
+    public update() {
 
     }
   
-    draw(cameraX, cameraY) { // p5js
+    public draw(cameraX, cameraY) { // p5js
       noStroke();
       fill("red");
       rect(cameraX, cameraY, this.width, this.height);
