@@ -120,7 +120,7 @@ class Player extends Entity {
 
     attackingLogic() {
         // dont initiate anything if already in the middle
-        if (this.isAttacking || this.isDefending) {
+        if ((this.isAttacking || this.isDefending) || this.isDashAnimating) {
             return;
         }
 
@@ -186,7 +186,7 @@ class Player extends Entity {
 
     dash() {
         // Check if already dashing
-        if (!this.canDash) {
+        if (!this.canDash || (this.isDefending || this.isAttacking)) {
             return;
         }
         // Define the original orientation

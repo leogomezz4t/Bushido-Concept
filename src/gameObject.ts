@@ -104,7 +104,6 @@ class GameObject {
 
       // Apply
       this.position.x += this.deltaX;
-      this.position.y += this.deltaY;
     }
 
     public applyGravity() {
@@ -117,6 +116,7 @@ class GameObject {
             this.deltaY += GRAVITY_DELTA;
       }
 
+      this.position.y += this.deltaY;
     }
 
     public onGameEngineDefined() {

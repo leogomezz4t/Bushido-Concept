@@ -24,8 +24,8 @@ var Orientation;
     Orientation[Orientation["Right"] = 1] = "Right";
 })(Orientation || (Orientation = {}));
 // Canvas
-const CANVAS_WIDTH = 600;
-const CANVAS_HEIGHT = 300;
+const CANVAS_WIDTH = 960;
+const CANVAS_HEIGHT = 540;
 // Gravity
 const GRAVITY_DELTA = 1;
 // Animation

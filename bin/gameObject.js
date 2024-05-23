@@ -87,7 +87,6 @@ class GameObject {
         this.deltaX += horizontalChange;
         // Apply
         this.position.x += this.deltaX;
-        this.position.y += this.deltaY;
     }
     applyGravity() {
         if (this.touchingFloor()) {
@@ -97,6 +96,7 @@ class GameObject {
         if (!this.touchingFloor()) {
             this.deltaY += GRAVITY_DELTA;
         }
+        this.position.y += this.deltaY;
     }
     onGameEngineDefined() {
     }
