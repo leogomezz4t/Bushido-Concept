@@ -4,12 +4,19 @@ class Scene {
     // camera
     public currentCamera: Camera;
     public cameras: Camera[] = [];
+    // References
+    public manager: GameManager;
 
     constructor(gameEngine) {
       this.game = gameEngine;
 
       // Call add scene on self
       this.game.addScene(this);
+    }
+
+    // Manager methods
+    setGameManager(m: GameManager) {
+      this.manager = m;
     }
   
     // Camera methods

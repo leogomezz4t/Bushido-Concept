@@ -12,8 +12,10 @@ class GameObject {
     public deltaY: number = 0;
     // orientation
     public orientation: Orientation = Orientation.Right;
+    // tags
+    public tags: string[] = [];
 
-    constructor(x, y, width, height, useDefaultHitbox=false) {
+    constructor(x: number, y: number, width: number, height: number, useDefaultHitbox: boolean = false) {
       this.position = new Vector2(x, y);
       this.width = width;
       this.height = height;
@@ -26,7 +28,17 @@ class GameObject {
       }
     }
 
-    colliding(go) {
+    // tag methods
+    public addTag(tag: string) {
+      this.tags.push(tag);
+    }
+
+    public hasTag(tag: string) {
+      return this.tags.includes(tag);
+    }
+    // end tag methods
+
+    colliding(go: GameObject) {
       const myCollidingHitboxes = this.hitboxes.filter(hb => hb.type === CollisionType.Colliding);
       const theirCollidingHitboxes = go.hitboxes.filter(hb => hb.type === CollisionType.Colliding);
       for (const mch of myCollidingHitboxes) {      
@@ -40,7 +52,7 @@ class GameObject {
       return false;
     }
 
-    overlapping(go) {
+    overlapping(go: GameObject): boolean {
       const myOverlappingHitboxes = this.hitboxes.filter(hb => hb.type === CollisionType.Overlapping);
       for (const moh of myOverlappingHitboxes) {
         for (const hb of go.hitboxes) {
@@ -53,10 +65,12 @@ class GameObject {
       return false;
     }
 
-    boxCast(deltaX, deltaY) {
+    boxCast(deltaX: number, deltaY: number): GameObject[] {
       // modify the game object
       this.position.x += deltaX;
       this.position.y += deltaY;
+      // maintain list of overlapping objects
+      let collidingObjects: GameObject[] = [];
       // test for overlap
       for (const go of this.scene.gameObjects) {
         if (this === go) {
@@ -65,29 +79,35 @@ class GameObject {
 
         if (this.colliding(go)) {
           // Reset the game object
-          this.position.x -= deltaX;
-          this.position.y -= deltaY;
-          return true;
+          collidingObjects.push(go);
         }
       }
       // Reset the game object
       this.position.x -= deltaX;
       this.position.y -= deltaY;
-      return false;
+      return collidingObjects;
     }
 
    
-    touchingFloor() {
-        if (this.deltaY === 0) {
-            return this.boxCast(0, GRAVITY_DELTA);
-        } else {
-            return this.boxCast(0, this.deltaY);
-        }
+    touchingFloor(): boolean {
+      const d = (this.deltaY === 0) ? GRAVITY_DELTA : this.deltaY;
+      const colls = this.boxCast(0, d);
+
+      return colls.some(x => x.hasTag("floor"));
     }
 
-    move(horizontalChange, verticalChange) { 
+    move(horizontalChange: number, verticalChange: number) { 
       // Reset delta
       this.deltaX = 0;
+      // Move  
+      this.deltaX += horizontalChange;
+
+      // Apply
+      this.position.x += this.deltaX;
+      this.position.y += this.deltaY;
+    }
+
+    public applyGravity() {
       if (this.touchingFloor()) {
           this.deltaY = 0;
       }
@@ -96,16 +116,7 @@ class GameObject {
       if (!this.touchingFloor()) {
             this.deltaY += GRAVITY_DELTA;
       }
-      // Move  
-      this.deltaX += horizontalChange;
 
-      // Apply
-      if (!this.boxCast(this.deltaX, 0)) {
-          this.position.x += this.deltaX;
-      }
-      if (!this.boxCast(0, this.deltaY)) {
-          this.position.y += this.deltaY;
-      }
     }
 
     public onGameEngineDefined() {
@@ -124,7 +135,7 @@ class GameObject {
 
     }
   
-    public draw(cameraX, cameraY) { // p5js
+    public draw(cameraX: number, cameraY: number) { // p5js
       noStroke();
       fill("red");
       rect(cameraX, cameraY, this.width, this.height);

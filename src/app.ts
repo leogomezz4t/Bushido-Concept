@@ -47,17 +47,26 @@ function draw() {
 // Scene setups
 function setupTestScene(scene: Scene) { // within preload 
   const player = new Player(CANVAS_WIDTH/2, 100, 10);
+
+  // Floors
   const floor = new GameObject(-1000, CANVAS_HEIGHT-50, CANVAS_WIDTH*5, 50, true);
+  floor.addTag("floor");
+
   const marker = new GameObject(0, 100, 75, 75, false);
   const otherMarker = new GameObject(CANVAS_WIDTH, 100, 75, 75, false);
 
   // enemy
-  const whiteHat: WhiteHatSamurai = new WhiteHatSamurai(player.position.x + 100, 100);
+  const whiteHat: WhiteHatSamurai = new WhiteHatSamurai(player.position.x + 1000, 100);
 
   // Create a new camera with a reference to player
   const playerCam = new TrackingCamera(1, player);
   scene.addCamera(playerCam);
   scene.setCurrentCamera(playerCam);
+
+  // Game Manager
+  const manager: GameManager = new GameManager();
+  manager.playerReference = player;
+  scene.setGameManager(manager);
 
   scene.addGameObject(whiteHat)
   scene.addGameObject(floor)

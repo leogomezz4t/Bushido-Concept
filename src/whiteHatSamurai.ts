@@ -24,14 +24,47 @@ class WhiteHatSamurai extends Samurai {
     }
 
     // p5.js functions
-    public draw(cameraX: any, cameraY: any): void {
-        console.log(this.currentAnimation)
+    public draw(cameraX: number, cameraY: number): void {
         this.currentAnimation.drawAnimation(cameraX, cameraY, this.width, this.height);
     }
 
     public update(): void {
+        // AI
+        const player = this.scene.manager.playerReference;
+        const distToPlayer = Vector2.dist(player.position, this.position);
+        
+        // follow logic
+        if (distToPlayer > 200) {
+            // x component
+            if (this.position.x < player.position.x) {
+                this.move(1, 0);
+            }
+            if (this.position.x > player.position.x) {
+                this.move(-1, 0);
+            }
+        }
+
+        // Orientation logic
+        if (this.deltaX > 0) {
+            this.orientation = Orientation.Right;
+        }
+        if (this.deltaX < 0) {
+            this.orientation = Orientation.Left;
+        }
+
+        // Animations
+        this.determineAnimation();
         this.currentAnimation.update(this.orientation);
 
-        this.move(0, 0);
+        this.applyGravity();
+    }
+
+    // Methods
+    private determineAnimation() {
+        if (this.deltaX !== 0) {
+            this.currentAnimName = "RUN";
+        } else {
+            this.currentAnimName = "IDLE";
+        }
     }
 }

@@ -8,20 +8,47 @@ class Vector2 {
         this.y = y;
     }
 
-    add(v: Vector2) {
-        return new Vector2(this.x + v.x, this.y + v.y)
+    // Static methods
+    public static add(v1: Vector2, v2: Vector2) {
+        return new Vector2(v1.x + v2.x, v1.y + v2.y);
     }
 
-    subtract(v: Vector2) {
-        return new Vector2(this.x - v.x, this.y - v.y);
+    public static subtract(v1: Vector2, v2: Vector2) {
+        return new Vector2(v1.x - v2.x, v1.y - v2.y);
     }
 
-    multiply(v: Vector2) {
-        return new Vector2(this.x * v.x, this.y * v.y);
+    public static multiply(v1: Vector2, v2: Vector2) {
+        return new Vector2(v1.x * v2.x, v1.y * v2.y);
     }
 
-    divide(v: Vector2) {
-        return new Vector2(this.x * v.x, this.y * v.y);
+    public static divide(v1: Vector2, v2: Vector2) {
+        return new Vector2(v1.x / v2.x, v1.y / v2.y);
+    }
+
+    public static dist(v1: Vector2, v2: Vector2) {
+        const xLen = Math.abs(v1.x - v2.x);
+        const yLen = Math.abs(v1.y - v2.y);
+        
+        return Math.sqrt(
+            Math.pow(xLen, 2) + Math.pow(yLen, 2)
+        );
+    }
+
+    // Instance methods
+    public add(v: Vector2) {
+        return Vector2.add(this, v);
+    }
+
+    public subtract(v: Vector2) {
+        return Vector2.subtract(this, v);
+    }
+
+    public multiply(v: Vector2) {
+        return Vector2.multiply(this, v);
+    }
+
+    public divide(v: Vector2) {
+        return Vector2.divide(this, v);
     }
 }
 

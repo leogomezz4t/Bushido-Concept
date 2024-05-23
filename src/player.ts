@@ -18,7 +18,7 @@ class Player extends Entity {
     public currentAnimName: string = "IDLE";
     public animations: {};
     
-    constructor (x, y, maxHitpoints) {
+    constructor (x: number, y: number, maxHitpoints: number) {
         // Call parent constructor
         super(x, y, PLAYER_WIDTH, PLAYER_HEIGHT, maxHitpoints, false);
 
@@ -66,6 +66,7 @@ class Player extends Entity {
         this.fixClipping();
         // movement logic
         this.movement();  
+        this.applyGravity();
     }
 
     determineAnimation() {
@@ -169,7 +170,7 @@ class Player extends Entity {
         }
 
         // Move
-        if ((this.isAttacking || this.isDefending) || (this.isDashing)) { // dont be able to move while attacking
+        if ((this.isAttacking || this.isDefending) || (this.isDashAnimating)) { // dont be able to move while attacking
             return;
         }
        
