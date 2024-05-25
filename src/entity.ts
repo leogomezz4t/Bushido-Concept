@@ -7,6 +7,11 @@ class Entity extends GameObject {
     public onDamageCooldown: boolean = false;
     public damageCooldown: number = 500;
     public damageCooldownDelta: number = 0;
+
+    // knockback
+    private takingKnockback: boolean = false;
+    private knockbackCooldown: number = 500;
+    private knockbackCooldownDelta: number = 0;
    
     // animation
     public currentAnimName: string = "IDLE";
@@ -57,7 +62,6 @@ class Entity extends GameObject {
     }
 
     public update() {
-        const touchingObjects: GameObject[] = this.overlappingWith();
 
         // update cooldown
         if (this.onDamageCooldown) {
@@ -68,20 +72,26 @@ class Entity extends GameObject {
                 this.damageCooldownDelta = 0;
             }
         }
-        for (const go of touchingObjects) {
-            // Check for weapons
-            if (go instanceof Weapon && go.parent !== this) {
-                if (!this.onDamageCooldown) {
-                    this.takeDamage(go.damage);
-                    this.onDamageCooldown = true;
-                }
+
+        if (this.takingKnockback) {
+            this.knockbackCooldownDelta += deltaTime;
+
+            if (this.knockbackCooldownDelta >= this.knockbackCooldown) {
+                this.takingKnockback = false;
+                this.damageCooldownDelta = 0;
             }
         }
     }
 
     public takeDamage(dmg: number): void {
+        if (this.onDamageCooldown) {
+            return;
+        }
+        this.onDamageCooldown = true;
+
         this.hitpoints -= dmg;
         this.hurt();
+        this.stun();
 
         // Check if dead
         if (this.hitpoints <= 0) { // We are dead
@@ -89,8 +99,21 @@ class Entity extends GameObject {
         }
     }
 
+    public takeKnockback(knockDelta: Vector2) {
+        if (this.takingKnockback) {
+            return;
+        }
+        this.takingKnockback = true;
+
+        this.move(knockDelta.x, knockDelta.y)
+    }
+
     protected hurt() {
 
+    }
+
+    protected stun() {
+        
     }
 
     public die(): void {

@@ -6,6 +6,10 @@ class Entity extends GameObject {
     onDamageCooldown = false;
     damageCooldown = 500;
     damageCooldownDelta = 0;
+    // knockback
+    takingKnockback = false;
+    knockbackCooldown = 500;
+    knockbackCooldownDelta = 0;
     // animation
     currentAnimName = "IDLE";
     animations;
@@ -41,7 +45,6 @@ class Entity extends GameObject {
         });
     }
     update() {
-        const touchingObjects = this.overlappingWith();
         // update cooldown
         if (this.onDamageCooldown) {
             this.damageCooldownDelta += deltaTime;
@@ -50,25 +53,37 @@ class Entity extends GameObject {
                 this.damageCooldownDelta = 0;
             }
         }
-        for (const go of touchingObjects) {
-            // Check for weapons
-            if (go instanceof Weapon && go.parent !== this) {
-                if (!this.onDamageCooldown) {
-                    this.takeDamage(go.damage);
-                    this.onDamageCooldown = true;
-                }
+        if (this.takingKnockback) {
+            this.knockbackCooldownDelta += deltaTime;
+            if (this.knockbackCooldownDelta >= this.knockbackCooldown) {
+                this.takingKnockback = false;
+                this.damageCooldownDelta = 0;
             }
         }
     }
     takeDamage(dmg) {
+        if (this.onDamageCooldown) {
+            return;
+        }
+        this.onDamageCooldown = true;
         this.hitpoints -= dmg;
         this.hurt();
+        this.stun();
         // Check if dead
         if (this.hitpoints <= 0) { // We are dead
             this.die();
         }
     }
+    takeKnockback(knockDelta) {
+        if (this.takingKnockback) {
+            return;
+        }
+        this.takingKnockback = true;
+        this.move(knockDelta.x, knockDelta.y);
+    }
     hurt() {
+    }
+    stun() {
     }
     die() {
     }

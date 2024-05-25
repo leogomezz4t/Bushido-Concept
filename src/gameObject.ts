@@ -80,7 +80,7 @@ class GameObject {
           continue;
         }
 
-        if (go.overlapping(this)) {
+        if (this.overlapping(go)) {
           ret.push(go);
         }
       }
