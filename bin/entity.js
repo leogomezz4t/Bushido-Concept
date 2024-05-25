@@ -10,6 +10,10 @@ class Entity extends GameObject {
     currentAnimName = "IDLE";
     animations;
     sprite;
+    // knockback
+    takingKnockback = false;
+    knockbackCooldown = 500;
+    knockbackCooldownDelta = 0;
     constructor(x, y, width, height, maxHitpoints, sprite) {
         super(x, y, width, height, false);
         // sprites
@@ -28,6 +32,8 @@ class Entity extends GameObject {
             if (this.currentAnimName !== anim) {
                 // call last frame to clean up code that needs to be run
                 this.currentAnimation.onLastFrame();
+                // reset animation frame
+                this.currentAnimation.currentFrameIndex = 0;
                 this.currentAnimName = anim;
             }
         }
@@ -50,25 +56,39 @@ class Entity extends GameObject {
                 this.damageCooldownDelta = 0;
             }
         }
-        for (const go of touchingObjects) {
-            // Check for weapons
-            if (go instanceof Weapon && go.parent !== this) {
-                if (!this.onDamageCooldown) {
-                    this.takeDamage(go.damage);
-                    this.onDamageCooldown = true;
-                }
+        // knockback cooldown
+        if (this.takingKnockback) {
+            this.knockbackCooldownDelta += deltaTime;
+            if (this.knockbackCooldownDelta >= this.damageCooldown) {
+                this.takingKnockback = false;
+                this.knockbackCooldownDelta = 0;
             }
         }
     }
     takeDamage(dmg) {
+        if (this.onDamageCooldown) {
+            return;
+        }
+        // turn on damage cooldown
+        this.onDamageCooldown = true;
         this.hitpoints -= dmg;
         this.hurt();
+        this.stun();
         // Check if dead
         if (this.hitpoints <= 0) { // We are dead
             this.die();
         }
     }
+    takeKnockback(knockbackDelta) {
+        if (this.takingKnockback) { // dont continue to take backshots
+            return;
+        }
+        this.takingKnockback = true;
+        this.move(knockbackDelta.x, knockbackDelta.y);
+    }
     hurt() {
+    }
+    stun() {
     }
     die() {
     }

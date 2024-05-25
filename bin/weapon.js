@@ -5,6 +5,7 @@ class Weapon extends GameObject {
     parent;
     // Weapon properties
     damage;
+    knockback = new Vector2(2, 5);
     constructor(parent, damage) {
         super(parent.position.x, parent.position.y, 1, 1, false);
         this.parent = parent;
@@ -20,6 +21,15 @@ class Weapon extends GameObject {
     update() {
         this.position.setTo(this.parent.position);
         this.orientation = this.parent.orientation;
+        // collision
+        const touchingObjects = this.overlappingWith();
+        for (const go of touchingObjects) {
+            // Check for weapons
+            if (go instanceof Entity && go !== this.parent) {
+                go.takeDamage(this.damage);
+                go.takeKnockback(this.knockback);
+            }
+        }
     }
     // hitbox configs
     setHitboxConfig(id) {

@@ -35,20 +35,25 @@ class Vector2 {
     }
 
     // Instance methods
-    public add(v: Vector2) {
-        return Vector2.add(this, v);
+
+    public add(v: Vector2): void {
+        this.x += v.x;
+        this.y += v.y;
     }
 
-    public subtract(v: Vector2) {
-        return Vector2.subtract(this, v);
+    public subtract(v: Vector2): void {
+        this.x -= v.x;
+        this.y -= v.y;
     }
 
-    public multiply(v: Vector2) {
-        return Vector2.multiply(this, v);
+    public multiply(v: Vector2): void {
+        this.x *= v.x;
+        this.y *= v.y;
     }
 
-    public divide(v: Vector2) {
-        return Vector2.divide(this, v);
+    public divide(v: Vector2): void {
+        this.x /= v.x;
+        this.y /= v.y;
     }
 
     public setTo(v: Vector2) {

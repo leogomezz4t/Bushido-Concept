@@ -8,7 +8,7 @@ class TrackingCamera extends Camera {
         this.offset = new Vector2(0, -40);
     }
     get offsetPosition() {
-        return this.offset.add(this.worldPosition);
+        return Vector2.add(this.worldPosition, this.offset);
     }
     update() {
         const trackingPosition = this.trackingSubject.position;

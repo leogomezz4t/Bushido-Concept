@@ -26,16 +26,20 @@ class Vector2 {
     }
     // Instance methods
     add(v) {
-        return Vector2.add(this, v);
+        this.x += v.x;
+        this.y += v.y;
     }
     subtract(v) {
-        return Vector2.subtract(this, v);
+        this.x -= v.x;
+        this.y -= v.y;
     }
     multiply(v) {
-        return Vector2.multiply(this, v);
+        this.x *= v.x;
+        this.y *= v.y;
     }
     divide(v) {
-        return Vector2.divide(this, v);
+        this.x /= v.x;
+        this.y /= v.y;
     }
     setTo(v) {
         this.x = v.x;
