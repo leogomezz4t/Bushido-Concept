@@ -9,11 +9,8 @@ class WhiteHatSamurai extends Samurai {
         0.20: "STRONG_ATTACK"
     };
     isAttacking = false;
-    attackDelay = 150;
+    attackDelay = 0.5;
     currentAttackDelta = 0;
-    stunPenalty = 500;
-    // Hurt variables
-    isHurting = false;
     constructor(x, y) {
         super(x, y, 250, 250, 10, "samurai_3");
         this.hitboxes.push(new Hitbox(-25, 15, 30, 100, CollisionType.Colliding, this, true));
@@ -38,6 +35,7 @@ class WhiteHatSamurai extends Samurai {
             this.currentAttackDelta += deltaTime;
             if (this.currentAttackDelta >= this.attackDelay) {
                 const attackProb = random(0, 1);
+                console.log(attackProb);
                 let nextAttack;
                 if (attackProb > 0.6) {
                     nextAttack = "STRONG_ATTACK";
@@ -74,9 +72,7 @@ class WhiteHatSamurai extends Samurai {
     }
     // Methods
     determineAnimation() {
-        if (this.isHurting) {
-        }
-        else if (this.isAttacking) {
+        if (this.isAttacking) {
         }
         else if (this.deltaX !== 0) {
             this.currentAnimName = "RUN";
@@ -94,16 +90,5 @@ class WhiteHatSamurai extends Samurai {
         this.currentAnimation.onLastFrame = () => {
             this.isAttacking = false;
         };
-    }
-    hurt() {
-        this.isHurting = true;
-        this.changeAnimation("HURT", true);
-        this.currentAnimation.onLastFrame = () => {
-            this.isHurting = false;
-        };
-    }
-    stun() {
-        this.currentAttackDelta -= this.stunPenalty;
-        console.log("stun");
     }
 }

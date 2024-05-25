@@ -13,10 +13,6 @@ class Entity extends GameObject {
     public animations: {};
     public sprite: string;
 
-    // knockback
-    private takingKnockback: boolean = false;
-    private knockbackCooldown: number = 500;
-    private knockbackCooldownDelta: number = 0;
 
     constructor(x: number, y: number, width: number, height: number, maxHitpoints: number, sprite: string) {
         super(x, y, width, height, false);
@@ -41,8 +37,6 @@ class Entity extends GameObject {
             if (this.currentAnimName !== anim) {
                 // call last frame to clean up code that needs to be run
                 this.currentAnimation.onLastFrame();
-                // reset animation frame
-                this.currentAnimation.currentFrameIndex = 0;
 
                 this.currentAnimName = anim;
             }
@@ -74,27 +68,20 @@ class Entity extends GameObject {
                 this.damageCooldownDelta = 0;
             }
         }
-        // knockback cooldown
-        if (this.takingKnockback) {
-            this.knockbackCooldownDelta += deltaTime;
-            
-            if (this.knockbackCooldownDelta >= this.damageCooldown) {
-                this.takingKnockback = false;
-                this.knockbackCooldownDelta = 0;
+        for (const go of touchingObjects) {
+            // Check for weapons
+            if (go instanceof Weapon && go.parent !== this) {
+                if (!this.onDamageCooldown) {
+                    this.takeDamage(go.damage);
+                    this.onDamageCooldown = true;
+                }
             }
         }
     }
 
     public takeDamage(dmg: number): void {
-        if (this.onDamageCooldown) {
-            return;
-        }
-        // turn on damage cooldown
-        this.onDamageCooldown = true;
-
         this.hitpoints -= dmg;
         this.hurt();
-        this.stun();
 
         // Check if dead
         if (this.hitpoints <= 0) { // We are dead
@@ -102,21 +89,7 @@ class Entity extends GameObject {
         }
     }
 
-    public takeKnockback(knockbackDelta: Vector2) {
-        if (this.takingKnockback) { // dont continue to take backshots
-            return;
-        }
-        this.takingKnockback = true;
-
-        this.move(knockbackDelta.x, knockbackDelta.y);
-    }
-
-
     protected hurt() {
-
-    }
-
-    protected stun() {
 
     }
 
