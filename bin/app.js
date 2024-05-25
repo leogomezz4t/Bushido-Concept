@@ -5,6 +5,8 @@ p5.disableFriendlyErrors = true;
 const game = new GameEngine();
 // Assets
 let currentFrame;
+// refs
+let whs;
 // SCENE SETUP || BEFORE PRELOAD
 const testScene = new Scene(game);
 setupTestScene(testScene);
@@ -32,6 +34,7 @@ function draw() {
     strokeWeight(0.5);
     stroke("black");
     text(`FPS: ${frameRate().toFixed(2)}`, 10, 15);
+    text(`Samurai health: ${whs.hitpoints}/${whs.maxHitpoints}`, 10, 30);
 } //end draw
 // Scene setups
 function setupTestScene(scene) {
@@ -43,6 +46,7 @@ function setupTestScene(scene) {
     const otherMarker = new GameObject(CANVAS_WIDTH, 100, 75, 75, false);
     // enemy
     const whiteHat = new WhiteHatSamurai(player.position.x + 1000, 100);
+    whs = whiteHat;
     // Create a new camera with a reference to player
     const playerCam = new TrackingCamera(1, player);
     scene.addCamera(playerCam);

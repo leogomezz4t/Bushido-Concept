@@ -50,6 +50,11 @@ class Vector2 {
     public divide(v: Vector2) {
         return Vector2.divide(this, v);
     }
+
+    public setTo(v: Vector2) {
+        this.x = v.x;
+        this.y = v.y;
+    }
 }
 
 type Controls = {

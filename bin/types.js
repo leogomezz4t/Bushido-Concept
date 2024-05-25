@@ -37,4 +37,8 @@ class Vector2 {
     divide(v) {
         return Vector2.divide(this, v);
     }
+    setTo(v) {
+        this.x = v.x;
+        this.y = v.y;
+    }
 }

@@ -55,10 +55,20 @@ class Hitbox {
         circle(cameraX, cameraY, 5);
     }
     draw(cameraX, cameraY) {
-        if (SHOW_COLLIDING_HITBOXES && this.type === CollisionType.Colliding) {
+        // if not active dont draw
+        if (!this.parentObject.isActive) {
+            return;
+        }
+        if (SHOW_HITBOXES) {
+            this._draw(cameraX, cameraY);
+        }
+        else if (SHOW_COLLIDING_HITBOXES && this.type === CollisionType.Colliding) {
             this._draw(cameraX, cameraY);
         }
         else if (SHOW_OVERLAPPING_HITBOXES && this.type === CollisionType.Overlapping) {
+            this._draw(cameraX, cameraY);
+        }
+        if (SHOW_WEAPON_HITBOXES && this.parentObject instanceof Weapon) {
             this._draw(cameraX, cameraY);
         }
         else if (this.debug) {

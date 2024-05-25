@@ -14,6 +14,8 @@ class GameObject {
     public orientation: Orientation = Orientation.Right;
     // tags
     public tags: string[] = [];
+    // Visibility
+    public isActive: boolean = true;
 
     constructor(x: number, y: number, width: number, height: number, useDefaultHitbox: boolean = false) {
       this.position = new Vector2(x, y);
@@ -63,6 +65,27 @@ class GameObject {
       }
 
       return false;
+    }
+
+    overlappingWith(): GameObject[] {
+      const ret: GameObject[] = [];
+
+      for (const go of this.scene.gameObjects) {
+        // dont match with ourselves
+        if (go === this) {
+          continue;
+        }
+        // if not active dont show
+        if (!go.isActive) {
+          continue;
+        }
+
+        if (go.overlapping(this)) {
+          ret.push(go);
+        }
+      }
+
+      return ret;
     }
 
     boxCast(deltaX: number, deltaY: number): GameObject[] {

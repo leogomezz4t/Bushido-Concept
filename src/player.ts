@@ -14,13 +14,16 @@ class Player extends Entity {
     // jumping
     public jumpForce: number = 10;
     public isJumping: boolean = false;
-    // animation
-    public currentAnimName: string = "IDLE";
-    public animations: {};
+    // Weapons
+    public sideSword: Weapon;
+    public upSword: Weapon;
+    public downSword: Weapon;
+    public usingSword: Weapon;
     
     constructor (x: number, y: number, maxHitpoints: number) {
         // Call parent constructor
-        super(x, y, PLAYER_WIDTH, PLAYER_HEIGHT, maxHitpoints, false);
+        super(x, y, PLAYER_WIDTH, PLAYER_HEIGHT, maxHitpoints, "samurai_1");
+
 
         // Hitbox variables
         this.hitboxes.push(
@@ -29,22 +32,84 @@ class Player extends Entity {
         this.hitboxes.push(
             new Hitbox(-20, 50, 40, 85, CollisionType.Colliding, this)
         );
-    }
-    // Animation getters
-    get currentAnimation(): SpriteAnimation {
-        return this.animations[this.currentAnimName];
-    }
-    // Animation ends
 
+    }
 
     public onGameEngineDefined() {
-        // request animations
-        this.game.requestSprite("samurai_1", (s: {}) => {
-            this.animations = s;
-        })
+        super.onGameEngineDefined();
+        // Weapon properties
+        this.sideSword = new Weapon(this, 2);
+        this.scene.addGameObject(this.sideSword);
+
+        this.upSword = new Weapon(this, 2);
+        this.scene.addGameObject(this.upSword);
+
+        this.downSword = new Weapon(this, 2);
+        this.scene.addGameObject(this.downSword);
+
+        this.sideSword.hitboxConfigs = [
+            [],
+            [
+                new Hitbox(60, 90, 70, 10, CollisionType.Overlapping, this.sideSword),
+                new Hitbox(20, 100, 70, 10, CollisionType.Overlapping, this.sideSword)
+            ],
+            [
+                new Hitbox(-25, 45, 80, 25, CollisionType.Overlapping, this.sideSword),
+                new Hitbox(50, 55, 50, 20, CollisionType.Overlapping, this.sideSword),
+                new Hitbox(100, 65, 20, 20, CollisionType.Overlapping, this.sideSword),
+                new Hitbox(120, 80, 20, 20, CollisionType.Overlapping, this.sideSword),
+                new Hitbox(140, 100, 10, 25, CollisionType.Overlapping, this.sideSword)
+            ],
+            [
+                new Hitbox(-30, 50, 80, 25, CollisionType.Overlapping, this.sideSword)
+
+            ],
+            [
+                new Hitbox(-35, 20, 25, 50, CollisionType.Overlapping, this.sideSword)
+            ],
+        ]
+
+        this.upSword.hitboxConfigs = [
+            [
+                new Hitbox(-50, 110, 85, 35, CollisionType.Overlapping, this.upSword)
+            ],
+            [
+
+                new Hitbox(20, 15, 60, 50, CollisionType.Overlapping, this.upSword),
+                new Hitbox(80, 35, 40, 50, CollisionType.Overlapping, this.upSword),
+                new Hitbox(110, 60, 35, 70, CollisionType.Overlapping, this.upSword)
+            ],
+            [
+                new Hitbox(-40, 30, 60, 40, CollisionType.Overlapping, this.upSword),
+                new Hitbox(20, 50, 40, 20, CollisionType.Overlapping, this.upSword),
+                new Hitbox(60, 65, 30, 20, CollisionType.Overlapping, this.upSword)
+            ],
+            [
+                new Hitbox(-40, 30, 30, 50, CollisionType.Overlapping, this.upSword)
+            ],
+            []
+        ]
+
+        this.downSword.hitboxConfigs = [
+            [
+                new Hitbox(-60, 60, 30, 15, CollisionType.Overlapping, this.downSword),
+                new Hitbox(-30, 45, 40, 20, CollisionType.Overlapping, this.downSword),
+                new Hitbox(10, 25, 100, 40, CollisionType.Overlapping, this.downSword)
+            ],
+            [
+                new Hitbox(20, 60, 60, 70, CollisionType.Overlapping, this.downSword),
+                new Hitbox(-40, 50, 60, 70, CollisionType.Overlapping, this.downSword)
+            ],
+            [
+                new Hitbox(-40, 50, 50, 70, CollisionType.Overlapping, this.downSword)
+            ],
+            [],
+            []
+        ]
     }
     
     public update() { // p5.js func
+        super.update();
         // Default clipping
         this.allowNoClipping = false;
         // Colliding
@@ -79,9 +144,9 @@ class Player extends Entity {
         } else if (this.isJumping) {
             // place holder
         } else if (this.deltaX !== 0) { // am moving left or right
-            this.currentAnimName = "RUN";
+            this.changeAnimation("RUN", true);
         } else {
-            this.currentAnimName = "IDLE";
+            this.changeAnimation("IDLE", true);
         }
     }
     
@@ -94,15 +159,42 @@ class Player extends Entity {
     }
 
     // start attacking methods
-    attack(attackType) {
+    attack(attackType: "ATTACK_1" | "ATTACK_2" | "ATTACK_3") {
         if (this.isAttacking) { // Don't attack twice
             return;
         }
 
+        // Choose which sword
+        switch (attackType) {
+            case "ATTACK_1": {
+                this.usingSword = this.sideSword;
+                break;
+            }
+            case "ATTACK_2": {
+                this.usingSword = this.downSword;
+                break;
+            }
+            case "ATTACK_3": {
+                this.usingSword = this.upSword;
+            }
+        }
+
+        // attacking variables
         this.isAttacking = true;
-        this.currentAnimName = attackType;
+        
+        // weapon variables
+        this.usingSword.isActive = true;
+
+        // animation
+        this.changeAnimation(attackType, true);
+        
         this.currentAnimation.onLastFrame = () => {
             this.isAttacking = false;
+            this.usingSword.isActive = false;
+        }
+
+        this.currentAnimation.onNewFrame = id => {
+            this.usingSword.setHitboxConfig(id)
         }
     }
 
@@ -112,7 +204,9 @@ class Player extends Entity {
         }
 
         this.isDefending = true;
-        this.currentAnimName = "DEFEND";
+        
+        // animation
+        this.changeAnimation("DEFEND", true);
         this.currentAnimation.onLastFrame = () => {
             this.isDefending = false;
         }
@@ -192,7 +286,7 @@ class Player extends Entity {
         // Define the original orientation
         this.dashOrientation = this.orientation;
         // Finsihing logic
-        this.currentAnimName = "DASH";
+        this.changeAnimation("DASH", true);
         this.isDashAnimating = true;
         this.canDash = false;
         this.currentAnimation.onLastFrame = () => {
@@ -210,7 +304,7 @@ class Player extends Entity {
     }
     
     // end movement logic
-    draw(cameraX, cameraY) {
+    draw(cameraX: number, cameraY: number) {
         this.currentAnimation.drawAnimation(cameraX, cameraY, this.width, this.height);
     }
 }

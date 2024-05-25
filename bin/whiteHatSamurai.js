@@ -1,7 +1,4 @@
 class WhiteHatSamurai extends Samurai {
-    // Animations
-    animations;
-    currentAnimName = "IDLE";
     // enemy ai
     alertDistance = 500;
     stopDistance = 100;
@@ -15,24 +12,20 @@ class WhiteHatSamurai extends Samurai {
     attackDelay = 0.5;
     currentAttackDelta = 0;
     constructor(x, y) {
-        super(x, y, 250, 250, 10);
+        super(x, y, 250, 250, 10, "samurai_3");
         this.hitboxes.push(new Hitbox(-25, 15, 30, 100, CollisionType.Colliding, this, true));
-    }
-    // Getters and setters
-    get currentAnimation() {
-        return this.animations[this.currentAnimName];
     }
     // Methods
     onGameEngineDefined() {
-        this.game.requestSprite("samurai_3", (s) => {
-            this.animations = s;
-        });
+        super.onGameEngineDefined();
     }
     // p5.js functions
     draw(cameraX, cameraY) {
         this.currentAnimation.drawAnimation(cameraX, cameraY, this.width, this.height);
     }
     update() {
+        // super
+        super.update();
         // AI
         const player = this.scene.manager.playerReference;
         const distToPlayer = Vector2.dist(player.position, this.position);
@@ -93,7 +86,7 @@ class WhiteHatSamurai extends Samurai {
             return;
         }
         this.isAttacking = true;
-        this.currentAnimName = attackType;
+        this.changeAnimation(attackType, true);
         this.currentAnimation.onLastFrame = () => {
             this.isAttacking = false;
         };

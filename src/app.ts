@@ -7,6 +7,9 @@ const game: GameEngine = new GameEngine();
 // Assets
 let currentFrame: string;
 
+// refs
+let whs: WhiteHatSamurai;
+
 // SCENE SETUP || BEFORE PRELOAD
 const testScene: Scene = new Scene(game);
 setupTestScene(testScene);
@@ -42,6 +45,8 @@ function draw() {
     stroke("black")
     text(`FPS: ${frameRate().toFixed(2)}`, 10, 15);
 
+    text(`Samurai health: ${whs.hitpoints}/${whs.maxHitpoints}`, 10, 30)
+
 }//end draw
 
 // Scene setups
@@ -57,7 +62,7 @@ function setupTestScene(scene: Scene) { // within preload
 
   // enemy
   const whiteHat: WhiteHatSamurai = new WhiteHatSamurai(player.position.x + 1000, 100);
-
+  whs = whiteHat;
   // Create a new camera with a reference to player
   const playerCam = new TrackingCamera(1, player);
   scene.addCamera(playerCam);

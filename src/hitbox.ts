@@ -8,7 +8,7 @@ class Hitbox {
     
     public debug: boolean;
     
-    constructor(xOffset, yOffset, width, height, type, parentObject, debug=false) {
+    constructor(xOffset: number, yOffset: number, width: number, height: number, type: CollisionType, parentObject: GameObject, debug: boolean = false) {
         this.offset = new Vector2(xOffset, yOffset);
 
         this.width = width;
@@ -45,7 +45,7 @@ class Hitbox {
         }
     }
     
-    overlapping(hb) {
+    overlapping(hb: Hitbox) {
         return (
         this.x + this.width > hb.x
         && this.x < hb.x + hb.width
@@ -54,7 +54,7 @@ class Hitbox {
       );
     }
 
-    _draw(cameraX, cameraY) {
+    _draw(cameraX: number, cameraY: number) {
         // hitbox
         noFill();
         stroke(this.debugColor);
@@ -68,10 +68,18 @@ class Hitbox {
 
     }
 
-    draw(cameraX, cameraY) {
-        if (SHOW_COLLIDING_HITBOXES && this.type === CollisionType.Colliding) {
+    draw(cameraX: number, cameraY: number) {
+        // if not active dont draw
+        if (!this.parentObject.isActive) {
+            return;
+        }
+        if (SHOW_HITBOXES) {
+            this._draw(cameraX, cameraY);
+        } else if (SHOW_COLLIDING_HITBOXES && this.type === CollisionType.Colliding) {
             this._draw(cameraX, cameraY);   
         } else if (SHOW_OVERLAPPING_HITBOXES && this.type === CollisionType.Overlapping) {
+            this._draw(cameraX, cameraY);
+        } if (SHOW_WEAPON_HITBOXES && this.parentObject instanceof Weapon) {
             this._draw(cameraX, cameraY);
         } else if (this.debug) {
             this._draw(cameraX, cameraY);
