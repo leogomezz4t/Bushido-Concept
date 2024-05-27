@@ -45,7 +45,7 @@ function setupTestScene(scene) {
     const marker = new GameObject(0, 100, 75, 75, false);
     const otherMarker = new GameObject(CANVAS_WIDTH, 100, 75, 75, false);
     // enemy
-    const whiteHat = new WhiteHatSamurai(player.position.x + 1000, 100);
+    const whiteHat = new WhiteHatSamurai(player.position.x - 250, 100);
     whs = whiteHat;
     // Create a new camera with a reference to player
     const playerCam = new TrackingCamera(1, player);

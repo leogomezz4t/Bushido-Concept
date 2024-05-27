@@ -58,6 +58,9 @@ class GameObject {
     }
     overlappingWith() {
         const ret = [];
+        if (!this.isActive) {
+            return ret;
+        }
         for (const go of this.scene.gameObjects) {
             // dont match with ourselves
             if (go === this) {
@@ -104,6 +107,7 @@ class GameObject {
         this.deltaX = 0;
         // Move  
         this.deltaX += horizontalChange;
+        this.deltaY += verticalChange;
         // Apply
         this.position.x += this.deltaX;
     }

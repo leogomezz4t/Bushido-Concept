@@ -61,7 +61,7 @@ function setupTestScene(scene: Scene) { // within preload
   const otherMarker = new GameObject(CANVAS_WIDTH, 100, 75, 75, false);
 
   // enemy
-  const whiteHat: WhiteHatSamurai = new WhiteHatSamurai(player.position.x + 1000, 100);
+  const whiteHat: WhiteHatSamurai = new WhiteHatSamurai(player.position.x -250, 100);
   whs = whiteHat;
   // Create a new camera with a reference to player
   const playerCam = new TrackingCamera(1, player);

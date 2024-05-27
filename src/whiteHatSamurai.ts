@@ -11,6 +11,10 @@ class WhiteHatSamurai extends Samurai {
     private isAttacking: boolean = false;
     private attackDelay: number = 0.5;
     private currentAttackDelta: number = 0;
+    // weapon
+    private basicSword: Weapon;
+    private strongSword: Weapon;
+    private usingSword: Weapon;
 
 
     constructor(x: number, y: number) {
@@ -24,6 +28,46 @@ class WhiteHatSamurai extends Samurai {
     // Methods
     public onGameEngineDefined(): void {
         super.onGameEngineDefined();
+
+        // Weapon
+        this.basicSword = new Weapon(this, 1);
+        this.scene.addGameObject(this.basicSword);
+
+        this.basicSword.hitboxConfigs = [
+            [],
+            [],
+            [
+                new Hitbox(25, 10, 45, 100, CollisionType.Overlapping, this.basicSword, true),
+                new Hitbox(15, -20, 30, 30, CollisionType.Overlapping, this.basicSword, true),
+                new Hitbox(-30, -40, 60, 25, CollisionType.Overlapping, this.basicSword, true)
+            ],
+            [
+                new Hitbox(25, 0, 40, 100, CollisionType.Overlapping, this.basicSword, true),
+            ],
+            [
+                new Hitbox(20, 80, 40, 10, CollisionType.Overlapping, this.basicSword, true),
+            ],
+            []
+        ]
+
+        this.strongSword = new Weapon(this, 3);
+        this.scene.addGameObject(this.strongSword);
+
+        this.strongSword.hitboxConfigs = [
+            [],
+            [],
+            [],
+            [],
+            [
+                new Hitbox(70, -100, 20, 215, CollisionType.Overlapping, this.strongSword, true),
+                new Hitbox(20, 60, 50, 60, CollisionType.Overlapping, this.strongSword, true),
+            ],
+            [
+                new Hitbox(25, 85, 60, 30, CollisionType.Overlapping, this.strongSword, true),
+                new Hitbox(80, 45, 20, 70, CollisionType.Overlapping, this.strongSword, true),
+            ],
+            []
+        ]
     }
 
     // p5.js functions
@@ -41,6 +85,7 @@ class WhiteHatSamurai extends Samurai {
         if (distToPlayer <= this.stopDistance) {
             // attack logic
             // randomize attack types
+            /*
             this.currentAttackDelta += deltaTime;
             if (this.currentAttackDelta >= this.attackDelay) {
                 const attackProb = random(0, 1);
@@ -56,13 +101,15 @@ class WhiteHatSamurai extends Samurai {
                 this.attackDelay = random(1000, 3000);
                 this.currentAttackDelta = 0;
             }
+            */
+           this.attack("STRONG_ATTACK");
         } else if (distToPlayer < this.alertDistance) {
             // x component
             if (this.position.x < player.position.x) {
-                this.move(3, 0);
+                //this.move(3, 0);
             }
             if (this.position.x > player.position.x) {
-                this.move(-3, 0);
+                //this.move(-3, 0);
             }
         }
 
@@ -96,9 +143,21 @@ class WhiteHatSamurai extends Samurai {
         if (this.isAttacking) { // Don't attack twice
             return;
         }
+        switch (attackType) {
+            case "BASIC_ATTACK": {
+                this.usingSword = this.basicSword;
+                return;
+            }
+
+            case "STRONG_ATTACK": {
+                this.usingSword = this.strongSword;
+                return;
+            }
+        }
 
         this.isAttacking = true;
         this.changeAnimation(attackType, true);
+
         this.currentAnimation.onLastFrame = () => {
             this.isAttacking = false;
         }

@@ -69,6 +69,10 @@ class GameObject {
 
     overlappingWith(): GameObject[] {
       const ret: GameObject[] = [];
+      
+      if (!this.isActive) {
+        return ret;
+      }
 
       for (const go of this.scene.gameObjects) {
         // dont match with ourselves
@@ -124,9 +128,10 @@ class GameObject {
       this.deltaX = 0;
       // Move  
       this.deltaX += horizontalChange;
-
+      this.deltaY += verticalChange;
       // Apply
       this.position.x += this.deltaX;
+
     }
 
     public applyGravity() {

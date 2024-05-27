@@ -5,7 +5,8 @@ class Weapon extends GameObject {
     parent;
     // Weapon properties
     damage;
-    knockback = new Vector2(-10, -50);
+    leftKnockback = new Vector2(-100, 0);
+    rightKnockback = new Vector2(100, 0);
     constructor(parent, damage) {
         super(parent.position.x, parent.position.y, 1, 1, false);
         this.parent = parent;
@@ -26,7 +27,13 @@ class Weapon extends GameObject {
             // Check for weapons
             if (go instanceof Entity && this.parent !== go) {
                 go.takeDamage(this.damage);
-                go.takeKnockback(this.knockback);
+                // calculate knockback
+                if (this.parent.position.x >= go.position.x) {
+                    go.takeKnockback(this.leftKnockback);
+                }
+                else {
+                    go.takeKnockback(this.rightKnockback);
+                }
                 console.log(go);
             }
         }
