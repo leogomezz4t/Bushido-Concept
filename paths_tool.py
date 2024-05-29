@@ -34,3 +34,6 @@ for s in sprites:
 json_string = json.dumps(d, indent=4)
 with open("./data/animationPaths.json", "w") as file:
     file.write(json_string)
+
+
+# Background path

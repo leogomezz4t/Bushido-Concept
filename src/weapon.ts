@@ -38,7 +38,6 @@ class Weapon extends GameObject {
                 } else {
                     go.takeKnockback(this.rightKnockback);
                 }
-                console.log(go)
             }
         }
 

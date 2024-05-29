@@ -38,9 +38,13 @@ function draw() {
 } //end draw
 // Scene setups
 function setupTestScene(scene) {
+    // background
+    const background = new Background(-200, -200, 4, "artwork/world/Background/3.png");
+    scene.addGameObject(background);
+    // player
     const player = new Player(CANVAS_WIDTH / 2, 100, 10);
     // Floors
-    const floor = new GameObject(-1000, CANVAS_HEIGHT - 50, CANVAS_WIDTH * 5, 50, true);
+    const floor = new WorldObject(0, CANVAS_HEIGHT - 50, 2, "artwork/world/basic_background.png");
     floor.addTag("floor");
     const marker = new GameObject(0, 100, 75, 75, false);
     const otherMarker = new GameObject(CANVAS_WIDTH, 100, 75, 75, false);
@@ -60,6 +64,14 @@ function setupTestScene(scene) {
     scene.addGameObject(player);
     scene.addGameObject(marker);
     scene.addGameObject(otherMarker);
+}
+function keyPressed() {
+    if (key === 'l') {
+        loop();
+    }
+    if (key === ';') {
+        noLoop();
+    }
 }
 function mousePressed() {
     console.log(`X: ${mouseX} Y: ${mouseY}`);

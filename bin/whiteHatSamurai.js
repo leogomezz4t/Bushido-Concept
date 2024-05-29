@@ -1,7 +1,7 @@
 class WhiteHatSamurai extends Samurai {
     // enemy ai
     alertDistance = 500;
-    stopDistance = 100;
+    stopDistance = 85;
     // attacking
     attackTypes = ["BASIC_ATTACK", "STRONG_ATTACK"];
     attackProbs = {
@@ -56,6 +56,8 @@ class WhiteHatSamurai extends Samurai {
                 new Hitbox(25, 85, 60, 30, CollisionType.Overlapping, this.strongSword, true),
                 new Hitbox(80, 45, 20, 70, CollisionType.Overlapping, this.strongSword, true),
             ],
+            [],
+            [],
             []
         ];
     }
@@ -72,32 +74,28 @@ class WhiteHatSamurai extends Samurai {
         if (distToPlayer <= this.stopDistance) {
             // attack logic
             // randomize attack types
-            /*
             this.currentAttackDelta += deltaTime;
             if (this.currentAttackDelta >= this.attackDelay) {
                 const attackProb = random(0, 1);
-                console.log(attackProb)
                 let nextAttack;
                 if (attackProb > 0.6) {
-                    nextAttack = "STRONG_ATTACK"
-                } else {
-                    nextAttack = "BASIC_ATTACK"
+                    nextAttack = "STRONG_ATTACK";
+                }
+                else {
+                    nextAttack = "BASIC_ATTACK";
                 }
                 this.attack(nextAttack);
-
                 this.attackDelay = random(1000, 3000);
                 this.currentAttackDelta = 0;
             }
-            */
-            this.attack("STRONG_ATTACK");
         }
         else if (distToPlayer < this.alertDistance) {
             // x component
             if (this.position.x < player.position.x) {
-                //this.move(3, 0);
+                this.move(3, 0);
             }
             if (this.position.x > player.position.x) {
-                //this.move(-3, 0);
+                this.move(-3, 0);
             }
         }
         // Orientation logic
@@ -131,17 +129,22 @@ class WhiteHatSamurai extends Samurai {
         switch (attackType) {
             case "BASIC_ATTACK": {
                 this.usingSword = this.basicSword;
-                return;
+                break;
             }
             case "STRONG_ATTACK": {
                 this.usingSword = this.strongSword;
-                return;
+                break;
             }
         }
         this.isAttacking = true;
+        this.usingSword.isActive = true;
         this.changeAnimation(attackType, true);
         this.currentAnimation.onLastFrame = () => {
             this.isAttacking = false;
+            this.usingSword.isActive = false;
+        };
+        this.currentAnimation.onNewFrame = id => {
+            this.usingSword.setHitboxConfig(id);
         };
     }
 }
