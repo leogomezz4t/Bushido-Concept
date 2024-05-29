@@ -19,6 +19,8 @@ const SHOW_COLLIDING_HITBOXES = false;
 const SHOW_WEAPON_HITBOXES = true;
 
 const SHOW_ORIGINS = false;
+
+const EDITOR_MODE = true;
 // Orientation
 enum Orientation {
     Left = -1,

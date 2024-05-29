@@ -3,7 +3,7 @@ class TrackingCamera extends Camera {
     dampingStrength = 0.1;
     offset;
     constructor(scale, trackingReference) {
-        super(0, 0, scale);
+        super(trackingReference.position.x, trackingReference.position.y, scale);
         this.trackingSubject = trackingReference;
         this.offset = new Vector2(0, -40);
     }

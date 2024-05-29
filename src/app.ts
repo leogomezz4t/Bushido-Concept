@@ -51,9 +51,6 @@ function draw() {
 
 // Scene setups
 function setupTestScene(scene: Scene) { // within preload 
-  // background
-  const background = new Background(-200, -200, 4, "artwork/world/Background/3.png");
-  scene.addGameObject(background);
   // player
   const player = new Player(CANVAS_WIDTH/2, 100, 10);
 
@@ -71,6 +68,20 @@ function setupTestScene(scene: Scene) { // within preload
   const playerCam = new TrackingCamera(1, player);
   scene.addCamera(playerCam);
   scene.setCurrentCamera(playerCam);
+  // background
+  const backLayer = new Background(-200, -200, "artwork/world/Background/3.png");
+  const midLayer = new Background(-200, -200, "artwork/world/Background/2.png");
+  const foreLayer = new Background(-200, -200, "artwork/world/Background/1.png");
+
+  backLayer.parallaxEffect = 0.01;
+  midLayer.parallaxEffect = 0.15
+  foreLayer.parallaxEffect = 0.5;
+
+  const background = new ParallaxBackground(-200, -200, 4, playerCam, backLayer, midLayer, foreLayer);
+  scene.addGameObject(backLayer);
+  scene.addGameObject(midLayer);
+  scene.addGameObject(foreLayer);
+  scene.addGameObject(background);
 
   // Game Manager
   const manager: GameManager = new GameManager();

@@ -3,13 +3,18 @@ class Background extends GameObject {
     imagePath;
     image;
     scale;
-    constructor(x, y, scale, imagePath) {
+    // Parralax properties
+    parallaxEffect;
+    initialPos;
+    constructor(x, y, imagePath) {
         super(x, y, null, null, false);
         this.imagePath = imagePath;
-        this.scale = scale;
+        this.initialPos = new Vector2(x, y);
     }
     preload() {
-        this.image = loadImage(this.imagePath);
+        this.image = loadImage(this.imagePath, () => {
+            console.log(this.image);
+        });
     }
     draw(cameraX, cameraY) {
         image(this.image, cameraX, cameraY, this.image.width * this.scale, this.image.height * this.scale);

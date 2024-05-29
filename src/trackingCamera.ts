@@ -6,7 +6,7 @@ class TrackingCamera extends Camera {
     public offset: Vector2;
 
     constructor(scale: number, trackingReference: GameObject) {
-        super(0, 0, scale);
+        super(trackingReference.position.x, trackingReference.position.y, scale);
 
         this.trackingSubject = trackingReference;
         this.offset = new Vector2(0, -40);
