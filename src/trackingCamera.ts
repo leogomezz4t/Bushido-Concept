@@ -36,5 +36,7 @@ class TrackingCamera extends Camera {
         if (this.offsetPosition.y > trackingPosition.y) {
             this.worldPosition.y -= this.dampingStrength*yDist;
         }
+
+        super.update();
     }
 }

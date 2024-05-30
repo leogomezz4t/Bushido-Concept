@@ -23,8 +23,8 @@ class Camera {
     }
     
     toCameraCoordinates(position: Vector2) {
-        const cameraX = (position.x - (this.worldPosition.x- this.width/2))*this.scale;
-        const cameraY = (position.y - (this.worldPosition.y - this.height/2))*this.scale;
+        const cameraX = (position.x - (this.worldPosition.x- this.width/2));
+        const cameraY = (position.y - (this.worldPosition.y - this.height/2));
         return new Vector2(cameraX, cameraY);
     }
     // end static methods
@@ -33,7 +33,7 @@ class Camera {
         push();
         scale(this.scale, this.scale);
         const {x, y} = this.toCameraCoordinates(go.position);
-        go.draw(x/this.scale, y/this.scale);
+        go.draw(x, y);
         pop();
     }
 
@@ -42,6 +42,6 @@ class Camera {
     }
 
     update() {
-        
+
     }
 }
