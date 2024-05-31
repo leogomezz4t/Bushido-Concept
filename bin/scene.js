@@ -57,9 +57,14 @@ class Scene {
             c.update();
         }
         // update all game objects
-        for (const go of this.gameObjects) {
-            go.update();
-            this.currentCamera.render(go);
+        for (let i = 0; i < MAX_LAYER + 1; i++) {
+            for (const go of this.gameObjects) {
+                if (go.drawLayer !== i) {
+                    continue;
+                }
+                go.update();
+                this.currentCamera.render(go);
+            }
         }
         // draw hitboxes
         for (const go of this.gameObjects) {

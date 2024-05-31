@@ -8,8 +8,10 @@ class Background extends GameObject {
     initialPos;
     // Parent
     parent;
-    constructor(x, y, imagePath, parent) {
+    constructor(x, y, parallax, scale, imagePath, parent) {
         super(x, y, null, null, false);
+        this.parallaxEffect = parallax;
+        this.scale = scale;
         this.imagePath = imagePath;
         this.initialPos = new Vector2(x, y);
         this.parent = parent;
@@ -21,20 +23,11 @@ class Background extends GameObject {
         return this.image.height * this.scale;
     }
     preload() {
-        this.image = loadImage(this.imagePath, () => {
-            console.log(this.image);
-        });
+        this.image = loadImage(this.imagePath);
     }
     update() {
-        const dist = this.parent.cameraReference.worldPosition.x * this.parallaxEffect;
-        const movement = this.parent.cameraReference.worldPosition.x * (1 - this.parallaxEffect);
+        const dist = (this.parent.cameraReference.worldPosition.x - this.position.x) * this.parallaxEffect;
         this.position.x = this.initialPos.x + dist;
-        if (movement > this.initialPos.x + (this.imageWidth * 2)) {
-            this.initialPos.x += this.imageWidth;
-        }
-        else if (movement < this.initialPos.x - this.imageWidth) {
-            this.initialPos.x -= this.imageWidth;
-        }
     }
     draw(cameraX, cameraY) {
         image(this.image, cameraX, cameraY, this.imageWidth, this.imageHeight);

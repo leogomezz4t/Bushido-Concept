@@ -25,8 +25,8 @@ class Camera {
     render(go) {
         push();
         scale(this.scale, this.scale);
-        const { x, y } = this.toCameraCoordinates(go.position);
-        go.draw(x, y);
+        const pos = this.toCameraCoordinates(go.position);
+        go.draw(pos.x, pos.y);
         pop();
     }
     toWorldCoordinates(x, y) {

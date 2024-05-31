@@ -9,7 +9,7 @@ class WorldObject extends GameObject {
         super(x, y, null, null, true);
         this.imagePath = imagePath
         this.scale = scale;
-
+        this.addTag("world_object");
     }
 
     public preload() {

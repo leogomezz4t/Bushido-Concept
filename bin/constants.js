@@ -18,7 +18,7 @@ const SHOW_OVERLAPPING_HITBOXES = false;
 const SHOW_COLLIDING_HITBOXES = false;
 const SHOW_WEAPON_HITBOXES = true;
 const SHOW_ORIGINS = false;
-const EDITOR_MODE = true;
+const EDITOR_MODE = false;
 // Orientation
 var Orientation;
 (function (Orientation) {
@@ -38,3 +38,5 @@ var CollisionType;
     CollisionType[CollisionType["Colliding"] = 0] = "Colliding";
     CollisionType[CollisionType["Overlapping"] = 1] = "Overlapping";
 })(CollisionType || (CollisionType = {}));
+// draw layers
+const MAX_LAYER = 5;

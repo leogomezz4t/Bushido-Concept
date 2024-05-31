@@ -20,7 +20,7 @@ const SHOW_WEAPON_HITBOXES = true;
 
 const SHOW_ORIGINS = false;
 
-const EDITOR_MODE = true;
+const EDITOR_MODE = false;
 // Orientation
 enum Orientation {
     Left = -1,
@@ -38,3 +38,5 @@ enum CollisionType {
     Colliding,
     Overlapping
 }
+// draw layers
+const MAX_LAYER = 5;

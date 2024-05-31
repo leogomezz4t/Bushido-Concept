@@ -1,5 +1,6 @@
 class Player extends Entity {
     // movement
+    debug = false;
     speed = 0.5;
     allowNoClipping = false;
     // dashing
@@ -113,7 +114,9 @@ class Player extends Entity {
         this.fixClipping();
         // movement logic
         this.movement();
-        this.applyGravity();
+        if (!this.debug) {
+            this.applyGravity();
+        }
     }
     determineAnimation() {
         if (this.isDashAnimating) {
@@ -216,6 +219,12 @@ class Player extends Entity {
         if (keyIsDown(KBM_CONTROLS.RIGHT)) {
             keyDeltaX += 1;
         }
+        if (keyIsDown(38)) {
+            keyDeltaY -= 1;
+        }
+        if (keyIsDown(40)) {
+            keyDeltaY += 1;
+        }
         if (keyIsDown(KBM_CONTROLS.DASH)) { // dashing logic
             this.dash();
         }
@@ -237,7 +246,14 @@ class Player extends Entity {
         if ((this.isAttacking || this.isDefending) || (this.isDashAnimating)) { // dont be able to move while attacking
             return;
         }
-        this.move(horizontalChange, 0);
+        if (this.debug) {
+            console.log(keyDeltaY * deltaTime * this.speed);
+            this.move(horizontalChange, 0);
+            this.position.y += keyDeltaY * deltaTime * this.speed;
+        }
+        else {
+            this.move(horizontalChange, 0);
+        }
     }
     jump() {
         this.deltaY = -this.jumpForce;

@@ -16,6 +16,8 @@ class GameObject {
     tags = [];
     // Visibility
     isActive = true;
+    // draw layers
+    drawLayer = MAX_LAYER;
     constructor(x, y, width, height, useDefaultHitbox = false) {
         this.position = new Vector2(x, y);
         this.width = width;
@@ -76,22 +78,32 @@ class GameObject {
         }
         return ret;
     }
+    collidingWith() {
+        const ret = [];
+        if (!this.isActive) {
+            return ret;
+        }
+        for (const go of this.scene.gameObjects) {
+            // dont match with ourselves
+            if (go === this) {
+                continue;
+            }
+            // if not active dont show
+            if (!go.isActive) {
+                continue;
+            }
+            if (this.colliding(go)) {
+                ret.push(go);
+            }
+        }
+        return ret;
+    }
     boxCast(deltaX, deltaY) {
         // modify the game object
         this.position.x += deltaX;
         this.position.y += deltaY;
         // maintain list of overlapping objects
-        let collidingObjects = [];
-        // test for overlap
-        for (const go of this.scene.gameObjects) {
-            if (this === go) {
-                continue;
-            }
-            if (this.colliding(go)) {
-                // Reset the game object
-                collidingObjects.push(go);
-            }
-        }
+        let collidingObjects = this.collidingWith();
         // Reset the game object
         this.position.x -= deltaX;
         this.position.y -= deltaY;
@@ -107,19 +119,19 @@ class GameObject {
         this.deltaX = 0;
         // Move  
         this.deltaX += horizontalChange;
-        this.deltaY += verticalChange;
-        // Apply
+        // Appl
         this.position.x += this.deltaX;
+        if (this.collidingWith().filter(x => !(x instanceof Entity)).length > 0) {
+            this.position.x -= this.deltaX;
+        }
     }
     applyGravity() {
+        this.deltaY += GRAVITY_DELTA;
+        this.position.y += this.deltaY;
         if (this.touchingFloor()) {
+            this.position.y -= this.deltaY;
             this.deltaY = 0;
         }
-        // Gravity
-        if (!this.touchingFloor()) {
-            this.deltaY += GRAVITY_DELTA;
-        }
-        this.position.y += this.deltaY;
     }
     onGameEngineDefined() {
     }

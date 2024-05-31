@@ -15,6 +15,9 @@ class WhiteHatSamurai extends Samurai {
     private basicSword: Weapon;
     private strongSword: Weapon;
     private usingSword: Weapon;
+    // hurting
+    private isHurting: boolean = false;
+
 
 
     constructor(x: number, y: number) {
@@ -130,7 +133,9 @@ class WhiteHatSamurai extends Samurai {
 
     // Methods
     private determineAnimation() {
-        if (this.isAttacking) {
+        if (this.isHurting) {
+
+        } else if (this.isAttacking) {
 
         } else if (this.deltaX !== 0) {
             this.currentAnimName = "RUN";
@@ -167,6 +172,14 @@ class WhiteHatSamurai extends Samurai {
 
         this.currentAnimation.onNewFrame = id => {
             this.usingSword.setHitboxConfig(id);
+        }
+    }
+
+    protected hurt(): void {
+        this.changeAnimation("HURT", true);
+        this.isHurting = true;
+        this.currentAnimation.onLastFrame = () => {
+            this.isHurting = false;
         }
     }
 }

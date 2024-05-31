@@ -23,7 +23,7 @@ function setup() {
     game.setup();
 } //end setup
 function draw() {
-    background(200, 150, 80);
+    background("#2a2f4e");
     // Set frame rate
     frameRate(60);
     // Run game
@@ -34,20 +34,20 @@ function draw() {
     strokeWeight(0.5);
     stroke("black");
     text(`FPS: ${frameRate().toFixed(2)}`, 10, 15);
-    // text(`Samurai health: ${whs.hitpoints}/${whs.maxHitpoints}`, 10, 30)
+    text(`Sazamurai health: ${whs.hitpoints}/${whs.maxHitpoints}`, 10, 30);
 } //end draw
 // Scene setups
 function setupTestScene(scene) {
     // player
     const player = new Player(CANVAS_WIDTH / 2, 100, 10);
+    player.debug = false;
     // Floors
-    const floor = new WorldObject(0, CANVAS_HEIGHT - 50, 2, "artwork/world/basic_background.png");
+    const floor = new WorldObject(-500, CANVAS_HEIGHT - 50, 2, "artwork/world/basic_background.png");
     floor.addTag("floor");
-    const marker = new GameObject(0, 100, 75, 75, false);
-    const otherMarker = new GameObject(CANVAS_WIDTH, 100, 75, 75, false);
     // enemy
-    // const whiteHat: WhiteHatSamurai = new WhiteHatSamurai(player.position.x -250, 100);
-    // whs = whiteHat;
+    const whiteHat = new WhiteHatSamurai(player.position.x - 250, 100);
+    scene.addGameObject(whiteHat);
+    whs = whiteHat;
     // Create a new camera with a reference to player
     const playerCam = new TrackingCamera(1, player);
     scene.addCamera(playerCam);
@@ -59,11 +59,8 @@ function setupTestScene(scene) {
     const manager = new GameManager();
     manager.playerReference = player;
     scene.setGameManager(manager);
-    // scene.addGameObject(whiteHat)
     scene.addGameObject(floor);
     scene.addGameObject(player);
-    scene.addGameObject(marker);
-    scene.addGameObject(otherMarker);
 }
 function keyPressed() {
     if (key === 'l') {
