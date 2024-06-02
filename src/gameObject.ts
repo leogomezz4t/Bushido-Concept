@@ -2,6 +2,7 @@ class GameObject {
     public position: Vector2;
     public width: number;
     public height: number;
+    public color: any = "red";
     // references
     public game: GameEngine;
     public scene: Scene;
@@ -144,6 +145,7 @@ class GameObject {
       this.deltaX = 0;
       // Move  
       this.deltaX += horizontalChange;
+      this.deltaY += verticalChange;
       // Appl
       this.position.x += this.deltaX;
       if (this.collidingWith().filter(x => !(x instanceof Entity)).length > 0) {
@@ -159,6 +161,15 @@ class GameObject {
         this.position.y -= this.deltaY;
         this.deltaY = 0;
       }
+    }
+
+    public delete() {
+      const i = this.scene.gameObjects.indexOf(this);
+      if (i === -1) {
+        throw new Error("Tried to delete gameObject that does not exist");
+      }
+
+      this.scene.gameObjects.splice(i, 1);
     }
 
     public onGameEngineDefined() {
@@ -179,7 +190,7 @@ class GameObject {
   
     public draw(cameraX: number, cameraY: number) { // p5js
       noStroke();
-      fill("red");
+      fill(this.color);
       rect(cameraX, cameraY, this.width, this.height);
     }
   }

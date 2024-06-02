@@ -7,7 +7,7 @@ class WhiteHatSamurai extends Samurai {
     private stopDistance: number = 85;
 
     private isPacingBack: boolean = false;
-    private pacingDistance: number = 450;
+    private pacingDistance: number = 500;
 
     private isSprintAttacking: boolean = false;
     private sprintAttackSpeed: number = 0.3;
@@ -20,11 +20,6 @@ class WhiteHatSamurai extends Samurai {
     private flurryCounter: number = 0;
     private flurrySpeed: number = 0.15;
     // attacking
-    private attackTypes: string[] = ["BASIC_ATTACK", "STRONG_ATTACK"];
-    private attackProbs = {
-        0.80: "BASIC_ATTACK",
-        0.20: "STRONG_ATTACK"
-    }
     private isAttacking: boolean = false;
     private attackDelay: number = 0.5;
     private currentAttackDelta: number = 0;
@@ -34,8 +29,11 @@ class WhiteHatSamurai extends Samurai {
     private usingSword: Weapon;
     // hurting
     private isHurting: boolean = false;
-
-
+    // Health bar
+    private healthBar: EnemyHealthBar;
+    private healthOffset: Vector2 = new Vector2(-20, -10);
+    private healthShowingDelta: number = 0;
+    private healthShowingLimit: number = 5000;
 
     constructor(x: number, y: number) {
         super(x, y, 250, 250, 10, "samurai_3");
@@ -48,9 +46,13 @@ class WhiteHatSamurai extends Samurai {
     // Methods
     public onGameEngineDefined(): void {
         super.onGameEngineDefined();
+        // health bar
+        this.healthBar = new EnemyHealthBar(this, this.healthOffset, 50, 10, this.maxHitpoints);
+        this.healthBar.isActive = false;
+        this.scene.addGameObject(this.healthBar)
 
         // Weapon
-        this.basicSword = new Weapon(this, 1);
+        this.basicSword = new Weapon(this, 1, new Vector2(40, 0));
         this.scene.addGameObject(this.basicSword);
 
         this.basicSword.hitboxConfigs = [
@@ -70,7 +72,7 @@ class WhiteHatSamurai extends Samurai {
             []
         ]
 
-        this.strongSword = new Weapon(this, 3);
+        this.strongSword = new Weapon(this, 3, new Vector2(150, 0));
         this.scene.addGameObject(this.strongSword);
 
         this.strongSword.hitboxConfigs = [
@@ -100,13 +102,15 @@ class WhiteHatSamurai extends Samurai {
     public update(): void {
         // super
         super.update();
-        console.log(deltaTime)
         // AI
         const player = this.scene.manager.playerReference;
         const distToPlayer = Vector2.dist(player.position, this.position);
         // setting its alert
         this.alerted = distToPlayer < this.alertDistance;
-        if (this.isFlurryAttacking) {
+
+        if (this.isDying) {
+            // dont do anything
+        } else if (this.isFlurryAttacking) {
             // Check if flurry is over
             if (this.flurryCounter >= this.numberOfFlurries) {
                 this.isFlurryAttacking = false;
@@ -181,6 +185,18 @@ class WhiteHatSamurai extends Samurai {
             this.orientation = Orientation.Left;
         }
 
+        // health bar timer
+        if (this.healthBar.isActive) {
+            // Check if limit is passed
+            if (this.healthShowingDelta >= this.healthShowingLimit) {
+                this.healthBar.isActive = false;
+            }
+            // increment timer
+            this.healthShowingDelta += deltaTime;
+
+        }
+
+
         // Animations
         this.determineAnimation();
         this.currentAnimation.update(this.orientation);
@@ -190,7 +206,9 @@ class WhiteHatSamurai extends Samurai {
 
     // Methods
     private determineAnimation() {
-        if (this.isFlurryAttacking) {
+        if (this.isDying) {
+
+        } else if (this.isFlurryAttacking) {
 
         } else if (this.isHurting) {
 
@@ -243,7 +261,20 @@ class WhiteHatSamurai extends Samurai {
         }
     }
 
+    public die(): void {
+        super.die();
+        // weapon cleanup
+        this.basicSword.delete();
+        this.strongSword.delete();
+        // health bar cleanup
+        this.healthBar.delete();
+    }
+
     protected hurt(): void {
+        // show healthbar
+        this.healthBar.isActive = true;
+        this.healthShowingDelta = 0;
+
         this.changeAnimation("HURT", true);
         this.isHurting = true;
         this.currentAnimation.onLastFrame = () => {

@@ -8,6 +8,8 @@ class Entity extends GameObject {
     public damageCooldown: number = 500;
     public damageCooldownDelta: number = 0;
 
+    // death
+    protected isDying: boolean = false;
     // knockback
     private takingKnockback: boolean = false;
     private knockbackCooldown: number = 500;
@@ -120,6 +122,16 @@ class Entity extends GameObject {
     }
 
     public die(): void {
-        
+        if (this.isDying) {
+            return;
+        }
+        this.isDying = true;
+        this.changeAnimation("DEATH", true);
+        this.currentAnimation.onNewFrame = id => {
+            if (id === this.currentAnimation.imagePaths.length-2) {
+                // At second last frame
+                this.delete();
+            }
+        }
     }
 }

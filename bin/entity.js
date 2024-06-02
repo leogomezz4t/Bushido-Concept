@@ -6,6 +6,8 @@ class Entity extends GameObject {
     onDamageCooldown = false;
     damageCooldown = 500;
     damageCooldownDelta = 0;
+    // death
+    isDying = false;
     // knockback
     takingKnockback = false;
     knockbackCooldown = 500;
@@ -90,5 +92,16 @@ class Entity extends GameObject {
     stun() {
     }
     die() {
+        if (this.isDying) {
+            return;
+        }
+        this.isDying = true;
+        this.changeAnimation("DEATH", true);
+        this.currentAnimation.onNewFrame = id => {
+            if (id === this.currentAnimation.imagePaths.length - 2) {
+                // At second last frame
+                this.delete();
+            }
+        };
     }
 }

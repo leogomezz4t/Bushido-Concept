@@ -5,21 +5,30 @@ class Weapon extends GameObject {
     public parent: GameObject;
     // Weapon properties
     public damage: number;
-    public leftKnockback: Vector2 = new Vector2(-100, 0);
-    public rightKnockback: Vector2 = new Vector2(100, 0);
+    public baseKnockback: Vector2;
 
-    constructor(parent: GameObject, damage: number) {
+    constructor(parent: GameObject, damage: number, knockback: Vector2) {
         super(parent.position.x, parent.position.y, 1, 1, false);
         this.parent = parent;
         this.damage = damage;
+        this.baseKnockback = knockback;
         
         this.addTag("weapon");
         this.isActive = false;
+
     }
 
     // getters
     private get currentHitboxConfig(): Hitbox[] {
         return this.hitboxConfigs[this.currentConfigIndex];
+    }
+
+    public get leftKnockback(): Vector2 {
+        return Vector2.multiply(this.baseKnockback, new Vector2(-1, 1));
+    }
+
+    public get rightKnockback(): Vector2 {
+        return this.baseKnockback;
     }
 
     // game loop

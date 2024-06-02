@@ -20,6 +20,8 @@ class Player extends Entity {
     public upSword: Weapon;
     public downSword: Weapon;
     public usingSword: Weapon;
+    // Death
+    public deathDelay: number = 5000;
     
     constructor (x: number, y: number, maxHitpoints: number) {
         // Call parent constructor
@@ -39,13 +41,13 @@ class Player extends Entity {
     public onGameEngineDefined() {
         super.onGameEngineDefined();
         // Weapon properties
-        this.sideSword = new Weapon(this, 2);
+        this.sideSword = new Weapon(this, 2, new Vector2(100, 0));
         this.scene.addGameObject(this.sideSword);
 
-        this.upSword = new Weapon(this, 2);
+        this.upSword = new Weapon(this, 2, new Vector2(40, -5));
         this.scene.addGameObject(this.upSword);
 
-        this.downSword = new Weapon(this, 2);
+        this.downSword = new Weapon(this, 2, new Vector2(80, 0));
         this.scene.addGameObject(this.downSword);
 
         this.sideSword.hitboxConfigs = [
@@ -138,7 +140,9 @@ class Player extends Entity {
     }
 
     determineAnimation() {
-        if (this.isDashAnimating) {
+        if (this.isDying) {
+
+        } else if (this.isDashAnimating) {
             // place holder
         } else if (this.isDefending) {
             // Place holder
@@ -259,6 +263,9 @@ class Player extends Entity {
     }
 
     movement() {
+        if (this.isDying) {
+            return;
+        }
         //console.log(`Touching floor: ${this.touchingFloor()}`)
         const [keyDeltaX, keyDeltaY] = this.movementListening();
         let horizontalChange = keyDeltaX * deltaTime * this.speed;
@@ -316,6 +323,14 @@ class Player extends Entity {
                 this.isDashing = false;
             }
         }
+    }
+
+    public die(): void {
+        super.die();
+        // Go to death screen after a while
+        setTimeout(() => {
+            this.game.switchScene("death")
+        }, this.deathDelay)
     }
     
     // end movement logic

@@ -1,5 +1,7 @@
 class Scene {
+    public id: string;
     public gameObjects: GameObject[] = [];
+    public hudObjects: HUDObject[] = [];
     public game: GameEngine;
     // camera
     public currentCamera: Camera;
@@ -7,8 +9,9 @@ class Scene {
     // References
     public manager: GameManager;
 
-    constructor(gameEngine) {
+    constructor(gameEngine: GameEngine, id: string) {
       this.game = gameEngine;
+      this.id = id;
 
       // Call add scene on self
       this.game.addScene(this);
@@ -33,6 +36,13 @@ class Scene {
       this.currentCamera = c;
     }
     // End camera methods
+    // HUD Object methods
+    public addHUDObject(ho: HUDObject) {
+      ho.game = this.game;
+      ho.scene = this;
+      
+      this.hudObjects.push(ho);
+    }
     // Game Object methods
     addGameObject(go: GameObject) {
       go.game = this.game;
@@ -44,6 +54,9 @@ class Scene {
     preload() {
       for (const go of this.gameObjects) {
         go.preload();
+      }
+      for (const ho of this.hudObjects) {
+        ho.preload();
       }
     }
 
@@ -73,15 +86,33 @@ class Scene {
           if (go.drawLayer !== i) {
             continue;
           }
+          // dont update if not active
+          if (!go.isActive) {
+            continue;
+          }
+
           go.update();
           this.currentCamera.render(go);
         }
       }
       // draw hitboxes
       for (const go of this.gameObjects) {  
+        if (!go.isActive) {
+          continue;
+        }
+
         for (const hb of go.hitboxes) {
           this.currentCamera.render(hb);
         }
+      }
+
+      // Draw huds
+      for (const ho of this.hudObjects) {
+        if (!ho.isActive) {
+          continue;
+        }
+        ho.update();
+        ho.draw();
       }
     
     }

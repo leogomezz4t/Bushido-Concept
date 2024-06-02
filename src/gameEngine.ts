@@ -10,6 +10,8 @@ class GameEngine {
   public loadedImages: {} = {};
   // instantiate animations
   public animations: {} = {};
+  // fonts
+  public fonts: {} = {};
   // preload callbacks
 
   // animation methods
@@ -22,11 +24,33 @@ class GameEngine {
     )
   }
 
+  // Font methods
+  private loadFonts() {
+    this.fonts["bushido"] = loadFont("../fonts/bushido/bushido.ttf");
+    this.fonts["bushido_bl"] = loadFont("../fonts/bushido/bushidobl.ttf");
+  }
+
   // Scene methods
 
   addScene(scene: Scene) {
     scene.game = this;
     this.scenes.push(scene);
+  }
+  switchScene(id: string);
+  switchScene(scene: Scene);
+  switchScene(scene: Scene | string) {
+    let i;
+    if ((typeof scene) === 'string') {
+      i = this.scenes.findIndex(x => x.id === scene);
+    } else if (scene instanceof Scene) {
+      i = this.scenes.indexOf(scene);
+    }
+
+    if (i === -1) {
+      throw new Error("Tried to switch to scene that does not exist");
+    }
+
+    this.currentSceneIndex = i;
   }
 
   get currentScene() {
@@ -38,6 +62,8 @@ class GameEngine {
 
   preload() { // in a p5js function
     this.currentScene.preload();
+    // fonts
+    this.loadFonts();
 
     this.animationPaths = loadJSON("data/animationPaths.json", () => {
       // Iterate through all images and load them

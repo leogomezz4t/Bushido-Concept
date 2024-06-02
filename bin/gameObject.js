@@ -2,6 +2,7 @@ class GameObject {
     position;
     width;
     height;
+    color = "red";
     // references
     game;
     scene;
@@ -119,6 +120,7 @@ class GameObject {
         this.deltaX = 0;
         // Move  
         this.deltaX += horizontalChange;
+        this.deltaY += verticalChange;
         // Appl
         this.position.x += this.deltaX;
         if (this.collidingWith().filter(x => !(x instanceof Entity)).length > 0) {
@@ -133,6 +135,13 @@ class GameObject {
             this.deltaY = 0;
         }
     }
+    delete() {
+        const i = this.scene.gameObjects.indexOf(this);
+        if (i === -1) {
+            throw new Error("Tried to delete gameObject that does not exist");
+        }
+        this.scene.gameObjects.splice(i, 1);
+    }
     onGameEngineDefined() {
     }
     preload() {
@@ -143,7 +152,7 @@ class GameObject {
     }
     draw(cameraX, cameraY) {
         noStroke();
-        fill("red");
+        fill(this.color);
         rect(cameraX, cameraY, this.width, this.height);
     }
 }

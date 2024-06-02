@@ -13,10 +13,10 @@ const KBM_CONTROLS: Controls = {
 const PLAYER_WIDTH = 300;
 const PLAYER_HEIGHT = 300;
 // Debugs
-const SHOW_HITBOXES = true;
+const SHOW_HITBOXES = false;
 const SHOW_OVERLAPPING_HITBOXES = false;
 const SHOW_COLLIDING_HITBOXES = false;
-const SHOW_WEAPON_HITBOXES = true;
+const SHOW_WEAPON_HITBOXES = false;
 
 const SHOW_ORIGINS = false;
 
