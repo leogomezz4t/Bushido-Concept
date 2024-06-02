@@ -28,10 +28,14 @@ class Entity extends GameObject {
     }
     // Animation ends
     changeAnimation(anim, force) {
+        if (this.currentAnimName === anim) {
+            return;
+        }
         if (force) {
             if (this.currentAnimName !== anim) {
                 // call last frame to clean up code that needs to be run
                 this.currentAnimation.onLastFrame();
+                this.currentAnimation.currentFrameIndex = 0;
                 this.currentAnimName = anim;
             }
         }

@@ -38,11 +38,14 @@ class Entity extends GameObject {
 
 
     public changeAnimation(anim: string, force: boolean): void {
+        if (this.currentAnimName === anim) {
+            return;
+        }
         if (force) {
             if (this.currentAnimName !== anim) {
                 // call last frame to clean up code that needs to be run
                 this.currentAnimation.onLastFrame();
-
+                this.currentAnimation.currentFrameIndex = 0;
                 this.currentAnimName = anim;
             }
         } else {

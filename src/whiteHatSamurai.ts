@@ -1,7 +1,24 @@
 class WhiteHatSamurai extends Samurai {
-    // enemy ai
+    // movement
+    private walkSpeed: number = 0.17;
+    // enemy ai 
+    private alerted: boolean = false;
     private alertDistance: number = 500;
     private stopDistance: number = 85;
+
+    private isPacingBack: boolean = false;
+    private pacingDistance: number = 450;
+
+    private isSprintAttacking: boolean = false;
+    private sprintAttackSpeed: number = 0.3;
+    private sprintAttackDistance: number = 200;
+    private chanceOfSprintAttack: number = 5;
+
+    private isFlurryAttacking: boolean = false;
+    private chanceOfFlurryAttack: number = 50;
+    private numberOfFlurries: number = 5;
+    private flurryCounter: number = 0;
+    private flurrySpeed: number = 0.15;
     // attacking
     private attackTypes: string[] = ["BASIC_ATTACK", "STRONG_ATTACK"];
     private attackProbs = {
@@ -83,36 +100,76 @@ class WhiteHatSamurai extends Samurai {
     public update(): void {
         // super
         super.update();
+        console.log(deltaTime)
         // AI
         const player = this.scene.manager.playerReference;
         const distToPlayer = Vector2.dist(player.position, this.position);
-
-        if (distToPlayer <= this.stopDistance) {
+        // setting its alert
+        this.alerted = distToPlayer < this.alertDistance;
+        if (this.isFlurryAttacking) {
+            // Check if flurry is over
+            if (this.flurryCounter >= this.numberOfFlurries) {
+                this.isFlurryAttacking = false;
+                this.isAttacking = false;
+                this.usingSword.isActive = false;
+            }
+            this.changeAnimation("BASIC_ATTACK", true);
+            this.currentAnimation.onLastFrame = () => {
+                this.flurryCounter++;              
+            }
+            // Move slightly forward
+            this.move(this.flurrySpeed * deltaTime * this.orientation, 0);
+        } else if (this.isSprintAttacking) {
+            // distance to start attacking
+            if (distToPlayer <= this.sprintAttackDistance) {
+                this.attack("STRONG_ATTACK");
+                this.isSprintAttacking = false;
+            }
+            if (this.position.x < player.position.x) {
+                this.move(this.sprintAttackSpeed * deltaTime, 0);
+            } else {
+                this.move(-this.sprintAttackSpeed * deltaTime, 0);
+            }
+        } else if (this.isPacingBack) {
+            // Stop after a distance
+            if (distToPlayer >= this.pacingDistance) {
+                this.isPacingBack = false;
+                this.isSprintAttacking = true;
+            }
+            
+            if (this.position.x <= player.position.x) {
+                // Move to the left
+                this.move(-this.walkSpeed * deltaTime, 0);
+            } else {
+                this.move(this.walkSpeed * deltaTime, 0);
+            }
+        } else if (distToPlayer <= this.stopDistance) { // Basic attack
             // attack logic
             // randomize attack types
         
             this.currentAttackDelta += deltaTime;
             if (this.currentAttackDelta >= this.attackDelay) {
-                const attackProb = random(0, 1);
-                let nextAttack: string;
-                if (attackProb > 0.6) {
-                    nextAttack = "STRONG_ATTACK"
-                } else {
-                    nextAttack = "BASIC_ATTACK"
+                // Flurry attack logic
+                const r = random (0, 100);
+                if (r < this.chanceOfFlurryAttack) {
+                    this.isFlurryAttacking = true;
+                    this.flurryCounter = 0;
                 }
-                this.attack(nextAttack);
+                this.attack("BASIC_ATTACK");
 
-                this.attackDelay = random(1000, 3000);
+                this.attackDelay = random(500, 1500);
                 this.currentAttackDelta = 0;
             }
             
-        } else if (distToPlayer < this.alertDistance) {
+        } else if (this.alerted && distToPlayer > this.sprintAttackDistance) {
+            this.isSprintAttacking = true;
+        } else if (this.alerted) {
             // x component
             if (this.position.x < player.position.x) {
-                this.move(3, 0);
+                this.move(this.walkSpeed * deltaTime, 0);
             }
             if (this.position.x > player.position.x) {
-                this.move(-3, 0);
+                this.move(-this.walkSpeed * deltaTime, 0);
             }
         }
 
@@ -133,7 +190,9 @@ class WhiteHatSamurai extends Samurai {
 
     // Methods
     private determineAnimation() {
-        if (this.isHurting) {
+        if (this.isFlurryAttacking) {
+
+        } else if (this.isHurting) {
 
         } else if (this.isAttacking) {
 
@@ -144,7 +203,7 @@ class WhiteHatSamurai extends Samurai {
         }
     }
 
-    private attack(attackType: string) {
+    private attack(attackType: string, dontPace: boolean = false) {
         if (this.isAttacking) { // Don't attack twice
             return;
         }
@@ -168,6 +227,15 @@ class WhiteHatSamurai extends Samurai {
         this.currentAnimation.onLastFrame = () => {
             this.isAttacking = false;
             this.usingSword.isActive = false;
+
+            if (dontPace) {
+                return;
+            }
+            // Pacing back logic
+            const r = random(0, 100);
+            if (r < this.chanceOfSprintAttack) {
+                this.isPacingBack = true;
+            }
         }
 
         this.currentAnimation.onNewFrame = id => {
