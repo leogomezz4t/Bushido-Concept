@@ -20,6 +20,8 @@ class Player extends Entity {
     upSword;
     downSword;
     usingSword;
+    // parry
+    deflectingSword;
     // Death
     deathDelay = 5000;
     constructor(x, y, maxHitpoints) {
@@ -93,6 +95,30 @@ class Player extends Entity {
             [],
             []
         ];
+        // Deflecting properties
+        this.deflectingSword = new ParrySword(this, new Vector2(20, 0));
+        this.deflectingSword.isActive = false;
+        this.scene.addGameObject(this.deflectingSword);
+        this.deflectingSword.hitboxConfigs = [
+            [
+                new Hitbox(15, 50, 20, 50, CollisionType.Overlapping, this)
+            ],
+            [
+                new Hitbox(15, 50, 20, 50, CollisionType.Overlapping, this)
+            ],
+            [
+                new Hitbox(15, 50, 20, 50, CollisionType.Overlapping, this)
+            ],
+            [
+                new Hitbox(15, 50, 20, 50, CollisionType.Overlapping, this)
+            ],
+            [
+                new Hitbox(15, 50, 20, 50, CollisionType.Overlapping, this)
+            ],
+            [
+                new Hitbox(15, 50, 20, 50, CollisionType.Overlapping, this)
+            ]
+        ];
     }
     update() {
         super.update();
@@ -122,6 +148,8 @@ class Player extends Entity {
     }
     determineAnimation() {
         if (this.isDying) {
+        }
+        else if (this.isHurting) {
         }
         else if (this.isDashAnimating) {
             // place holder
@@ -188,8 +216,17 @@ class Player extends Entity {
         this.isDefending = true;
         // animation
         this.changeAnimation("DEFEND", true);
+        this.deflectingSword.isActive = true;
+        // on parry
+        this.deflectingSword.onSuccesfulParry = weapon => {
+            // TODO
+        };
+        this.currentAnimation.onNewFrame = id => {
+            this.deflectingSword.setHitboxConfig(id);
+        };
         this.currentAnimation.onLastFrame = () => {
             this.isDefending = false;
+            this.deflectingSword.isActive = false;
         };
     }
     attackingLogic() {

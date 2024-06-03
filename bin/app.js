@@ -41,8 +41,12 @@ function draw() {
     fill("red");
     strokeWeight(0.5);
     stroke("black");
-    textSize(14);
-    text(`FPS: ${frameRate().toFixed(2)}`, CANVAS_WIDTH - 80, 15);
+    textSize(16);
+    text(`FPS: ${frameRate().toFixed(2)}`, CANVAS_WIDTH - 90, 15);
+    // Detect framerate drops
+    if (frameRate() < 45) {
+        console.warn("Low frame rate");
+    }
 } //end draw
 // Scene setups
 function setupTestScene(scene) {
@@ -87,6 +91,7 @@ function setupDeathScene(scene) {
     scene.setCurrentCamera(cam);
     // Text
     const deathText = new TextObject(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, "You died honorably", "bushido_bl", 64, "black", "red");
+    deathText.strokeThickness = 2;
     scene.addGameObject(deathText);
 }
 function keyPressed() {

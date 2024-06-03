@@ -20,6 +20,8 @@ class Player extends Entity {
     public upSword: Weapon;
     public downSword: Weapon;
     public usingSword: Weapon;
+    // parry
+    public deflectingSword: ParrySword;
     // Death
     public deathDelay: number = 5000;
     
@@ -109,6 +111,33 @@ class Player extends Entity {
             [],
             []
         ]
+
+        // Deflecting properties
+        this.deflectingSword = new ParrySword(this, new Vector2(20, 0));
+        this.deflectingSword.isActive = false;
+        this.scene.addGameObject(this.deflectingSword);
+
+        this.deflectingSword.hitboxConfigs = [
+            [
+                new Hitbox(15, 50, 20, 50, CollisionType.Overlapping, this)
+            ],
+            [
+
+                new Hitbox(15, 50, 20, 50, CollisionType.Overlapping, this)
+            ],
+            [
+                new Hitbox(15, 50, 20, 50, CollisionType.Overlapping, this)
+            ],
+            [
+                new Hitbox(15, 50, 20, 50, CollisionType.Overlapping, this)
+            ],
+            [
+                new Hitbox(15, 50, 20, 50, CollisionType.Overlapping, this)
+            ],
+            [
+                new Hitbox(15, 50, 20, 50, CollisionType.Overlapping, this)
+            ]
+        ]
     }
     
     public update() { // p5.js func
@@ -141,6 +170,8 @@ class Player extends Entity {
 
     determineAnimation() {
         if (this.isDying) {
+
+        } else if (this.isHurting) {
 
         } else if (this.isDashAnimating) {
             // place holder
@@ -214,8 +245,19 @@ class Player extends Entity {
         
         // animation
         this.changeAnimation("DEFEND", true);
+        this.deflectingSword.isActive = true;
+
+        // on parry
+        this.deflectingSword.onSuccesfulParry = weapon => {
+            // TODO
+        }
+
+        this.currentAnimation.onNewFrame = id => {
+            this.deflectingSword.setHitboxConfig(id);
+        }
         this.currentAnimation.onLastFrame = () => {
             this.isDefending = false;
+            this.deflectingSword.isActive = false;
         }
     }  
 

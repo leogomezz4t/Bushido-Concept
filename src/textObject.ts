@@ -3,6 +3,7 @@ class TextObject extends GameObject {
     public font: string;
     public fontSize: number;
     public strokeColor: any;
+    public strokeThickness: number = 1;
 
     /*
     * Text is center aligned
@@ -19,6 +20,7 @@ class TextObject extends GameObject {
     public draw(cameraX: number, cameraY: number): void {
         textAlign(CENTER, CENTER);
         fill(this.color);
+        strokeWeight(this.strokeThickness)
         stroke(this.strokeColor);
         textSize(this.fontSize);
         textFont(this.game.fonts[this.font]);

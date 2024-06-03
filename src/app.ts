@@ -50,8 +50,12 @@ function draw() {
   fill("red")
   strokeWeight(0.5);
   stroke("black")
-  textSize(14);
-  text(`FPS: ${frameRate().toFixed(2)}`, CANVAS_WIDTH-80, 15);
+  textSize(16);
+  text(`FPS: ${frameRate().toFixed(2)}`, CANVAS_WIDTH-90, 15);
+  // Detect framerate drops
+  if (frameRate() < 45) {
+    console.warn("Low frame rate");
+  }
 
 
 }//end draw
@@ -114,6 +118,7 @@ function setupDeathScene(scene: Scene) {
     64,
     "black",
     "red");
+  deathText.strokeThickness = 2;
 
   scene.addGameObject(deathText);
 }

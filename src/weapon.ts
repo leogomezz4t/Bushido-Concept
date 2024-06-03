@@ -2,12 +2,12 @@ class Weapon extends GameObject {
     public hitboxConfigs: Array<Hitbox[]> = [];
     public currentConfigIndex: number;
     // Parent ref
-    public parent: GameObject;
+    public parent: Entity;
     // Weapon properties
     public damage: number;
     public baseKnockback: Vector2;
 
-    constructor(parent: GameObject, damage: number, knockback: Vector2) {
+    constructor(parent: Entity, damage: number, knockback: Vector2) {
         super(parent.position.x, parent.position.y, 1, 1, false);
         this.parent = parent;
         this.damage = damage;

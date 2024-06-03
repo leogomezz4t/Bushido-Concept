@@ -12,6 +12,7 @@ class WhiteHatSamurai extends Samurai {
     private isSprintAttacking: boolean = false;
     private sprintAttackSpeed: number = 0.3;
     private sprintAttackDistance: number = 200;
+    private startSprintDistance: number = 450;
     private chanceOfSprintAttack: number = 5;
 
     private isFlurryAttacking: boolean = false;
@@ -27,8 +28,6 @@ class WhiteHatSamurai extends Samurai {
     private basicSword: Weapon;
     private strongSword: Weapon;
     private usingSword: Weapon;
-    // hurting
-    private isHurting: boolean = false;
     // Health bar
     private healthBar: EnemyHealthBar;
     private healthOffset: Vector2 = new Vector2(-20, -10);
@@ -165,7 +164,7 @@ class WhiteHatSamurai extends Samurai {
                 this.currentAttackDelta = 0;
             }
             
-        } else if (this.alerted && distToPlayer > this.sprintAttackDistance) {
+        } else if (this.alerted && distToPlayer > this.startSprintDistance) {
             this.isSprintAttacking = true;
         } else if (this.alerted) {
             // x component
@@ -253,6 +252,10 @@ class WhiteHatSamurai extends Samurai {
             const r = random(0, 100);
             if (r < this.chanceOfSprintAttack) {
                 this.isPacingBack = true;
+                setTimeout(() => {
+                    this.isPacingBack = false;
+                    this.isSprintAttacking = true;
+                }, 1500);
             }
         }
 
@@ -275,10 +278,6 @@ class WhiteHatSamurai extends Samurai {
         this.healthBar.isActive = true;
         this.healthShowingDelta = 0;
 
-        this.changeAnimation("HURT", true);
-        this.isHurting = true;
-        this.currentAnimation.onLastFrame = () => {
-            this.isHurting = false;
-        }
+        super.hurt();
     }
 }

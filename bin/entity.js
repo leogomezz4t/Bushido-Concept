@@ -6,6 +6,8 @@ class Entity extends GameObject {
     onDamageCooldown = false;
     damageCooldown = 500;
     damageCooldownDelta = 0;
+    // hurting
+    isHurting = false;
     // death
     isDying = false;
     // knockback
@@ -88,6 +90,11 @@ class Entity extends GameObject {
         this.move(knockDelta.x, knockDelta.y);
     }
     hurt() {
+        this.changeAnimation("HURT", true);
+        this.isHurting = true;
+        this.currentAnimation.onLastFrame = () => {
+            this.isHurting = false;
+        };
     }
     stun() {
     }
