@@ -138,7 +138,7 @@ class GameObject {
     delete() {
         const i = this.scene.gameObjects.indexOf(this);
         if (i === -1) {
-            throw new Error("Tried to delete gameObject that does not exist");
+            console.error("Tried to delete gameObject that does not exist");
         }
         this.scene.gameObjects.splice(i, 1);
     }

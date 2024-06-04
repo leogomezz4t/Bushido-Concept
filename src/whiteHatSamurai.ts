@@ -1,8 +1,6 @@
 class WhiteHatSamurai extends Samurai {
-    // movement
-    private walkSpeed: number = 0.17;
+
     // enemy ai 
-    private alerted: boolean = false;
     private alertDistance: number = 500;
     private stopDistance: number = 85;
 
@@ -21,18 +19,12 @@ class WhiteHatSamurai extends Samurai {
     private flurryCounter: number = 0;
     private flurrySpeed: number = 0.15;
     // attacking
-    private isAttacking: boolean = false;
     private attackDelay: number = 0.5;
     private currentAttackDelta: number = 0;
     // weapon
     private basicSword: Weapon;
     private strongSword: Weapon;
-    private usingSword: Weapon;
-    // Health bar
-    private healthBar: EnemyHealthBar;
-    private healthOffset: Vector2 = new Vector2(-20, -10);
-    private healthShowingDelta: number = 0;
-    private healthShowingLimit: number = 5000;
+
 
     constructor(x: number, y: number) {
         super(x, y, 250, 250, 10, "samurai_3");
@@ -45,11 +37,6 @@ class WhiteHatSamurai extends Samurai {
     // Methods
     public onGameEngineDefined(): void {
         super.onGameEngineDefined();
-        // health bar
-        this.healthBar = new EnemyHealthBar(this, this.healthOffset, 50, 10, this.maxHitpoints);
-        this.healthBar.isActive = false;
-        this.scene.addGameObject(this.healthBar)
-
         // Weapon
         this.basicSword = new Weapon(this, 1, new Vector2(40, 0));
         this.scene.addGameObject(this.basicSword);
@@ -91,11 +78,6 @@ class WhiteHatSamurai extends Samurai {
             [],
             []
         ]
-    }
-
-    // p5.js functions
-    public draw(cameraX: number, cameraY: number): void {
-        this.currentAnimation.drawAnimation(cameraX, cameraY, this.width, this.height);
     }
 
     public update(): void {
@@ -177,31 +159,9 @@ class WhiteHatSamurai extends Samurai {
             }
         }
 
-        // Orientation logic
-        if (this.deltaX > 0) {
-            this.orientation = Orientation.Right;
-        }
-        if (this.deltaX < 0) {
-            this.orientation = Orientation.Left;
-        }
-
-        // health bar timer
-        if (this.healthBar.isActive) {
-            // Check if limit is passed
-            if (this.healthShowingDelta >= this.healthShowingLimit) {
-                this.healthBar.isActive = false;
-            }
-            // increment timer
-            this.healthShowingDelta += deltaTime;
-
-        }
-
 
         // Animations
         this.determineAnimation();
-        this.currentAnimation.update(this.orientation);
-        this.move(0, 0);
-        this.applyGravity();
     }
 
     // Methods
@@ -270,24 +230,6 @@ class WhiteHatSamurai extends Samurai {
         // weapon cleanup
         this.basicSword.delete();
         this.strongSword.delete();
-        // health bar cleanup
-        this.healthBar.delete();
-    }
-
-    protected hurt(): void {
-        // show healthbar
-        this.healthBar.isActive = true;
-        this.healthShowingDelta = 0;
-
-        super.hurt();
-    }
-
-    public takeKnockback(knockDelta: Vector2): void {
-        if (this.isDying) {
-            return;
-        }
-
-        super.takeKnockback(knockDelta);
     }
 
     public resetModifiers() {

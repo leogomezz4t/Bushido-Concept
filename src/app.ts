@@ -11,7 +11,7 @@ const fonts = {
 }
 
 // refs
-let whs: WhiteHatSamurai;
+let whs: Samurai;
 
 // SCENE SETUP || BEFORE PRELOAD
 const testScene: Scene = new Scene(game, 'test');
@@ -77,9 +77,11 @@ function setupTestScene(scene: Scene) { // within preload
   floor.addTag("floor");
 
   // enemy
-  const whiteHat: WhiteHatSamurai = new WhiteHatSamurai(player.position.x + 600, 100);
-  scene.addGameObject(whiteHat);
-  whs = whiteHat;
+  // const whiteHat: WhiteHatSamurai = new WhiteHatSamurai(player.position.x + 600, 100);
+  // scene.addGameObject(whiteHat);
+  const female: FemaleSamurai = new FemaleSamurai(player.position.x + 600, 100);
+  scene.addGameObject(female);
+  whs = female;
   // Create a new camera with a reference to player
   const playerCam = new TrackingCamera(1, player);
   scene.addCamera(playerCam);

@@ -65,6 +65,7 @@ type Controls = {
     SIDE_ATTACK: number,
     DOWN_ATTACK: number,
     UP_ATTACK: number,
+    SPECIAL_ATTACK: number,
     DEFEND: number,
     DASH: number
 }

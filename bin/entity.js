@@ -87,10 +87,16 @@ class Entity extends GameObject {
         if (this.takingKnockback) {
             return;
         }
+        if (this.isDying) {
+            return;
+        }
         this.takingKnockback = true;
         this.move(knockDelta.x, knockDelta.y);
     }
     hurt() {
+        if (this.isDying) {
+            return;
+        }
         this.changeAnimation("HURT", true);
         this.isHurting = true;
         this.currentAnimation.onLastFrame = () => {

@@ -6,6 +6,7 @@ const KBM_CONTROLS = {
     SIDE_ATTACK: 65,
     DOWN_ATTACK: 83,
     UP_ATTACK: 68,
+    SPECIAL_ATTACK: 70,
     DEFEND: 87,
     DASH: 16
 };
