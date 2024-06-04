@@ -52,6 +52,7 @@ class Entity extends GameObject {
                 this.currentAnimation.onLastFrame();
                 this.currentAnimation.currentFrameIndex = 0;
                 this.currentAnimName = anim;
+                this.currentAnimation.currentFrameIndex = 0;
             }
         } else {
             
@@ -91,7 +92,7 @@ class Entity extends GameObject {
         }
     }
 
-    public takeDamage(dmg: number): void {
+    public takeDamage(dmg: number, weapon?: Weapon): void {
         if (this.onDamageCooldown) {
             return;
         }
@@ -107,7 +108,7 @@ class Entity extends GameObject {
         }
     }
 
-    public takeKnockback(knockDelta: Vector2) {
+    public takeKnockback(knockDelta: Vector2, weapon?: Weapon) {
         if (this.takingKnockback) {
             return;
         }

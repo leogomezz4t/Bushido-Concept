@@ -22,6 +22,8 @@ class Player extends Entity {
     usingSword;
     // parry
     deflectingSword;
+    recentlyParried = false;
+    swordParried;
     // Death
     deathDelay = 5000;
     constructor(x, y, maxHitpoints) {
@@ -137,17 +139,22 @@ class Player extends Entity {
         this.currentAnimation.update(animationOrientation);
         this.determineAnimation();
         // Attacking logic
-        this.attackingLogic();
+        if (!this.isDying) {
+            this.attackingLogic();
+        }
         // Fix no clipping
         this.fixClipping();
         // movement logic
-        this.movement();
+        if (!this.isDying) {
+            this.movement();
+        }
         if (!this.debug) {
             this.applyGravity();
         }
     }
     determineAnimation() {
         if (this.isDying) {
+            this.changeAnimation("DEATH", true);
         }
         else if (this.isHurting) {
         }
@@ -219,7 +226,16 @@ class Player extends Entity {
         this.deflectingSword.isActive = true;
         // on parry
         this.deflectingSword.onSuccesfulParry = weapon => {
-            // TODO
+            if (weapon.parent instanceof Samurai) {
+                weapon.parent.breakPosture();
+                // record weapon
+                this.swordParried = weapon;
+                this.recentlyParried = true;
+                // Use set timeout because it isn't that important that it be in the loop
+                setTimeout(() => {
+                    this.recentlyParried = false;
+                }, 500);
+            }
         };
         this.currentAnimation.onNewFrame = id => {
             this.deflectingSword.setHitboxConfig(id);
@@ -334,6 +350,19 @@ class Player extends Entity {
         setTimeout(() => {
             this.game.switchScene("death");
         }, this.deathDelay);
+    }
+    takeDamage(dmg, weapon) {
+        if (this.recentlyParried && this.swordParried === weapon) {
+            console.log("SAVED");
+            return;
+        }
+        super.takeDamage(dmg, weapon);
+    }
+    takeKnockback(knockDelta, weapon) {
+        if (this.recentlyParried && this.swordParried === weapon) {
+            return;
+        }
+        super.takeKnockback(knockDelta, weapon);
     }
     // end movement logic
     draw(cameraX, cameraY) {

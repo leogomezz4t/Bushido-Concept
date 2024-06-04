@@ -40,12 +40,12 @@ class Weapon extends GameObject {
         for (const go of touchingObjects) {
             // Check for weapons
             if (go instanceof Entity && this.parent !== go) {
-                go.takeDamage(this.damage)
+                go.takeDamage(this.damage, this);
                 // calculate knockback
                 if (this.parent.position.x >= go.position.x) {
-                    go.takeKnockback(this.leftKnockback);
+                    go.takeKnockback(this.leftKnockback, this);
                 } else {
-                    go.takeKnockback(this.rightKnockback);
+                    go.takeKnockback(this.rightKnockback, this);
                 }
             }
         }

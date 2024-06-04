@@ -41,6 +41,7 @@ class Entity extends GameObject {
                 this.currentAnimation.onLastFrame();
                 this.currentAnimation.currentFrameIndex = 0;
                 this.currentAnimName = anim;
+                this.currentAnimation.currentFrameIndex = 0;
             }
         }
         else {
@@ -69,7 +70,7 @@ class Entity extends GameObject {
             }
         }
     }
-    takeDamage(dmg) {
+    takeDamage(dmg, weapon) {
         if (this.onDamageCooldown) {
             return;
         }
@@ -82,7 +83,7 @@ class Entity extends GameObject {
             this.die();
         }
     }
-    takeKnockback(knockDelta) {
+    takeKnockback(knockDelta, weapon) {
         if (this.takingKnockback) {
             return;
         }

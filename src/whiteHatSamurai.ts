@@ -16,8 +16,8 @@ class WhiteHatSamurai extends Samurai {
     private chanceOfSprintAttack: number = 5;
 
     private isFlurryAttacking: boolean = false;
-    private chanceOfFlurryAttack: number = 50;
-    private numberOfFlurries: number = 5;
+    private chanceOfFlurryAttack: number = 40;
+    private numberOfFlurries: number = 3;
     private flurryCounter: number = 0;
     private flurrySpeed: number = 0.15;
     // attacking
@@ -38,7 +38,7 @@ class WhiteHatSamurai extends Samurai {
         super(x, y, 250, 250, 10, "samurai_3");
 
         this.hitboxes.push(
-            new Hitbox(-25, 15, 30, 100, CollisionType.Colliding, this, true)
+            new Hitbox(-25, 15, 30, 100, CollisionType.Colliding, this)
         )
     }
 
@@ -58,15 +58,15 @@ class WhiteHatSamurai extends Samurai {
             [],
             [],
             [
-                new Hitbox(25, 10, 45, 100, CollisionType.Overlapping, this.basicSword, true),
-                new Hitbox(15, -20, 30, 30, CollisionType.Overlapping, this.basicSword, true),
-                new Hitbox(-30, -40, 60, 25, CollisionType.Overlapping, this.basicSword, true)
+                new Hitbox(25, 10, 45, 100, CollisionType.Overlapping, this.basicSword),
+                new Hitbox(15, -20, 30, 30, CollisionType.Overlapping, this.basicSword),
+                new Hitbox(-30, -40, 60, 25, CollisionType.Overlapping, this.basicSword)
             ],
             [
-                new Hitbox(25, 0, 40, 100, CollisionType.Overlapping, this.basicSword, true),
+                new Hitbox(25, 0, 40, 100, CollisionType.Overlapping, this.basicSword),
             ],
             [
-                new Hitbox(20, 80, 40, 10, CollisionType.Overlapping, this.basicSword, true),
+                new Hitbox(20, 80, 40, 10, CollisionType.Overlapping, this.basicSword),
             ],
             []
         ]
@@ -80,12 +80,12 @@ class WhiteHatSamurai extends Samurai {
             [],
             [],
             [
-                new Hitbox(70, -100, 20, 215, CollisionType.Overlapping, this.strongSword, true),
-                new Hitbox(20, 60, 50, 60, CollisionType.Overlapping, this.strongSword, true),
+                new Hitbox(70, -100, 20, 215, CollisionType.Overlapping, this.strongSword),
+                new Hitbox(20, 60, 50, 60, CollisionType.Overlapping, this.strongSword),
             ],
             [
-                new Hitbox(25, 85, 60, 30, CollisionType.Overlapping, this.strongSword, true),
-                new Hitbox(80, 45, 20, 70, CollisionType.Overlapping, this.strongSword, true),
+                new Hitbox(25, 85, 60, 30, CollisionType.Overlapping, this.strongSword),
+                new Hitbox(80, 45, 20, 70, CollisionType.Overlapping, this.strongSword),
             ],
             [],
             [],
@@ -106,8 +106,9 @@ class WhiteHatSamurai extends Samurai {
         const distToPlayer = Vector2.dist(player.position, this.position);
         // setting its alert
         this.alerted = distToPlayer < this.alertDistance;
-
-        if (this.isDying) {
+        if (this.broken) {
+            this.resetModifiers();
+        } else if (this.isDying) {
             // dont do anything
         } else if (this.isFlurryAttacking) {
             // Check if flurry is over
@@ -214,9 +215,9 @@ class WhiteHatSamurai extends Samurai {
         } else if (this.isAttacking) {
 
         } else if (this.deltaX !== 0) {
-            this.currentAnimName = "RUN";
+            this.changeAnimation("RUN", true);
         } else {
-            this.currentAnimName = "IDLE";
+            this.changeAnimation("IDLE", true);
         }
     }
 
@@ -279,5 +280,22 @@ class WhiteHatSamurai extends Samurai {
         this.healthShowingDelta = 0;
 
         super.hurt();
+    }
+
+    public takeKnockback(knockDelta: Vector2): void {
+        if (this.isDying) {
+            return;
+        }
+
+        super.takeKnockback(knockDelta);
+    }
+
+    public resetModifiers() {
+        this.usingSword.isActive = false;
+        this.isAttacking = false;
+        this.isSprintAttacking = false;
+        this.isPacingBack = false;
+        this.isFlurryAttacking = false;
+        this.flurryCounter = 0;
     }
 }

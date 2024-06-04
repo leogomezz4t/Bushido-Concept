@@ -22,6 +22,8 @@ class Player extends Entity {
     public usingSword: Weapon;
     // parry
     public deflectingSword: ParrySword;
+    public recentlyParried: boolean = false;
+    public swordParried: Weapon;
     // Death
     public deathDelay: number = 5000;
     
@@ -158,11 +160,15 @@ class Player extends Entity {
         this.currentAnimation.update(animationOrientation);
         this.determineAnimation();
         // Attacking logic
-        this.attackingLogic();
+        if (!this.isDying) {
+            this.attackingLogic();
+        }
         // Fix no clipping
         this.fixClipping();
         // movement logic
-        this.movement();  
+        if (!this.isDying) {
+            this.movement();  
+        }
         if (!this.debug) {
             this.applyGravity();
         }
@@ -170,7 +176,7 @@ class Player extends Entity {
 
     determineAnimation() {
         if (this.isDying) {
-
+            this.changeAnimation("DEATH", true);
         } else if (this.isHurting) {
 
         } else if (this.isDashAnimating) {
@@ -249,7 +255,16 @@ class Player extends Entity {
 
         // on parry
         this.deflectingSword.onSuccesfulParry = weapon => {
-            // TODO
+            if (weapon.parent instanceof Samurai) {
+                weapon.parent.breakPosture();
+                // record weapon
+                this.swordParried = weapon;
+                this.recentlyParried = true;
+                // Use set timeout because it isn't that important that it be in the loop
+                setTimeout(() => {
+                    this.recentlyParried = false;
+                }, 500);
+            }
         }
 
         this.currentAnimation.onNewFrame = id => {
@@ -375,6 +390,23 @@ class Player extends Entity {
         }, this.deathDelay)
     }
     
+    public takeDamage(dmg: number, weapon?: Weapon): void {
+        if (this.recentlyParried && this.swordParried === weapon) {
+            console.log("SAVED");
+            return;
+        }
+
+        super.takeDamage(dmg, weapon);
+    }
+
+    public takeKnockback(knockDelta: Vector2, weapon?: Weapon): void {
+        if (this.recentlyParried && this.swordParried === weapon) {
+            return;
+        }
+
+        super.takeKnockback(knockDelta, weapon);
+    }
+
     // end movement logic
     draw(cameraX: number, cameraY: number) {
         this.currentAnimation.drawAnimation(cameraX, cameraY, this.width, this.height);
