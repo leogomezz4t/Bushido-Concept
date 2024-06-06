@@ -24,11 +24,6 @@ class GameEngine {
     )
   }
 
-  // Font methods
-  private loadFonts() {
-    this.fonts["bushido"] = loadFont("../fonts/bushido/bushido.ttf");
-    this.fonts["bushido_bl"] = loadFont("../fonts/bushido/bushidobl.ttf");
-  }
 
   // Scene methods
 
@@ -62,8 +57,6 @@ class GameEngine {
 
   preload() { // in a p5js function
     this.currentScene.preload();
-    // fonts
-    this.loadFonts();
 
     this.animationPaths = loadJSON("data/animationPaths.json", () => {
       // Iterate through all images and load them

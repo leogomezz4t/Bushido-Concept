@@ -20,11 +20,6 @@ class GameEngine {
             callback: callback
         });
     }
-    // Font methods
-    loadFonts() {
-        this.fonts["bushido"] = loadFont("../fonts/bushido/bushido.ttf");
-        this.fonts["bushido_bl"] = loadFont("../fonts/bushido/bushidobl.ttf");
-    }
     // Scene methods
     addScene(scene) {
         scene.game = this;
@@ -50,8 +45,6 @@ class GameEngine {
     // P5 js required functions
     preload() {
         this.currentScene.preload();
-        // fonts
-        this.loadFonts();
         this.animationPaths = loadJSON("data/animationPaths.json", () => {
             // Iterate through all images and load them
             for (const sprite in this.animationPaths) {

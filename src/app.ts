@@ -7,7 +7,13 @@ const game: GameEngine = new GameEngine();
 // Assets
 const fonts = {
   "bushido": null,
-  "bushdio_bl": null
+  "bushidob": null,
+  "bushdiobi": null,
+  "bushdiobl": null,
+  "bushidoi": null,
+  "bushdiol": null,
+  "bushidos": null,
+  "bushidosi": null
 }
 
 // refs
@@ -19,15 +25,27 @@ setupTestScene(testScene);
 // DEATH SCENE SETUP
 const deathScene: Scene = new Scene(game, "death");
 setupDeathScene(deathScene);
+// MAIN MENU SCENE
+const mainScene: Scene = new Scene(game, "main_menu");
+setupMainMenuScene(mainScene);
 
 // end test scene
-game.currentSceneIndex = 0;
+game.switchScene("main_menu");
 
 // END SCENE SETUP
 
 function preload() {
   // font loading
-  fonts["bushdio_bl"] = loadFont("../fonts/bushido/bushidobl.ttf");
+  fonts["bushido"] = loadFont("../fonts/bushido/bushido.ttf");
+  fonts["bushidob"] = loadFont("../fonts/bushido/bushidob.ttf");
+  fonts["bushdiobi"] = loadFont("../fonts/bushido/bushidobi.ttf");
+  fonts["bushdiobl"] = loadFont("../fonts/bushido/bushidobl.ttf");
+  fonts["bushdioi"] = loadFont("../fonts/bushido/bushidoi.ttf");
+  fonts["bushidol"] = loadFont("../fonts/bushido/bushidol.ttf");
+  fonts["bushidos"] = loadFont("../fonts/bushido/bushidos.ttf");
+  fonts["bushidosi"] = loadFont("../fonts/bushido/bushidosi.ttf");
+
+  game.fonts = fonts;
   game.preload();
 }
 
@@ -116,13 +134,42 @@ function setupDeathScene(scene: Scene) {
     CANVAS_WIDTH/2,
     CANVAS_HEIGHT/2,
     "You died honorably",
-    "bushido_bl",
+    "bushdiobl",
     64,
     "black",
     "red");
   deathText.strokeThickness = 2;
 
   scene.addGameObject(deathText);
+}
+
+function setupMainMenuScene(scene: Scene) {
+  // camera
+const mainCam = new Camera(CANVAS_WIDTH/2, 450, 1);
+  scene.addCamera(mainCam);
+  scene.setCurrentCamera(mainCam);
+
+  // Background
+  const background = new ParallaxBackground(0, 0, 4, mainCam,
+    "artwork/world/Background/3.png",
+    "artwork/world/Background/2.png",
+    "artwork/world/Background/1.png"
+  );
+  scene.addGameObject(background);
+
+  // floor
+  const floor = new WorldObject(-50, CANVAS_HEIGHT-100, 2, "../artwork/world/main_menu.png", false);
+  floor.drawLayer = 4;
+  scene.addGameObject(floor);
+
+  // Title
+  const title = new TextObject(CANVAS_WIDTH/2, 250, "Bushido", "bushidob", 125, "white", "black");
+  title.strokeThickness = 5;
+  scene.addGameObject(title);
+
+  // Play button
+  const play = new Button(400, 400, 200, 50);
+  scene.addGameObject(play);
 }
 
 function keyPressed() {

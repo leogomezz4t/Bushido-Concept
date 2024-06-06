@@ -8,7 +8,7 @@ class TextObject extends GameObject {
     /*
     * Text is center aligned
     */
-    constructor(x: number, y: number, text: string, font: string, size: number, color: any, strokeColor: any) {
+    constructor(x: number, y: number, text: string, font: Fonts, size: number, color: any, strokeColor: any) {
         super(x, y, 1, 1, false);
         this.color = color;
         this.text = text;
@@ -27,3 +27,5 @@ class TextObject extends GameObject {
         text(this.text, cameraX, cameraY);
     }
 }
+
+type Fonts = keyof typeof fonts;
