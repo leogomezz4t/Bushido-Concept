@@ -74,3 +74,5 @@ type AnimationParams = {
     framesPath: string,
     game: GameEngine
 }
+
+type Fonts = keyof typeof fonts;

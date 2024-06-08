@@ -1,9 +1,12 @@
+
 class TextObject extends GameObject {
     public text: string;
     public font: string;
     public fontSize: number;
     public strokeColor: any;
     public strokeThickness: number = 1;
+    public horizontalAlignType: any = "center";
+    public verticalAlignType: any = "center";
 
     /*
     * Text is center aligned
@@ -18,7 +21,7 @@ class TextObject extends GameObject {
     }
 
     public draw(cameraX: number, cameraY: number): void {
-        textAlign(CENTER, CENTER);
+        textAlign(this.horizontalAlignType, this.verticalAlignType);
         fill(this.color);
         strokeWeight(this.strokeThickness)
         stroke(this.strokeColor);
@@ -27,5 +30,3 @@ class TextObject extends GameObject {
         text(this.text, cameraX, cameraY);
     }
 }
-
-type Fonts = keyof typeof fonts;
