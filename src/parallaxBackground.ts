@@ -3,6 +3,8 @@ class ParallaxBackground extends GameObject {
     private midLayers: Background[] = [];
     private foreLayers: Background[] = [];
 
+    private numLayers: number;
+
     // scale
     private scale: number;
 
@@ -13,16 +15,17 @@ class ParallaxBackground extends GameObject {
     // camera
     public cameraReference: Camera;
 
-    constructor(x: number, y: number, scale: number, cameraRef: Camera, back: string, mid: string, front: string) {
+    constructor(x: number, y: number, scale: number, numLayers: number, cameraRef: Camera, back: string, mid: string, front: string) {
         super(x, y, null, null, false);
         this.scale = scale;
         this.cameraReference = cameraRef;
         this.initialPos = new Vector2(x, y);
+        this.numLayers = numLayers;
 
         this.offset = Vector2.subtract(this.position, cameraRef.worldPosition)
 
         // Init all the back layers
-        for (let i = -20; i < 20; i++) {
+        for (let i = -numLayers; i < numLayers; i++) {
             this.backLayers.push(
                 new Background(x + (i * 1280), y, 0.2, this.scale, back, this)
             );
