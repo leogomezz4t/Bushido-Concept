@@ -95,11 +95,10 @@ function setupTestScene(scene: Scene) { // within preload
   floor.addTag("floor");
 
   // enemy
-  // const whiteHat: WhiteHatSamurai = new WhiteHatSamurai(player.position.x + 600, 100);
-  // scene.addGameObject(whiteHat);
-  const female: FemaleSamurai = new FemaleSamurai(player.position.x + 600, 100);
-  scene.addGameObject(female);
-  whs = female;
+  const whiteHat: WhiteHatSamurai = new WhiteHatSamurai(player.position.x + 600, 100);
+  scene.addGameObject(whiteHat);
+  // const female: FemaleSamurai = new FemaleSamurai(player.position.x + 600, 100);
+  // scene.addGameObject(female);
   // Create a new camera with a reference to player
   const playerCam = new TrackingCamera(1, player);
   scene.addCamera(playerCam);
@@ -168,7 +167,7 @@ const mainCam = new Camera(CANVAS_WIDTH/2, 450, 1);
   scene.addGameObject(title);
 
   // Play button
-  const play = new Button(400, 400, 200, 50);
+  const play = new PlayButton(400, 400);
   scene.addGameObject(play);
 }
 

@@ -201,25 +201,18 @@ class Player extends Entity {
             case "ATTACK_3": {
                 this.usingSword = this.upSword;
             }
-            case "SPECIAL_ATTACK": {
-                // todo
-                //this.usingSword = this.upSword;
-            }
         }
         // attacking variables
         this.isAttacking = true;
         // weapon variables
-        // this.usingSword.isActive = true;
+        this.usingSword.isActive = true;
         // animation
         this.changeAnimation(attackType, true);
         this.currentAnimation.onLastFrame = () => {
             this.isAttacking = false;
-            // this.usingSword.isActive = false;
+            this.usingSword.isActive = false;
         };
         this.currentAnimation.onNewFrame = id => {
-            if (attackType === "SPECIAL_ATTACK") {
-                return;
-            }
             this.usingSword.setHitboxConfig(id);
         };
     }

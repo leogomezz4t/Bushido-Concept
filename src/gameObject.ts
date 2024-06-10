@@ -163,6 +163,27 @@ class GameObject {
       }
     }
 
+    public isHovered() {
+      const camPos = this.scene.currentCamera.toCameraCoordinates(this.position);
+      
+      return (
+        mouseX >= camPos.x && mouseX <= (camPos.x + this.width)
+        && mouseY >= camPos.y && mouseY <= (camPos.y + this.height)
+      )
+    }
+
+    public isPressed() {
+      if (!mouseIsPressed) {
+        return;
+      }
+      const camPos = this.scene.currentCamera.toCameraCoordinates(this.position);
+      
+      return (
+        mouseX >= camPos.x && mouseX <= (camPos.x + this.width)
+        && mouseY >= camPos.y && mouseY <= (camPos.y + this.height)
+      )
+    }
+
     public delete() {
       const i = this.scene.gameObjects.indexOf(this);
       if (i === -1) {

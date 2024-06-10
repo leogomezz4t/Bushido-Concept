@@ -56,7 +56,9 @@ class GameEngine {
   // P5 js required functions
 
   preload() { // in a p5js function
-    this.currentScene.preload();
+    for (const scene of this.scenes) {
+      scene.preload();
+    }
 
     this.animationPaths = loadJSON("data/animationPaths.json", () => {
       // Iterate through all images and load them
