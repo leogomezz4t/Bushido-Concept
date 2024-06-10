@@ -32,7 +32,7 @@ setupMainMenuScene(mainScene);
 const controlsScene: Scene = new Scene(game, "controls");
 setupControlsScene(controlsScene);
 // end test scene
-game.switchScene("controls");
+game.switchScene("main_menu");
 
 // END SCENE SETUP
 
@@ -90,24 +90,26 @@ function setupTestScene(scene: Scene) { // within preload
   health.tracker = player;
   scene.addHUDObject(health);
   // Floors
-  const floor = new WorldObject(-500, CANVAS_HEIGHT-50, 2, "artwork/world/basic_background.png", false);
+  const floor = new WorldObject(0, CANVAS_HEIGHT-50, 2, "artwork/world/level1.png", false);
+  floor.drawLayer = 3;
   floor.addHitbox((w, h) => {
-    return new Hitbox(0, 5, w, h, CollisionType.Colliding, floor)
+    return new Hitbox(0, 200, w, h, CollisionType.Colliding, floor)
   })
   floor.addTag("floor");
 
   // enemy
-  const whiteHat: WhiteHatSamurai = new WhiteHatSamurai(player.position.x + 600, 100);
-  scene.addGameObject(whiteHat);
-  // const female: FemaleSamurai = new FemaleSamurai(player.position.x + 600, 100);
-  // scene.addGameObject(female);
-  // Create a new camera with a reference to player
+  for (let i = 1; i < 6; i++) {
+    const whiteHat: WhiteHatSamurai = new WhiteHatSamurai(player.position.x + (650 * i), 100);
+    whiteHat.drawLayer = 5;
+    scene.addGameObject(whiteHat);
+  }
+
   const playerCam = new TrackingCamera(1, player);
   scene.addCamera(playerCam);
 
   scene.setCurrentCamera(playerCam);
   // background
-  const background = new ParallaxBackground(-200, -200, 4, 20, playerCam,
+  const background = new ParallaxBackground(-200, 0, 4, 20, playerCam,
     "artwork/world/Background/3.png",
     "artwork/world/Background/2.png",
     "artwork/world/Background/1.png");
@@ -171,6 +173,10 @@ const mainCam = new Camera(CANVAS_WIDTH/2, 450, 1);
   // Play button
   const play = new PlayButton(400, 400);
   scene.addGameObject(play);
+
+  // Controls buttons
+  const controls = new ControlsButton(400, 475);
+  scene.addGameObject(controls);
 }
 
 function setupControlsScene(scene: Scene) {
@@ -198,7 +204,7 @@ function setupControlsScene(scene: Scene) {
   escText.horizontalAlignType = "left"
   // add escaping logic
   escText.update = () => {
-    if (keyIsDown(KEYBOARD_MAP.indexOf("ESCAPE")) || mouseIsPressed) {
+    if (keyIsDown(KEYBOARD_MAP.indexOf("ESCAPE"))) {
       game.switchScene("main_menu");
     }
   }

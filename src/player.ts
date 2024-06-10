@@ -13,7 +13,7 @@ class Player extends Entity {
     public isAttacking: boolean = false;
     public isDefending: boolean = false;
     // jumping
-    public jumpForce: number = 10;
+    public jumpForce: number = 15;
     public isJumping: boolean = false;
     // Weapons
     public sideSword: Weapon;
@@ -308,10 +308,10 @@ class Player extends Entity {
         if (keyIsDown(KBM_CONTROLS.RIGHT)) {
             keyDeltaX += 1;
         }
-        if (keyIsDown(38)) {
+        if (keyIsDown(KBM_CONTROLS.UP)) {
             keyDeltaY -= 1;
         }
-        if (keyIsDown(40)) {
+        if (keyIsDown(KBM_CONTROLS.DOWN)) {
             keyDeltaY += 1;
         }
         if (keyIsDown(KBM_CONTROLS.DASH)) { // dashing logic
@@ -338,6 +338,11 @@ class Player extends Entity {
             return;
         }
 
+        // jump
+        if (keyDeltaY == -1) {
+            this.jump();
+        }
+
         // Move
         if ((this.isAttacking || this.isDefending) || (this.isDashAnimating)) { // dont be able to move while attacking
             return;
@@ -354,9 +359,22 @@ class Player extends Entity {
     }
 
     jump() {
+        if (this.isJumping) {
+            return;
+        }
+
         this.deltaY = -this.jumpForce;
         this.isJumping = true;
-        this.currentAnimName = "JUMP";
+        
+        this.changeAnimation("JUMP", true);
+        
+        this.currentAnimation.onNewFrame = id => {
+            this.move(10 * this.orientation, 0);
+        }
+
+        this.currentAnimation.onLastFrame = () => {
+            this.isJumping = false;
+        }
     }   
 
     dash() {
